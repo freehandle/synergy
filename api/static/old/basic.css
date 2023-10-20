@@ -1,0 +1,283 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Thin.ttf');
+    font-weight: 100;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Light.ttf');
+    font-weight: 300;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Regular.ttf');
+    font-weight: 400;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Black.ttf');
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-LightItalic.ttf');
+    font-weight: 300;
+    font-style: italic;
+}
+
+html, body {
+    max-width: 100%;
+    max-height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.elipsis {
+    text-overflow: ellipsis;
+}
+
+/* 'general' é uma coluna: primeira item é a barra de cima
+e segundo item é o containter com todo o resto  */
+.general {
+    display: flex;
+    flex-direction: column;
+    /* height: 1000rem; */
+    /* max-height: 1000rem; */
+}
+
+/* 'topbar' é o primeiro item de general, e é uma linha: 
+primeiro item da linha é o logo synergy, segundo item é o explore/venture,
+terceiro item é a barra de localizacao, terceiro item são os dados do usuário */
+.topbar {
+    display: flex;
+    flex-direction: row;
+    max-width: 100vw;
+    height: 7vh;
+    align-items: end;
+    background-color: #AFC7FE;
+    /* position: sticky; */
+}
+
+/* 'logoleft' é o primeiro item do container 'topbar' */
+.logoleft {
+    flex: 1;
+    display: flex;
+    justify-content: right;
+    flex-basis: 10vw;
+    padding-bottom: 1.5vh;
+    font-family: "Lato";
+    font-size: 25pt;
+    font-weight: 700;
+    color: #012169;
+}
+
+/* 'sublogoleft' é o segundo item do container 'topbar' */
+.sublogoleft {
+    flex: 2;
+    display: flex;
+    justify-content: left;
+    flex-basis: 6vw;
+    padding-bottom: 1.5vh;
+    padding-left: 0.5rem;
+    font-family: "Lato";
+    font-size: 14pt;
+    font-weight: 400;
+    color: #FFF8CC;
+}
+
+.sublogoleft span.sub {
+    color:#DBFFE9;
+}
+
+/* 'tailright' é o terceiro item do container 'topbar' */
+.trailright {
+    flex: 3;
+    display: flex;
+    justify-content: right;
+    padding-bottom: 2vh;
+    flex-basis: 67vw;
+    font-family: "Lato";
+    font-size: 13pt;
+    font-weight: 400;
+    color: #012169;
+    line-height: 15pt;
+}
+
+.trailright span {
+    font-weight: 700;
+    line-height: 16pt;
+}
+
+/* 'userright' é o primeiro item do container 'topbar', e é uma coluna:
+o primeiro item da coluna é o handle, o segundo é o nome do usuario */
+.userright {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: end;
+    flex-basis: 17vw;
+    padding: 0 1vw 0.7vh 0;
+    font-family: "Lato";
+    font-size: 13pt;
+    font-weight: 400;
+}
+
+.userright span {
+    font-size: 11pt;
+}
+
+/* 'bulk' é o segundo item do container 'general', e é uma linha:
+o primeiro item é a barra de navegacao, o segundo é o bloco central 
+de informacoes e o terceiro é a barra de detalhes da direita */
+.bulk {
+    /* flex: 2; */
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    max-height: 100vh;
+  }
+  
+
+/* 'navbar' é o primeiro item do container 'bulk', e é uma coluna:
+o primeiro item é o menu explore e o segundo o venture */
+.navbar {
+    flex: 1;
+    display: flex;
+    flex-basis: 16vw;
+    max-width: 16vw;
+    flex-direction: column;
+    max-height: 100vh;
+    height: 100%;
+    z-index: 1;
+    overflow-x: hidden;
+    /* position: sticky; */
+}
+
+.navbar .explore {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF8CC;
+    justify-content: center;
+    border-top: white solid 10rem;
+    padding: 15px 15px 1.875rem 1.25rem;
+}
+
+.navbar .venture {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: #DBFFE9;
+    justify-content: center;
+    border-top: white solid 10rem;
+    padding: 1.25rem 15px 1.25rem 1.25rem;
+}
+
+.navbar ul li {
+    list-style-type: none;
+    padding: 10rem 0 5px 10rem;
+}
+
+.navbar ul li a {
+    font-family: "Lato";
+    font-size: 17pt;
+    font-weight: 300;
+    color: #012169;
+    text-decoration: none;
+}
+
+.navbar ul li.active a {
+    font-weight: 700;
+}
+
+.navbar ul li a:hover {
+    font-weight: 700;
+}
+
+/* mainview e o segundo item do flex .bulk
+fica do lado do navbar */
+#mainview {
+    flex: 2;
+    flex-basis: 83%;
+    max-height: 100%;
+    padding: 1.875rem 1.875rem 1.25rem 1.875rem;
+    overflow-y: scroll; /* nao esta funcionando! */
+}
+
+.none {
+    display: none;
+}
+
+.authorlist{
+    list-style-type: none;
+    overflow: hidden;
+}
+
+.authorlist .handle {
+    background-color: #d7e3ff;
+    font-family: "Lato";
+    font-size: 12pt;
+    font-weight: 400;
+    width: fit-content;
+    padding: 5px;
+    margin-top: 5px;
+    display: inline;
+}
+
+.authorlist .handle a {
+    text-decoration: none;
+    color: #012169;
+}
+
+.authorlist li.keyword {
+    text-decoration: none;
+    color: #012169;
+    background-color: #FFF8CC;
+    width: fit-content;
+    line-height: 12pt;
+    font-family: "Lato";
+    font-size: 12pt;
+    font-weight: 400;
+    padding: 2px 10rem 2px 0rem;
+    display: inline;
+    margin-bottom: 10rem;
+}
+
+.authorlist li.label {
+    text-decoration: none;
+    color: #012169;
+    width: fit-content;
+    line-height: 12pt;
+    font-family: "Lato";
+    font-size: 12pt;
+    font-weight: 700;
+    display: inline;
+}
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+}
+
+::-webkit-scrollbar {
+    width: 0rem;
+    background: transparent; 
+}

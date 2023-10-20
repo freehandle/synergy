@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="/api">
+
+    <h1>Action Forms</h1>
+    
+    <br/>
+    <h2> CancelEvent </h2>
+
+    <label for="action">Action</label><br/>
+    <input type="text" name="action" value="CancelEvent" readonly/><br/>
+ 
+    <label for="reasons">Reasons</label><br/>
+    <input type="text" name="reasons"/><br/>
+
+    <label for="hash">Hash</label><br/>
+
+    <input type="text" name="hash"/><br/>
+
+    <br/>
+    <input type="submit" value="Send Request"/>
+    <br/>
+
+
+</form>
+
+</body>

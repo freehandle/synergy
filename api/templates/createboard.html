@@ -1,0 +1,81 @@
+{{template "HEAD" .Head}}
+  <div class="singular">
+    <div class="center">
+      <form method="post" action="/api">
+        <h1 class="headers"> create board </h1>
+    
+        <input class="none" type="text" name="action" value="CreateBoard" readonly/>
+        {{if .CollectiveName}}
+          <label  class="onbof" for="onBehalfOf">on behalf of {{.CollectiveName}}</label>
+          <input class="none" type="text" name="onBehalfOf" value="{{.CollectiveName}}" readonly/><br/>
+        {{else}}
+          <label  class="formtitle" for="onBehalfOf">on behalf of</label>
+          <input  class="formentry" type="text" name="onBehalfOf" required/><br/>
+        {{end}}     
+    
+        <label  class="formtitle" for="name">name</label>
+        <input  class="formentry detailed" type="text" name="name" id="nameboard" required/><br/>
+    
+        <label  class="formtitle" for="description">description</label>
+        <textarea  class="formentry detailed"  type="textarea" name="description" rows="4" id="descriptionboard" required></textarea><br/>
+    
+        <label  class="formtitle" for="keywords">keywords</label>
+        <input  class="formentry detailed"  type="text" name="keywords" id="keywordsboard" required/><br/>
+    
+        <div class="policyentry">
+          <div class="policy">
+            <label  class="formtitle" for="pinMajority">pin majority policy</label>
+            <input  class="formentry detailed" type="number" min="0" max="100" name="pinMajority" id="pinpolicyboard" required/><br/>
+          </div>
+        </div>
+
+        <label  class="formtitle" for="reasons">reasons <span>*optional</span></label>
+        <textarea class="formentry detailed" type="textarea" name="reasons" rows="4" id="reasonsfield"></textarea>
+        
+        <div class="submitbox">
+          <input class="submit" type="submit" value="send"/>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="right">
+    <div class="fieldinfohide" id="nameboardinfo">
+      <p><span>name field</span></p><br/>
+      <p class="fieldinfosub">mandatory</p>
+      <p class="fieldinfosub">alphanumeric</p>
+      <p class="fieldinfosub">min 1 char max x char</p><br/>
+      <p>board names must be unique within the network, and preferably reflect its purpose</p>
+    </div>
+    <div class="fieldinfohide" id="descriptionboardinfo">
+      <p><span>description field</span></p><br/>
+      <p class="fieldinfosub">mandatory</p>
+      <p class="fieldinfosub">alphanumeric</p>
+      <p class="fieldinfosub">min 1 char max x char</p><br/>
+      <p>provide relevant information as to board's focus and goals, information regarding editorship enrollments, draft pin criteria, etc</p>
+    </div>
+    <div class="fieldinfohide" id="keywordsboardinfo">
+      <p><span>keywords field</span></p><br/>
+      <p class="fieldinfosub">mandatory</p>
+      <p class="fieldinfosub">comma-separated alphanumeric expressions</p>
+      <p class="fieldinfosub">min 1 char max x char for keyword</p><br/>
+      <p>comma-sepparated words that will help index and identify board's main objectives</p><br/>
+      <p>keywords make it easy for boards to be found and preferably match keywords from the drafts pinned</p><br/>
+    </div>
+    <div class="fieldinfohide" id="pinpolicyboardinfo">
+      <p><span>pin majority</span></p><br/>
+      <p class="fieldinfosub">mandatory</p>
+      <p class="fieldinfosub">integer number</p>
+      <p class="fieldinfosub">ranging from 0 to 100 (default)</p><br/>
+      <p>the number chosen will define majority minimum to be accepted as consensus for drafts to be pinned on and unpinned from the board</p><br/>
+      <p>board creation depends on collective consensus approval, but the pinning of drafts will be perfomed upon consensus of board editors</p><br/>
+      <p>upon creation board's default editor is instruction's author </p><br/>
+    </div>
+    <div class="fieldinfohide" id="reasonsfieldinfo">
+      <p><span>reasons field</span></p><br/>
+      <p class="fieldinfosub">optional</p>
+      <p class="fieldinfosub">alphanumeric</p>
+      <p class="fieldinfosub">max x char</p><br/>
+      <p>instruction author may provide some information as to the reasons for the instruction being proposed</p><br/>
+    </div>
+{{template "TAIL"}}

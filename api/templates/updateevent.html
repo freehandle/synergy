@@ -1,0 +1,121 @@
+{{template "HEAD" .Head}}
+    <div class="singular">
+        <div class="center">
+            <form method="post" action="/api">
+
+                <h1 class="headers"> update event </h1>
+                
+                <label class="onbof" for="onBehalfOf">on behalf of {{.Collective}}</label>
+                <input class="none" type="text" name="onBehalfOf" value="{{.Collective}}" readonly/><br/>
+                <input class="none" type="text" name="action" value="UpdateEvent" readonly/>
+                <input class="none" type="text" name="eventHash" value="{{.Hash}}" readonly/>
+        
+                <label class="formtitle" for="description">description</label>
+                <p class="formoldinfo">{{.Description}}</p> 
+                <textarea class="formentry detailed" type="textarea" name="description" placeholder="new description" id="newdescriptionevent"></textarea><br/>
+        
+                <label class="formtitle" for="venue">venue</label>
+                <p class="formoldinfo">{{.Venue}}</p> 
+                <input class="formentry detailed" type="text" name="venue" placeholder="new venue" id="newvenueevent"/><br/>
+        
+                <div class="policyentry">
+                    <div class="policy"> 
+                        <label class="formtitle" for="managerMajority">manager majority</label>
+                        <p class="formoldinfo">{{.ManagerMajority}}</p> 
+                        <input class="formentry detailed" type="number" name="managerMajority" min="0" max="100" placeholder="new majority" id="newpmanagementevent"/><br/><br/>
+                    </div>
+                    <div class="check">
+                        <br/>
+                        <p>
+                            <label class="formoldinfo" for="newopenevent">currently {{if .Open}}open{{else}}closed{{end}}</label>
+                            <input class="detailed" type="checkbox" name="open" id="newopenevent"/>
+                            <label class="word" for="newopenevent">open</label>
+                        </p>
+                    </div>
+                    <div class="check">
+                        <br/>
+                        <p>
+                            <label class="formoldinfo" for="newpublicevent">currently {{if .Public}}public{{else}}private{{end}}</label>
+                            <input class="detailed" type="checkbox" name="public" id="newpublicevent"/>
+                            <label class="word" for="newpublicevent">public</label>
+                        </p>
+                    </div>
+                </div>
+                
+                <label class="formtitle" for="managers">managers</label>
+                <ul class="listing">
+                    {{range .Managers}} 
+                    <li><a class="linked" href="/member/{{ .Link }}"> {{ .Handle }} </a></li>
+                    {{end}}
+                </ul>
+                <input class="formentry detailed" type="text" name="managers" placeholder="new managers list" id="newmanagerevent"/><br/>
+                <br/>
+
+                <label  class="formtitle" for="reasons">reasons <span>*optional</span></label>
+                <textarea class="formentry detailed" type="textarea" name="reasons" rows="4" id="reasonsfield"></textarea><br/>
+        
+                {{if .Managing}}
+                <div class="submitbox">
+                    <input class="submit" type="submit" value="send"/>
+                </div>
+                {{end}}
+            </form>
+        </div>
+    </div>
+</div>
+<div id="right">
+    <div class="fieldinfohide" id="newdescriptioneventinfo">
+        <p><span>new description field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">alphanumeric</p>
+        <p class="fieldinfosub">min 1 char max x char</p><br/>
+        <p>upon filling this field author proposes a description update for the event and by sending the instruction automatically generates a pool according to event managers majority policy</p><br/>
+        <p>author may update event's purpose, usefull information, how to apply and attend, goal, etc</p>
+    </div>
+    <div class="fieldinfohide" id="newvenueeventinfo">
+        <p><span>new venue field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">alphanumeric</p>
+        <p class="fieldinfosub">min 1 char max x char</p><br/>
+        <p>upon filling this field author proposes an update of the information regarding digital or physical place where event will happen</p>
+    </div>
+    <div class="fieldinfohide" id="newopeneventinfo">
+        <p><span>new open field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">binary</p><br/>
+        <p>if checked new event status will be open for audience viewing</p><br/>
+    </div>
+    <div class="fieldinfohide" id="newpubliceventinfo">
+        <p><span>new public field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">binary</p><br/>
+        <p>if checked new event permission will allow for any member to apply for check-in</p><br/>
+    </div>
+    <div class="fieldinfohide" id="newpmanagementeventinfo">
+        <p><span>new manager policy</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">integer number</p>
+        <p class="fieldinfosub">ranging from 0 to 100</p><br/>
+        <p>upon filling this field the number chosen will define management majority minimum to be accepted as consensus for event information to be updated or for event to be cancelled, and for new managers to be accepted</p><br/>
+        <p>the update will happen according to event's original manager consensus policy majority</p><br/>
+        <p>if approved further consensus pools will happen according to new manager policy majority</p><br/>
+    </div>
+    <!-- <div class="fieldinfohide" id="managerseventinfo">
+        <p><span>new managers field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">comma-separated members handles</p>
+        <p class="fieldinfosub">min 1 handle, max x handles</p><br/>
+        <p>upon filling this field with a list of handles of synergy members, appointed members will be responsible for managing event</p><br/>
+        <p>if approved, the updated list of members replaces event's original managers members</p><br/>
+        <p>managers may propose updates to event info, or cancellation of the event</p><br/>
+        <p>managers are responsible for accepting check-ins from members</p><br/>
+    </div> -->
+    <div class="fieldinfohide" id="reasonsfieldinfo">
+        <p><span>reasons field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">alphanumeric</p>
+        <p class="fieldinfosub">max x char</p><br/>
+        <p>instruction author may provide some information as to the reasons for the instruction being proposed</p><br/>
+        </div>
+    </div>
+{{template "TAIL"}}

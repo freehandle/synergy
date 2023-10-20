@@ -1,0 +1,47 @@
+{{template "HEAD" .Head}}
+    <div class="singular">
+        <div class="center">
+            <p class="x2large bold"> edit <span class="xlarge light "> for 
+                <a class="xlarge bold hover" href="/draft/{{.DraftHash}}"> {{.DraftTitle}} </a> 
+            </span> 
+            </p>
+            <br>
+            <p class="subheadersdraft">edit by</p>
+            <ul class="listing">
+                {{range .Authors}}
+                    <li class="handletitle">
+                        {{if .Collective}}
+                            <a href="/collective/{{.Link}}">{{.Name}}</a>
+                        {{else}}
+                            <a href="/member/{{.Link}}">{{.Name}}</a>
+                        {{end}}
+                    </li>
+                {{end}}
+            </ul>
+            <br>
+            <p class="bold"> reasons</p>
+            <p class=""> {{.Reasons}} </p>
+            <br>
+            <p><a class="hover" href="/media/{{.Hash}}">download</a></p>
+            
+        </div>
+    </div>
+
+    {{if .Votes}}
+    <hr/>
+    <h2> vote calls</h2>
+    {{range .Votes}}
+        <div> {{.Kind}} 
+            {{if .OnBehalfOf}} 
+                on behalf of {{.OnBehalfOf}}
+                {{end}}
+                <form method="post" action="/api">
+                    <input class="none" type="text" name="action" value="Vote" readonly/>
+                    <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
+                    <input type="checkbox" name="approve"> approve </input>
+                    <input type="submit" value="Cast Vote"/>
+                </form>
+            </div>
+    {{end}}
+{{end}}
+{{template "TAIL"}}

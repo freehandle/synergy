@@ -1,0 +1,72 @@
+{{template "HEAD" .}}
+    <div class="singular">
+        <div class="center">
+            <form method="post" action="/api">
+                <h1 class="headers"> create collective </h1>
+                <input class="none" type="text" name="action" value="CreateCollective" readonly/><br/>   
+        
+                <label class="formtitle" for="name">name</label>
+                <input class="formentry detailed" type="text" name="name" id="namecollective" required/><br/>
+        
+                <label  class="formtitle" for="description">description</label>
+                <textarea  class="formentry detailed" type="textarea" name="description" id="descriptioncollective" rows="4" required></textarea><br/>
+        
+                <div class="policyentry">
+                    <div class="policy">
+                        <label  class="formtitle" for="policyMajority">policy majority</label>
+                        <input  class="formentry detailed" type="number" min="0" max="100" name="policyMajority" id="policycollective" required/>
+                    </div>
+                    <div class="policy">
+                        <label  class="formtitle" for="policyMajority">policy supermajority</label>
+                        <input  class="formentry detailed" type="number" min="0" max="100" name="policySupermajority" id="superpolicycollective" required/><br/>
+                    </div>
+                </div>
+
+                <label  class="formtitle" for="reasons">reasons <span>*optional</span></label>
+                <textarea class="formentry detailed" type="text" name="reasons" rows="3" id="reasonsfield"></textarea>
+                
+                <div class="submitbox">
+                    <input class="submit" type="submit" value="send"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="right">
+    <div class="fieldinfohide" id="namecollectiveinfo">
+        <p><span>name field</span></p><br/>
+        <p class="fieldinfosub">mandatory</p>
+        <p class="fieldinfosub">alphanumeric</p>
+        <p class="fieldinfosub">min 1 char max x char</p><br/>
+        <p>collective name must be unique within the netwok, and preferably provide some insight into collective's interests</p>
+    </div>
+    <div class="fieldinfohide" id="descriptioncollectiveinfo">
+        <p><span>description field</span></p><br/>
+        <p class="fieldinfosub">mandatory</p>
+        <p class="fieldinfosub">alphanumeric</p>
+        <p class="fieldinfosub">min 1 char max x char</p><br/>
+        <p class="fieldinfo">collective description might provide relevant information as to collective's focus and activities, such as describing collective's goals, information regarding membership enrollments, etc</p><br/>
+    </div>
+    <div class="fieldinfohide" id="policycollectiveinfo">
+        <p><span>policy majority</span></p><br/>
+        <p class="fieldinfosub">mandatory</p>
+        <p class="fieldinfosub">integer number</p>
+        <p class="fieldinfosub">ranging from 0 to 100 (default)</p><br/>
+        <p>the number chosen will define majority minimum to be accepted as consensus for all instructions perfomed on behalf of collective</p><br/>
+        <p>for instance, should policy majority be set 50, an instruction on behalf of the collective will only be processed after at least 50% of the collective members have voted for an acceptance of the instruction</p><br/>
+    </div>
+    <div class="fieldinfohide" id="superpolicycollectiveinfo">
+        <p><span>policy super majority</span></p><br/>
+        <p class="fieldinfosub">mandatory</p>
+        <p class="fieldinfosub">integer number</p>
+        <p class="fieldinfosub">ranging from 0 to 100 (default)</p><br/>
+        <p>the number chosen will define majority minimum to be accepted as consensus for an instruction that changes any of the collective's main information - name, description, majority and/or supermajority</p><br/>
+    </div>
+    <div class="fieldinfohide" id="reasonsfieldinfo">
+        <p><span>reasons field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">alphanumeric</p>
+        <p class="fieldinfosub">max x char</p><br/>
+        <p>instruction author may provide some information as to the reasons for the instruction being proposed</p><br/>
+    </div>
+{{template "TAIL"}}

@@ -1,0 +1,74 @@
+{{template "HEAD" .Head}}
+<div class="singular">
+    <div class="center">
+        <form method="post" action="/api">
+            <input class="none" type="text" name="redirect" value="votes" readonly/>
+            <h1 class="headerdetails">update event vote</h1>
+            <ul class="listing">
+                <li class="handletitle">
+                  <a href="/event/{{.Hash}}">original event</a>
+                </li>
+            </ul><br/>
+            <p class="subheadersdraft">proposed by</p>
+            <ul class="listing">
+                <li class="handletitle">
+                  <a href="/collective/{{.Collective}}"> {{.Collective}}</a>
+                </li>
+              </ul>
+              <br/><br/>
+    
+            <p class="formoldinfo"> {{.OldDescription}}</p>
+            <p class="infotitle"> becomes - {{.Description}}</p>
+            <br/>
+    
+            <p class="formoldinfo"> start {{.OldStartAt}}</p>
+            <p class="infotitle"> becomes - {{.StartAt}}</p>
+            <br/>
+    
+            <p class="formoldinfo"> estimated end {{.OldEstimatedEnd}} </p>
+            <p class="infotitle"> becomes - {{.EstimatedEnd}} </p>
+            <br/>
+    
+            <p class="formoldinfo"> venue {{.OldVenue}} </p>
+            <p class="infotitle"> becomes - {{.Venue}}</p>
+            <br/>
+            
+            <p class="formoldinfo"> status {{if .OldOpen}} open {{else}} closed {{end}} </p>
+            <p class="infotitle"> becomes - {{if .Open}} open {{else}} closed {{end}}</p>
+            <br/>
+    
+            <p class="formoldinfo"> status {{if .OldPublic}} public {{else}} private {{end}} </p>
+            <p class="infotitle"> becomes - {{if .Public}} public {{else }} private {{end}}</p>
+            <br/>
+    
+            {{if .Reasons}}
+              <p class="bold">reasons</p>
+              <p class="description">{{.Reasons}}</p><br/>
+            {{end}}
+    
+            {{if .Managing}}
+                <h2 class="subheaders">vote</h2>
+                <input class="none" type="text" name="action" value="Vote" readonly/>
+                <input class="none" type="text" name="hash" value="{{.VoteHash}}" readonly/>
+                
+                <div class="large">
+                  <input type="radio" id="approve" name="approve" value="on" checked>
+                  <label class="voteradio" for="approve">favorable</label>
+                  <input type="radio" id="against" name="approve" value="off">
+                  <label class="voteradio" for="against">against</label> 
+                </div>
+                <textarea class="votereasons" type="textarea" name="reasons" rows="4" id="reasonsfield" placeholder="optional vote reasoning"></textarea>
+             
+                <input class="submit" type="submit" value="send"/>
+            {{end}}
+        </form>
+    </div>
+    <div class="right">
+        <p class="infotitle">consensus status</p>
+        <p class="info"> {{.Voting.Voted}} have already voted</p>
+        <p class="info"> {{len .Voting.Approve}} favorable </p>
+        <p class="info"> {{len .Voting.Reject }} against </p>
+        <p class="info"> {{len .Voting.NotCast }} not cast </p>    <br/>
+      </div>
+</div>
+{{template "TAIL"}}

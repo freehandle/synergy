@@ -1,0 +1,70 @@
+{{template "HEAD" .Head}}
+    <div class="singular">
+        <div class="center">
+            <form method="post" action="/api">
+                <h1 class="headers"> update board </h1>
+                
+                <label class="onbof" for="board">{{.Name}}</label>
+                <input class="none" type="text" name="board" value="{{.Name}}" readonly/><br/>
+                <input class="none" type="text" name="action" value="UpdateBoard" readonly/>
+        
+                <label class="formtitle" for="description">description </label>
+                <p class="formoldinfo">{{.OldDescription}}</p>
+                <textarea class="formentry detailed" type="text" name="description" placeholder="new description" id="newdescriptionboard"></textarea><br/>
+        
+                <label class="formtitle" for="keywords">keywords</label>
+                <p class="formoldinfo">{{.OldKeywordsString}}</p>
+                <input class="formentry detailed" type="text" name="Keywords" placeholder="new keywords" id="newkeywordsboard"/><br/>
+        
+                <div class="policyentry">
+                    <div class="policy">
+                        <label class="formtitle" for="pinMajority">pin majority</label>
+                        <p class="formoldinfo">{{.OldPinMajority}}</p>
+                        <input class="formentry detailed" type="number" min="0" max="100" name="pinMajority" placeholder="new majority" id="newpinmajboard"/>
+                    </div>
+                </div><br/>
+                    
+                <label  class="formtitle" for="reasons">reasons <span>*optional</span></label>
+                <textarea class="formentry detailed" type="textarea" name="reasons" rows="4" id="reasonsfield"></textarea><br/>
+
+                <div class="submitbox">
+                    <input class="submit" type="submit" value="send"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="right">
+    <div class="fieldinfohide" id="newdescriptionboardinfo">
+        <p><span>new description field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">alphanumeric</p>
+        <p class="fieldinfosub">min 1 char max x char</p><br/>
+        <p>upon filling this field author proposes a description update and by sending the instruction automatically generates a pool according to board editors majority policy</p><br/>
+        <p>author may update board's purpose, usefull information, how to apply for board editor, etc</p><br/>
+    </div>
+    <div class="fieldinfohide" id="newkeywordsboardinfo">
+        <p><span>new keywords field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">comma-separated alphanumeric expressions</p>
+        <p class="fieldinfosub">min 1 char max x char for keyword</p><br/>
+        <p>upon filling this field author proposes a new set of keywords for the board to be associated with, the field fully replaces original set of keywords</p><br/>
+        <p>expressions should be comma-sepparated and will help index and identify board's main objectives</p><br/>
+        <p>keywords make it easy for boards to be found and preferably match keywords from the drafts pinned</p><br/>
+    </div>
+    <div class="fieldinfohide" id="newpinmajboardinfo">
+        <p><span>new pin majority</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">integer number</p>
+        <p class="fieldinfosub">ranging from 0 to 100</p><br/>
+        <p>upon filling this field author proposes a new majority minimum to be accepted as consensus for drafts to be pinned on and unpinned from the board</p><br/>
+        <p>the pinning of drafts will be perfomed upon majority consensus of board editors</p><br/>
+    </div>
+    <div class="fieldinfohide" id="reasonsfieldinfo">
+        <p><span>reasons field</span></p><br/>
+        <p class="fieldinfosub">optional</p>
+        <p class="fieldinfosub">alphanumeric</p>
+        <p class="fieldinfosub">max x char</p><br/>
+        <p>instruction author may provide some information as to the reasons for the instruction being proposed</p><br/>
+    </div>
+{{template "TAIL"}}

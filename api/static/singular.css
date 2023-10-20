@@ -1,0 +1,1330 @@
+/* Para os templates de singular tem barra na direita
+por isso o flex dentro do main view eh em linha */
+#center div.singular {
+    max-width: 84vw;
+    display: flex;
+    flex-direction: row;
+    min-width: 0;
+    /* overflow: 100vh; */
+}
+
+#center div.singular div.center {
+    display: block;
+    flex: 1;
+    flex-basis: 100%;
+    max-width: 100%;
+    /*display: flex;*/
+    flex-direction: column;
+    padding-right: 1.875rem;
+    min-height: min-content;
+   /* height: 90vh;*/
+    /*align-self: flex-start;
+    align-content: top;*/
+}
+
+/*#right {
+    flex:2;
+    flex-basis: 18%;
+    display: flex;
+    flex-direction: column;
+    border-left: #012169 dashed 0.063rem;
+    padding: 0rem 0.313rem 0.313rem 0.937rem;
+    align-items: stretch;
+    min-height: min-content;
+    height: 90vh;
+}*/
+
+#center div.singular div.center .headers {
+    font-family: "Lato";
+    font-weight: 400;
+    color:#012169;
+    font-size: 2.1rem;
+    padding-bottom: 0.937rem;
+}
+
+#center div.singular div.center .headerdetails {
+    font-family: "Lato";
+    font-weight: 400;
+    color:#012169;
+    font-size: 2.1rem;
+    padding-bottom: 0.313rem;
+}
+
+#center div.singular div.center .subheaders {
+    font-family: "Lato";
+    font-weight: 400;
+    color:#012169;
+    font-size: 1.31rem;
+    padding-bottom: 1.25rem;
+    text-transform: lowercase;
+}
+
+#center div.singular div.center .description {
+    font-family: "Lato";
+    font-weight: 400;
+    color:#012169;
+    font-size: 1.19rem;
+    padding-bottom: 0.625rem;
+}
+
+#center div.singular div.center .infos{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+#center div.singular div.center div.infos .item{
+    flex: 1;
+    background-color: #EBF1FF;
+    padding: 0.625rem 0.937rem 0.625rem 0.937rem;
+    display: block;
+    flex-direction: column;
+    margin-right: 1.875rem;
+}
+
+#right div.fieldinfohide {
+    display: none;
+}
+
+#right div.fieldinfoshow {
+    font-family: "Lato";
+    font-size: 1rem;
+    font-weight: 400;
+    color:#012169;
+    margin: 1.25rem 0rem 0 0.313rem;
+    display: visible;
+}
+
+#right div.fieldinfoshow span {
+    font-weight: 700;
+}
+
+#right .fieldinfosub {
+    font-size: 1rem;
+    margin: 0.313rem 0.625rem 0 0rem;
+    font-weight: 300;
+}
+
+#center div.singular div.infos div.item .title {
+    font-family: "Lato";
+    color:#012169;
+    font-weight: 300;
+    font-size: 1.5rem;
+    padding-bottom: 1.25rem;
+}
+
+#center div.singular div.infos div.item .boxes {
+    display: flex;
+    flex-direction: column;
+}
+
+#center div.singular div.infos div.item div.boxes .item {
+    width: 90%;
+    font-family: "Lato";
+    font-size: 1.19rem;
+    border-left: #012169 solid 0.125rem;
+    color:#012169;   
+    overflow-y: hidden;
+    max-height: 8em;
+    margin-bottom: 1.25rem;
+}
+
+label.onbof {
+    display: block;
+    font-family: "Lato";
+    font-size: 1.25rem;
+    font-weight: 400;
+    color:#012169;
+    margin-bottom: 1.25rem;
+}
+
+.formtitle {
+    display: block;
+    justify-content: left;
+    font-family: "Lato";
+    font-size: 1.19rem;
+    font-weight: 700;
+    color: #012169;
+    margin-bottom: 0.313rem;
+    margin-left: 0.313rem;
+}
+
+.formtitle span {
+    font-weight: 300;
+    font-size: 1rem;
+    padding-left:0.625rem;
+}
+
+.formentry {
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: "Lato";
+    width: 100%;
+    padding: 0.25rem;
+    margin: 0rem 0.313rem 0.625rem 0.313rem;
+    background-color: #DBFFE9;
+    border: none;
+    color: #009739;
+    border: 0.25rem solid transparent;
+    outline: 0.125rem solid transparent;
+}
+
+.voteradio {
+    margin-right: 1em;
+}
+
+.votereasons {
+    display: block;
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: "Lato";
+    width: 100%;
+    margin: 0.625rem 0.313rem 0.625rem 0rem;
+    background-color: #DBFFE9;
+    border: none;
+    color: #009739;
+    padding: 0.625rem;
+    /*border: 0.25rem solid transparent;
+    outline: 0.125rem solid transparent;*/
+}
+
+.votereasonstitle {
+    display: block;
+    justify-content: left;
+    font-family: "Lato";
+    font-size: 1.19rem;
+    font-weight: 700;
+    color: #012169;
+    margin-bottom: 0.313rem;
+    margin-top: 0.313rem;
+}
+
+
+.formentry:focus {
+    border: 0.25rem solid white;
+    outline: 0.125rem solid #009739;
+}
+
+.formoldinfo {
+    display: block;
+    justify-content: left;
+    font-family: "Lato";
+    font-size: 1.075rem;
+    font-weight: 300;
+    color: #012169;
+    margin-bottom: 0.5rem;
+    margin-left: 0.313rem;
+}
+
+#center .policyentry{
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+}
+
+#center .policyentry div.policy{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 25%;
+    padding-right: 0.625rem;
+    margin-right: 1.875rem;
+}
+
+#center .policyentry div.datetime{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 30%;
+    padding-right: 0.625rem;
+    margin-right: 1.875rem;
+}
+
+#center .policyentry div.check .word{
+    font-family: "Lato";
+    font-size: 1.19rem;
+    font-weight: 700;
+    color:#012169;
+    flex-basis: 40%;
+    margin-right: 6.25rem;
+}
+
+input[type="checkbox"]
+{
+    vertical-align:middle;
+    display: inline-block;
+    justify-content: left;
+}
+
+div .submitbox {
+    display: flex;
+    justify-content: right;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.submit {
+    margin-top: 0.313rem;
+    background-color: #AFC7FE;
+    padding: 0.5rem;
+    font-family: "Lato";
+    font-size: 1.075rem;
+    font-weight: 400;
+    border: none;
+    box-shadow: #012169 0.125rem 0.125rem 0.125rem;
+    cursor: pointer;
+}
+
+input ~ .tab { 
+    display: none;
+}
+
+#singledraft:checked ~ .tab.content1,
+#coauthoreddraft:checked ~ .tab.content2,
+#collectivelydraft:checked ~ .tab.content3 {display: block;}
+
+#singleedit:checked ~ .tab.content1,
+#coauthorededit:checked ~ .tab.content2,
+#collectivelyedit:checked ~ .tab.content3 {display: block;}
+
+
+
+
+label.authorship {
+    font-family: "Lato";
+    font-size: 1.25rem;
+    font-weight: 400;
+    color:#012169;
+    margin-bottom: 0.313rem;
+    margin-right: 0.625rem;
+}
+
+.minidescr {
+    font-weight: 300;
+    color:#012169;
+    font-size: 1.19rem;
+    margin-bottom: 0.625rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; 
+}
+
+#right .infotitle {
+    font-family: "Lato";
+    font-size: 1.075rem;
+    font-weight: 700;
+    color:#012169;
+    /*margin: 0.313rem;*/
+    padding-top: 2em;
+}
+
+
+#right .infotitle span{
+    font-weight: 300;
+}
+
+#right .info {
+    font-family: "Lato";
+    font-size: 1.075rem;
+    font-weight: 300;
+    color:#012169;
+    /*margin: 20.313rem;*/
+}
+
+
+#right .memberitem {
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+}
+
+
+#right .submit {
+    background-color: #AFC7FE;
+    padding: 0.313rem;
+    font-family: "Lato";
+    font-size: 1rem;
+    font-weight: 400;
+    border: none;
+    box-shadow: #012169 0.125rem 0.125rem 0.125rem;
+    cursor: pointer;
+}
+
+.nobutton {
+    background-color: transparent;
+    font-size: 1rem;
+    color: #009739;
+    border: none;
+    cursor: pointer;
+}
+
+#right .openform {
+    background-color: #DBFFE9;
+    color: #009739;
+    padding: 0.625rem;
+    font-family: "Lato";
+    font-size: 1rem;
+    font-weight: 400;
+    border: none;
+    box-shadow: #009739 0.125rem 0.125rem 0.125rem;
+    cursor: pointer;
+    width: 11.25rem;
+    /*height: 2.5em;*/
+    margin-bottom: 0.625rem;
+}
+
+#right a.openform {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content:center;
+    text-indent: 0;
+}
+
+/* flexbox para colocar titulo, versionamento, release, keywords */
+#center div.singular div.center .headerdraft {
+    display: flex;
+    flex-direction: row;
+    font-family: "Lato";
+    padding-bottom: 0.313rem;
+    align-items:flex-start;
+}
+
+#center div.singular div.center div.headerdraft .title {
+    flex-grow: 1;
+    font-weight: 400;
+    color:#012169;
+    font-size: 2.1rem;
+}
+
+#center div.singular div.center div.headerdraft .released {
+    min-width: 10em;
+    font-weight: 300;
+    color:#012169;
+    font-size: 1.25rem;
+    padding-bottom: 0.25rem;
+    margin-left: 1.25rem;
+}
+
+#center div.singular div.center div.headerdraft a.released {
+    font-weight: 300;
+    color:#012169;
+    font-size: 1.25rem;
+}
+
+ul.listing .keywordtitle {
+    text-decoration: none;
+    color: #012169;
+    background-color: #FFF8CC;
+    width: fit-content;
+    line-height: 1.19rem;
+    font-family: "Lato";
+    font-size: 1.19rem;
+    font-weight: 400;
+    padding: 0.125rem 0.313rem 0.125rem 0.313rem;
+    display: inline;
+}
+
+.boxitemtitle{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical; 
+}
+
+.onelinelisting {
+    max-height: 2em;
+}
+
+.handletitle {
+    background-color: #d7e3ff;
+    font-family: "Lato";
+    font-size: 1.075rem;
+    font-weight: 400;
+    width: fit-content;
+    padding: 0.313rem;
+    display: inline-block;
+    margin-bottom: 1.25rem;
+}
+
+.handletitle a {
+    text-decoration: none;
+    color: #012169;
+}
+
+.handletitle a:hover {
+    font-weight: 900;
+}
+
+
+#center div.singular div.center .subheadersdraft {
+    font-family: "Lato";
+    font-weight: 400;
+    color:#012169;
+    font-size: 1.31rem;
+    padding-bottom: 0.313rem;
+    flex: 1 1 auto;
+}
+
+#center div.singular div.center .draftpreview {
+    width: 90%;
+    height: 90vh;
+    font-family: "Segoe UI";
+    font-weight: 400;
+    font-size: 1.2em;
+    color: #011034;
+    max-width: 1200rem;
+}
+
+#right .entryfield {
+    font-size: 1rem;
+    font-weight: 400;
+    font-family: "Lato";
+    width: 90%;
+    padding: 0.125rem;
+    margin: 0rem 0 0.313rem 0;
+    background-color: #DBFFE9;
+    border: none;
+    color: #009739;
+    border: 0.25rem solid transparent;
+    outline: 0.125rem solid transparent;
+
+}
+
+#center div.center div.boardgrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;    
+}
+
+
+
+#center div.center div.boardgrid .item{
+    width: 30em;
+    background-color: #EBF1FF;
+    padding: 0.625rem 0.625rem 0.625rem 0.625rem;
+    font-family: "Lato";
+    color: #012169;
+    font-weight: 400;
+}
+
+#center div.center div.boardgrid div.item p{
+    font-family: "Lato";
+    color: #012169;
+    font-weight: 400;
+    font-size: 1.075rem;
+    
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical; 
+}
+
+#center div.center div.boardgrid div.item a.nameitem {
+    text-decoration: none;
+    font-family: "Lato";
+    font-weight: 700;
+    font-size: 1.31rem;
+    padding-bottom: 0.313rem;
+    margin-top: 0.625rem;
+    color: #012169;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; 
+}
+
+#center div.center div.boardgrid div.item a.nameitem:hover {
+    font-weight: 900;
+}
+
+#center div.center div.boardgrid div.item .unpin {
+    color:#009739;
+    background-color: #DBFFE9;
+    margin-top: 0.313rem;
+    padding: 0.313rem;
+    font-family: "Lato";
+    font-size: 1rem;
+    font-weight: 400;
+    border: none;
+    box-shadow: #009739 0.125rem 0.125rem 0.125rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+#center div.center div.eventgrid {
+    display: flex;
+    flex-direction: column;
+    height: 80%;    
+}
+
+#center div.center div.eventgrid .infos{
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1.25rem;
+}
+
+#center div.singular div.center .infotitle {
+    font-family: "Lato";
+    font-size: 1.19rem;
+    font-weight: 700;
+    color:#012169;
+    margin: 0.313rem;
+}
+
+#center div.singular div.center .infotitle span{
+    font-weight: 300;
+}
+
+#center div.singular div.center .info {
+    font-family: "Lato";
+    font-size: 1.19rem;
+    font-weight: 300;
+    color:#012169;
+    margin: 0.313rem;
+}
+
+#center div.singular div.center .headerevent {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    font-family: "Lato";
+    padding-bottom: 0.313rem;
+    width: 100%;
+    /*align-items:flex-start;*/
+    height: max-content;
+}
+
+#center div.singular div.center div.headerevent .title {
+    flex-grow: 1;
+    font-weight: 400;
+    color:#012169;
+    font-size: 2.1rem;
+}
+
+#center div.singular div.center div.headerevent .status {
+    font-weight: 300;
+    color:#012169;
+    font-size: 1.25rem;
+    padding-bottom: 0.25rem;
+    margin-left: 1.25rem;
+    text-align: start;
+}
+
+#center div.singular .listing {
+    padding-top: 0.5em;
+    list-style-type: none;
+    overflow: hidden;
+} 
+
+.keyword {
+    background-color: #FFF8CC;
+}
+
+#center div.singular .listing li {
+    color: #012169;
+    font-size: 1em;
+    font-weight: 400;
+    margin: 0.1em 0.4em 0.1em 0;
+    display: inline-block;
+    padding: 0.1em;
+}
+
+#center div.singular .listing a.linked {
+    text-decoration: none;
+    color: #012169;
+    background-color: #d7e3ff;
+    font-size: 1em;
+    font-weight: 400;
+    margin: 0.3em 0.4em 0.3em 0;
+    display: inline;
+    padding: 0.4em;
+}
+
+#center div.singular .listing a.linked:hover {
+    font-weight: 700;
+}
+
+
+#right .listing {
+    list-style-type: none;
+    overflow: hidden;
+} 
+
+#right .listing li {
+    color: #012169;
+    background-color: #d7e3ff;
+    font-size: 1em;
+    font-weight: 400;
+    margin: 0.3em 0.4em 0.3em 0;
+    display: inline;
+    padding: 0.4em;
+}
+
+#right .listing a.linked {
+    text-decoration: none;
+    color: #012169;
+    background-color: #d7e3ff;
+    font-size: 1em;
+    font-weight: 400;
+    margin: 0.3em 0.4em 0.3em 0;
+    display: inline-block;
+    padding: 0.4em;
+}
+
+#right .listing a.linked:hover {
+    font-weight: 700;
+}
+
+.draftpreview h1 {
+    margin-top: 0.625rem;
+}
+
+.draftpreview h2 {
+    margin-top: 0.625rem;
+}
+
+.draftpreview h3 {
+    margin-top: 0.625rem;
+}
+
+
+.draftpreview h4 {
+    margin-top: 0.625rem;
+}
+
+.draftpreview h5 {
+    margin-top: 0.625rem;
+}
+
+.draftpreview h6 {
+    margin-top: 0.625rem;
+}
+
+.draftpreview p {
+    margin-top: 0.625rem;
+}
+
+.cards {
+    margin-top: 1.875rem;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.cards .type {
+    flex: 1;
+    margin-right: 1.875rem;
+    display: block;
+    background-color: #EBF1FF;
+    padding: 1.25rem;
+}
+
+.cards .type .stats h2 {
+    font-weight: 400;
+    font-size: 1.5em;
+}
+
+.cards .type .stats h3 {
+    font-weight: 300;
+    font-size: 1.5em;
+    margin-bottom: 1.25rem;
+}
+
+
+.cards .type .details {
+    display: flex;
+    flex-direction: column;
+}
+
+.cards .type .details .item {
+    border-left: 0.125rem solid #012169;
+    padding-left: 0.625rem;
+    margin-bottom: 1.25rem;
+}
+
+.cards .type .details .item .title {
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.cards .type .details .item .objects {
+    font-weight: 300;
+    font-size: 1.2em;
+    margin-bottom: 0.625rem;
+}
+
+.cards .type .details .item .action {
+    display: flex;
+    flex-direction: row;
+}
+
+.cards .type .details .item .action .who {
+    font-size:0.8em;
+    font-weight: 300;
+    flex-grow: 1;
+}
+
+.cards .type .details .item .who {
+    font-size:0.8em;
+    font-weight: 300;
+    flex-grow: 1;
+}
+
+
+.cards .type .details .item .action .time {
+    font-size:0.8em;
+    font-weight: 300;
+    justify-content: flex-end;
+}
+
+.cards .type .details .item .description {
+    font-weight: 300;
+    margin-bottom: 0.625rem;
+}
+
+
+.cards .type .details .item .checkins {
+    font-weight: 300;
+}
+
+.cards .type .details .item .pending {
+    font-weight: 300;
+}
+
+
+.mediatabs span {
+    cursor: pointer;
+}
+  
+
+  /* Change background color of buttons on hover */
+.mediatabs span:hover {
+    font-weight: 900;
+ }
+  
+  /* Create an active/current tablink class */
+.mediacard {
+    width: 90%;
+    background-color: #EBF1FF;
+    margin-bottom: 1.875rem;
+    padding: 1.25rem;
+
+}
+
+.mediacard .bold {
+    font-weight: 600;
+}
+
+.mediadetails {
+    margin-bottom: 1.25rem;
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.mediadetails div {
+    flex: 1;
+    margin-right: 1.875rem;
+}
+
+.mediadetails p {
+    margin-bottom: 1.25rem;
+}
+.mediadetails .object {
+    text-decoration: none;
+    cursor: pointer;
+    background-color: #d7e3ff;
+    padding: 0.313rem;
+    margin-right: 0.625rem;
+}
+
+#updates {
+    display: block;
+    width: 90%;
+}
+
+#updates .card {
+    display: inline-block;
+    width: 100%;
+    margin-top: 1.25rem;
+}
+
+#updates .card p.title {
+    font-weight: 700;
+    font-size: 1.2em;
+    margin-bottom: 0.625rem;
+
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical; 
+}
+
+#updates .card .actioninfo {
+    display: flex;
+    max-width: 100vw;
+    flex-direction: row;
+    margin-bottom: 0.625rem;
+}
+
+#updates a {
+    font-weight: 700;
+}
+
+#updates a:hover {
+    font-weight: 900;
+}
+
+
+#updates .card .reactioninfo {
+    display: inline-block;
+    max-width: 100vw;
+    margin-bottom: 10px;
+}
+
+#updates .card .actioninfo .description{
+    flex-grow: 1;
+}
+
+#updates .card .actioninfo .vote {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 20em;
+}
+
+#updates .card .actioninfo .duration {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 20em;
+}
+
+#myevents .eventheader {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: 1.25rem;
+}
+
+#myevents .eventheader .headers {
+    flex-basis: 5em;
+    font-size: 2em;
+    font-weight: 400;
+}
+
+
+.mediaheader {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: 1.25rem;
+}
+
+.mediaheader .headers {
+    flex-basis: 5em;
+    font-size: 2em;
+    font-weight: 400;
+}
+
+.mediaheader .mediatabs {
+    flex-basis: 10em;
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+#myevents .eventheader .toggle {
+    flex-basis: 10em;
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+#myevents .eventheader .toggle .selected {
+    font-weight: 700;
+}
+
+#myevents .eventheader .stats {
+    flex-grow: 1;
+    font-size: 1.5em;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#myevents .eventheader .count {
+    font-weight: 300;
+    margin-right: 0.2em;
+}
+
+#attending {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4em;
+}
+
+.hideevent {
+    display: none;
+}
+
+
+#attending .eventcard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ebf1ff;
+    padding: 1em;
+    margin-bottom: 1.5em;
+}
+
+#attending .eventcard .firstrow {
+    flex-basis: 2em;
+    display: flex;
+    flex-direction: row;
+}
+
+#attending .eventcard .firstrow .title {
+    flex-grow: 1;
+}
+
+#attending .eventcard .firstrow .a {
+    text-decoration: none;
+}
+
+
+#attending .eventcard .firstrow .openpublic {
+    flex-basis: 10em;
+}
+
+
+#attending .eventcard .secondrow {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#attending .eventcard .secondrow div {
+    flex: 1;
+}
+
+#attending .eventcard .secondrow div h1 {
+    font-size: 1em;
+    font-weight: 700;
+}
+
+
+#attending .eventcard .secondrow ul {
+    display: inline-block;
+    max-height: 5em;
+}
+
+#attending .eventcard .secondrow li {
+    list-style-type: none;
+    background-color: #afc7fe;
+    display: inline-block;
+    max-height: 4em;
+    padding: 0.2em;
+    margin: 0.3em 0.4em 0.3em 0;
+}
+
+#managing {
+    display: flex;
+    flex-direction: column;
+}
+
+#managing .eventcard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #ebf1ff;
+    padding: 1em;
+    margin-bottom: 1.5em;
+}
+
+#managing .eventcard .firstrow {
+    flex-basis: 2em;
+    display: flex;
+    flex-direction: row;
+}
+
+#managing .eventcard .firstrow .title {
+    flex-grow: 1;
+}
+
+#managing .eventcard .firstrow .title a{
+    text-decoration: none;
+}
+
+
+#managing .eventcard .firstrow .openpublic {
+    flex-basis: 10em;
+}
+
+
+#managing .eventcard .secondrow {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#managing .eventcard .secondrow div {
+    flex: 1;
+}
+
+#managing .eventcard .secondrow div h1 {
+    font-size: 1em;
+    font-weight: 700;
+}
+
+.bolder {
+    font-weight: 900;
+}
+
+
+.bold {
+    font-weight: 700;
+}
+
+.light {
+    font-weight: 300;
+}
+
+.lighter {
+    font-weight: 100;
+}
+
+
+
+.x3large {
+    font-size: 2rem;
+}
+
+.x2large {
+    font-size: 1.8rem;
+}
+
+.xlarge {
+    font-size: 1.3rem;
+}
+
+.large {
+    font-size: 1.15rem;
+}
+
+.small {
+    font-size: 0.9rem;
+}
+
+.tiny {
+    font-size: 0.75rem;
+}
+
+.cardbg {
+    background-color: #EBF1FF;
+}
+
+.mgb {
+    margin-bottom: 1em;
+}
+
+.mgt {
+    margin-top: 1em;
+}
+
+
+#pendingactions .headerline {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    margin-bottom: 1.25rem;
+}
+
+#pendingactions .headerline .title {
+    flex-grow: 1;
+}
+
+
+#pendingactions .pendingcard {
+    display: flex;
+    flex-direction: column;
+    height: 8em;
+    width: 20em;
+    padding: 1em;
+    margin-right: 1em; 
+    margin-bottom: 1em; 
+}
+
+#pendingactions .pendingcard .main{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+#pendingactions .pendingcard .foot{
+    flex-basis: 1em;
+}
+
+#pendingactions .pendingcard .main{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+#pendingactions .pendingcard .main .left{
+    flex-basis: 70%;
+    display: inline-block;
+}
+
+#pendingactions .pendingcard .main .right{
+    border-left: solid 0.063rem #012169;
+    padding-left: 1em;
+    flex-basis: 30%;
+    display: inline-block;
+}
+
+#pendingactions .pendingcard .main .right .needed{
+    margin-top: 1em;
+}
+
+
+#detailedvote .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 2em;
+}
+
+#detailedvote .description a {
+ font-weight: 700;   
+}
+
+#detailedvote .description a:hover {
+    color: lightblue;
+}
+   
+
+#detailedvote .header .detailed {
+    margin-left: 2em;
+}
+
+#detailedvote .header .left {
+    flex-grow: 1;
+}
+
+#detailedvote .header .right {
+    flex-basis: 10em;
+    padding-right: 4em;
+    display: block;
+    float: right;
+}
+
+#detailedvote .togglemenu {
+    margin-bottom: 2em;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.handle {
+    background-color: #d7e3ff;
+    margin: 0.3em 0.4em 0.3em 0;
+    padding: 0.4em;
+    width: fit-content;
+}
+
+.tgmenu:hover {
+    font-weight: 700;
+}
+
+a.hover:hover {
+    font-weight: 900;
+}
+
+a.lighthover{
+    font-size: 1.075rem;
+    font-weight: 300;
+}
+
+a.lighthover:hover {
+    font-weight: 700;
+}
+
+
+a.backgroundhover {
+    background-color: #d7e3ff;
+    padding: 0.4em;
+}
+
+div.backgroundhover {
+    padding: 0.7em 0.4em 0.7em 0em;
+    display: inline-block;
+    
+}
+
+a.backgroundhover:hover {
+    font-weight: 900;
+}
+
+.castvote {
+    display: inline-block;
+}
+
+.castvote input.radio { 
+    display: inline; 
+}
+
+.memberdraft{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+}
+
+.memberdraft .item { 
+    background-color: #EBF1FF;
+    padding: 1.25rem;
+    margin-bottom: 2em;
+    display: inline-block;
+}
+
+.memberdraft ul {
+    list-style-type: none;
+    padding: 0.6em 0 0.3em 0em;
+}
+
+.pb {
+    padding-bottom: 0.5em;
+}
+
+.description a:hover {
+    font-weight: 900;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#pendingactions .centralcard {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.checkinreasons {
+    border: none;
+    padding: 0.5em;
+
+    width: 100%;
+    background-color: #f3f7ff;
+}
+
+.blockright {
+    float: right;
+}

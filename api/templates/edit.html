@@ -1,0 +1,106 @@
+{{template "HEAD" .Head}}
+  <div class="singular">
+    <div class="center">
+      <form method="post" action="/uploadfile" enctype="multipart/form-data">
+        <h1 class="headers"> edit </h1>
+    
+        <input class="none" type="text" name="action" value="Edit" readonly/>
+    
+        <input class="detailed" type="radio" name="kind" id="singleedit" checked />
+        <label class="authorship" for="singleedit">single author</label>
+        
+        <input class="detailed" type="radio" name="kind" id="coauthorededit" />
+        <label class="authorship" for="coauthorededit">co-authors</label>
+        
+        <input class="detailed" type="radio" name="kind" id="collectivelyedit" />
+        <label class="authorship" for="collectivelyedit">on behalf of</label>
+            
+        <div class="tab content1">
+        </div>
+        
+        <div class="tab content2">
+          <input class="formentry detailed" type="text" name="coAuthors" placeholder="comma sepparated co-authors list"/>
+          <div class="policyentry">
+            <div class="policy">
+              <label class="formtitle" for="policy">policy</label>
+              <input class="formentry detailed" type="text" name="policy"/>
+            </div>
+          </div>
+        </div>
+        <div class="tab content3">
+          <input class="formentry detailed" type="text" name="onBehalfOf" placeholder="collective name"/><br/>
+        </div>
+      
+        <input class="none" type="text" name="editedDraft" value="{{.DraftHash}}" readonly/><br/>
+        <input class="formentry detailed" type="file" name="fileUpload" value="File Updload" id="fileudraft" onchange="selectFile()" required/><br/>
+        <input class="none" type="text" name="fileName" id="fileName" value="" readonly/>
+
+        
+
+        <label  class="formtitle" for="reasons">reasons <span>*optional</span></label>
+        <textarea class="formentry detailed" type="text" name="reasons" rows="3" id="reasonsfield"></textarea><br/>
+
+        <div class="submitbox">
+          <input class="submit" type="submit" value="send"/>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div id="right">
+  <div class="fieldinfohide" id="singleeditinfo">
+    <p><span>authorship field - single</span></p><br/>
+    <p class="fieldinfosub">option of mandatory field</p>
+    <p class="fieldinfosub">selection</p><br/>
+    <p>edit authorship might be of a single network member</p><br/>
+    <p>in that case author of edit instruction is considered the single author of edit and no consensus policies apply for any of the further instructions related to edit</p><br/>
+  </div>
+  <div class="fieldinfohide" id="coauthorededitinfo">
+    <p><span>authorship field - coauthoring</span></p><br/>
+    <p class="fieldinfosub">option of mandatory field</p>
+    <p class="fieldinfosub">selection</p><br/>
+    <p>edit authorship might be of a group of network members</p><br/>
+    <p>in that case author of edit instruction must provide handles for coauthors of edit and consensus policies apply for any of the further instructions related to edit</p><br/>
+    <p>consensus policies will be performed according to the set of instruction author plus coauthors appointed</p><br/>
+    <p>for edit instruction to be approved all appointed co-authors will have to vote for approval</p><br/>
+  </div>
+  <div class="fieldinfohide" id="collectivelyeditinfo">
+    <p><span>authorship field - collective</span></p><br/>
+    <p class="fieldinfosub">option of mandatory field</p>
+    <p class="fieldinfosub">selection</p><br/>
+    <p>edit authorship might be of a collective</p><br/>
+    <p>in that case author of edit instruction must provide the name for the collective it is signing the edit on behalf of, and collective consensus policies apply for both the approval and any of the further instructions related to draft</p><br/>
+    <p>consensus policies will be performed according to the majority policy of the appointed collective</p><br/>
+  </div>
+  <div class="fieldinfohide" id="coauthorseditinfo">
+    <p><span>coauthors field</span></p><br/>
+    <p class="fieldinfosub">mandatory field for coauthored edit</p>
+    <p class="fieldinfosub">comma-separated members handles</p><br/>
+    <p>for coauthored edit author must appoint the list of edit's coauthors handles</p><br/>
+    <p>edit creation will depend on full coauthoring consensus approval, but affter creation all instrucations concerning the edit will go by consensus policy majority</p><br/>
+    <p>handles must be comma-sepparated</p><br/>
+  </div>
+  <div class="fieldinfohide" id="policyeditinfo">
+    <p><span>policy majority</span></p><br/>
+    <p class="fieldinfosub">mandatory field for coauthored edit</p>
+    <p class="fieldinfosub">ranging from 0 to 100 (default)</p><br/>
+    <p>for coauthored edits author must appoint a consensus majority</p><br/>
+    <p>the number chosen will define majority minimum to be accepted as consensus for edit to be released and for new versions to be proposed</p><br/>
+    <p>edit creation still depends on full coauthoring consensus approval, but affter creation all instructions concerning the edit will go by consensus policy majority</p><br/>
+  </div>
+  <div class="fieldinfohide" id="fileudraftinfo">
+    <p><span>file upload</span></p><br/>
+    <p class="fieldinfosub">mandatory</p>
+    <p class="fieldinfosub">upload</p>
+    <p class="fieldinfosub">max x Mb</p><br/>
+    <p>edit's files have the main information the author whishes to share with the edited draft's author</p><br/>
+    <p>files uploaded are shared publicly on the network unpon instruction acceptance, publishing can not be reverted</p><br/>
+  </div>
+  <div class="fieldinfohide" id="reasonsfieldinfo">
+    <p><span>reasons field</span></p><br/>
+    <p class="fieldinfosub">optional</p>
+    <p class="fieldinfosub">alphanumeric</p>
+    <p class="fieldinfosub">max x char</p><br/>
+    <p>instruction author may provide some information as to the reasons for the instruction being proposed</p><br/>
+  </div>
+{{template "TAIL"}}

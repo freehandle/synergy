@@ -1,0 +1,172 @@
+{{template "HEAD" .Head}}
+{{$BoardName:=.Name}}
+{{$BoardLink:=.Link}}
+    <div class="singular">
+        <div class="center">
+            <div class="headerdraft">
+                <p class="title" id="modaloutlinename">{{.Name}}</p>
+                <div>
+                <ul class="listing">
+                        {{range .Keywords}}
+                            <li class="keywordtitle">{{.}}</li>
+                        {{end}}        
+                </ul>
+                </div>    
+            </div>
+            <p class="subheadersdraft">board by</p>
+                <div class="handletitle">
+                    <a href="/collective/{{.CollectiveLink}}" class="hover">{{.Collective}}</a>
+                </div>
+            <br/>
+            <p class="description"> {{.Description}} </p><br/>
+            
+            {{if .Drafts}}
+                {{if .Editorship}}
+                    <div class="boardgrid">
+                        <div class="infos">
+                            {{range .Drafts}}
+                                <div class="item">
+                                    <p><a href="/draft/{{.Hash}}" class="nameitem">{{.Title}}</a></p>
+                                    <p class="">{{.Description}}</p>
+                                    <ul class="listing">
+                                        {{range .Keywords}}
+                                            <li class="keyword">{{.}}</li>
+                                        {{end}}
+                                    </ul>
+                                    <form method="post" action="/api">
+                                        <input class="none" type="text" name="action" value="Pin" readonly/>
+                                        <input class="none" type="text" name="draft" value="{{.Hash}}" readonly/>
+                                        <input class="nonemodal" type="text" name="redirect" value="board/{{$BoardLink}}" readonly/>
+                                        <input class="none" type="text" name="pin" value="off" readonly/>
+                                        <input class="none" type="text" name="boardName"  value="{{$BoardName}}" readonly/>
+                                        <input class="unpin" type="submit" value="unpin" /><br/>
+                                    </form>
+                                </div> 
+                            {{end}}
+                        </div>
+                    </div>
+                {{else}}
+                    <div class="boardgrid">
+                        <div class="infos">
+                            {{range .Drafts}}
+                                <div class="item">
+                                    <p><a href="/draft/{{.Hash}}" class="nameitem">{{.Title}}</a></p>
+                                    <p class="">{{.Description}}</p>
+                                    <ul class="listing">
+                                        {{range .Keywords}}
+                                            <li class="keyword">{{.}}</li>
+                                        {{end}}
+                                    </ul>
+                                </div> 
+                            {{end}}
+                        </div>
+                    </div>
+                {{end}}
+            {{else}}
+                <div class="boardgrid">
+                    <div class="infos">
+                        <div class="item">
+                            <p>no drafts have been pinned yet</p>
+                        </div>
+                    </div>
+                </div>                
+            {{end}}
+        </div>
+    </div>
+</div>
+    <div id="right">
+        <p class="infotitle">pin majority</p>
+        <p class="info">{{.PinMajority}}</p><br/>
+
+        <p class="infotitle">editors</p>
+        <ul class="listing">
+         {{range .Editors}}   
+            <li><a class="linked" href="/member/{{.Link}}">{{.Handle}}</a></li>
+         {{end}}
+        </ul><br/>
+
+        {{if .CollectiveMember}}
+            <p class="infotitle pb">on behalf of <span>{{.Collective}}</span></p>
+            <a class="openform" href="/updateboard/{{$BoardLink}}">update</a><br/>
+        {{end}}
+
+        <div>
+            <p class="infotitle">react to <span>{{.Name}}</span></p>
+            <button class="submit" onclick="dialogreact()" value="send">send</button>
+        </div>
+                
+        <!-- react modal -->
+        <dialog id="dialogreactel" class="modalshow">
+            <p class="modaltitle">instruction outline</p>
+            <form method="post" action="/api">
+                <input class="nonemodal" type="text" name="action" value="React" readonly/>
+                <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
+                <input class="nonemodal" type="text" name="redirect" value="board/{{$BoardLink}}" readonly/>
+                <p class="modalinfo" id="reactionoutline"></p><br/>
+                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                <div class="modalbuttons">
+                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancel</button>
+                    <input class="modalsubmit" type="submit" value="send"/>
+                </div>
+            </form>
+        </dialog>
+        <!-- end of modal -->
+
+        <br/><br/>
+        {{if .Editorship}}
+            <div>
+                <p class="infotitle"> remove editor</p>
+                <input class="entryfield" type="text" name="editor" id="editorhandle"/>
+                <button class="submit" onclick="dialogremoveeditor()" value="send">send</button>
+            </div>
+
+            <!-- remove editor modal -->
+            <dialog id="dialogremoveeditorel" class="modalshow">
+                <p class="modaltitle">instruction outline</p>
+                <form method="post" action="/api">
+                    <input class="nonemodal" type="text" name="action" value="BoardEditor" readonly/>
+                    <input class="nonemodal" type="text" name="board" value="{{$BoardName}}" readonly/>
+                    <input class="nonemodal" type="text" name="insert" value="off" readonly/><br/>
+                    <input class="nonemodal" type="text" name="editor" id="modaleditorhandle"/>
+                    <p class="modalinfo" id="removeeditoroutline"></p><br/>
+                    <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                    <div class="modalbuttons">
+                        <button class="modalsubmit" type="reset" onclick="closedialog('dialogremoveeditorel');">cancel</button>
+                        <input class="modalsubmit" type="submit" value="send"/>
+                    </div>
+                </form>
+            </dialog>
+            <!-- end of modal -->
+            
+            <br/><br/>
+        {{else}}
+            <div>
+                <p class="infotitle"> apply for <span>{{.Name}}</span> board editor</p>
+                <button class="submit" onclick="dialogapplyeditor()" value="send">send</button>
+            </div>
+
+            <!-- remove editor modal -->
+            <dialog id="dialogapplyeditorel" class="modalshow">
+                <p class="modaltitle">instruction outline</p>
+                <form method="post" action="/api">
+                    <input class="none" type="text" name="action" value="BoardEditor" readonly/>
+                    <input class="none" type="text" name="board" value="{{$BoardName}}" readonly/>
+                    <input class="nonemodal" type="text" name="redirect" value="board/{{$BoardLink}}" readonly/>
+                    <input class="none" type="text" name="insert" value="on" readonly/><br/>
+                    <p class="modalinfo" id="applyeditoroutline"></p><br/>
+                    <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                    <div class="modalbuttons">
+                        <button class="modalsubmit" type="reset" onclick="closedialog('dialogapplyeditorel');">cancel</button>
+                        <input class="modalsubmit" type="submit" value="send"/>
+                    </div>
+                </form>
+            </dialog>
+            <!-- end of modal -->
+
+            <br/><br/>
+        {{end}}
+    </div>
+{{template "TAIL"}}
+
+
+        

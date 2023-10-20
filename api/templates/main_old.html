@@ -1,0 +1,68 @@
+{{define "HEAD"}}
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/basic.css">
+    <link rel="stylesheet" href="/static/basics2.css">
+    <link rel="stylesheet" href="/static/singular.css">
+    <link rel="stylesheet" href="/static/plurals.css">
+    <link rel="stylesheet" href="/static/modals.css">
+    <link rel="stylesheet" href="/static/central.css">
+    <script src="/static/functions.js"></script>
+  </head>
+<body>
+<div class="general">
+  <div class="topbar sticky">
+    <div class="logoleft">
+      synergy
+    </div>
+    <div class="sublogoleft">
+      {{if eq .Section "explore"}}explore{{else if eq .Section "venture"}}<span class="sub">venture</span>{{end}}
+    </div>
+    <div class="trailright">
+      {{.Path}} &nbsp;<span>{{.EndPath}}</span>
+    </div>
+    <div class="userright">
+      <div id="lienko">@lienko</div>
+      <!-- <div>@lienko</div> -->
+      <div><span>Larissa G.</span></div>
+    </div>
+  </div>
+  <div class="bulk">
+    <div class="navbar">
+      <div class="explore">
+        <ul>
+          <li {{if eq  .Active "Collectives"}} class="active"{{end}}><a href="/collectives"> collectives </a></li>
+          <li {{if eq  .Active "Boards"}} class="active"{{end}}><a href="/boards"> boards </a></li>
+          <li {{if eq  .Active "Members"}} class="active"{{end}}><a href="/members"> members </a></li>
+          <li {{if eq  .Active "Events"}} class="active"{{end}}><a href="/events"> events </a></li>
+          <li {{if eq  .Active "Drafts"}} class="active"{{end}}><a href="/drafts"> drafts </a></li>
+          <li {{if eq  .Active "News"}} class="active"{{end}}><a href="/news"> news </a></li>
+        </ul>
+      </div>
+      <div class="venture">
+        <ul>
+          <!-- <li {{if eq  .Active "Central"}} class="active"{{end}}><a href="/central"> central </a></li> -->
+          <li {{if eq  .Active "Connections"}} class="active"{{end}}><a href="/connections"> connections</a></li>
+          <li {{if eq  .Active "Updates"}} class="active"{{end}}><a href="/updates"> updates</a></li>
+          <li {{if eq  .Active "MyMedia"}} class="active"{{end}}><a href="/mymedia"> my media </a></li>
+          <li {{if eq  .Active "MyEvents"}} class="active"{{end}}><a href="/myevents"> my events </a></li>
+          <li {{if eq  .Active "Votes"}} class="active"{{end}}><a href="/votes"> consensus votes </a></li>
+          <li {{if eq  .Active "Pending"}} class="active"{{end}}><a href="/pending"> pending actions </a></li>
+          <li {{if eq  .Active "CreateCollective"}} class="active"{{end}}><a href="/createcollective"> create collective </a></li>
+          <li {{if eq  .Active "NewDraft"}} class="active"{{end}}><a href="/newdraft"> new draft </a></li>
+          <li {{if eq  .Active "ReloadTemplates"}} class="active"{{end}}><a href="/reload"> reload templates </a></li>
+      </ul>
+      </div>
+    </div>
+    <div id="mainview">
+{{end}}
+{{define "TAIL"}}
+    </div>
+  </div>
+</div>
+</body>
+</html>
+{{end}}
+{{template "HEAD"}}
+{{template "TAIL"}}

@@ -1,0 +1,66 @@
+{{template "HEAD" .Head}}
+<div class="plurals">
+    <h1 class="headers">votes</h1>
+    <div class="objectinfos">
+        {{range .Votes}}
+            <div class="item">
+                {{if .Handler}}
+                    <a class="titlelink" href="/{{.Handler}}/{{ .Hash }}">
+                        {{.Action}} 
+                    </a>
+                        {{if .Scope}} 
+                            <ul class="listing">
+                                <div class="backgroundhover">        
+                                by
+                                <a class="votelink bold backgroundhover" href="/collective/{{.ScopeLink}}"> {{.Scope}} </a><br/>
+                                </div>
+                            </ul>
+                        {{end}}
+                        <p class="">{{.Reasons}}</p>
+
+                {{ else }}
+                <div class="firstrow">
+                    <p class="xlarge bold"> {{.Action}}</p>
+                    {{if .ObjectCaption}} 
+                        <div class="backgroundhover"> {{.ObjectType}} <a class="votelink bold backgroundhover" href="{{.ObjectLink}}">{{.ObjectCaption}}</a></div>
+                    {{end}}
+                    {{if .Scope}} 
+                        <div class="backgroundhover"> on behalf of  <a class="votelink bold backgroundhover" href="/collective/{{.ScopeLink}}"> {{.Scope}} </a> </div>
+                    {{end}}
+                    {{if .ComplementType}} 
+                        <div class="backgroundhover"> {{.ComplementType}}  <a class="votelink bold backgroundhover" href="{{.ComplementLink}}"> {{.ComplementCaption}} </a> </div>
+                    {{end}}
+                        
+                    <p class=""> {{.Reasons}} </p>                   
+                </div>
+                <div class="secondrow"> <button class="submit" onclick="dialogreact()" value="send">vote</button> </div>
+                <dialog id="dialogreactel" class="modalshow">
+                    <p class="modaltitle">instruction outline</p>
+                    <form method="post" action="/api">
+                        <input class="nonemodal" type="text" name="action" value="Vote" readonly/>
+                        <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
+
+                        <input type="radio" id="approve" name="approve" value="on" checked>
+                        <label for="approve">favorable</label>
+                        <input type="radio" id="against" name="approve" value="off">
+                        <label for="against">against</label> 
+
+                        <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                        <div class="modalbuttons">
+                            <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancel</button>
+                            <input class="modalsubmit" type="submit" value="send"/>
+                        </div>
+                    </form>
+                </dialog>
+                <!-- end of modal -->
+        
+                {{end}}
+            </div>
+        {{end}}
+        <!-- react modal -->
+       
+
+    </div>
+</div>
+{{template "TAIL"}}
+        

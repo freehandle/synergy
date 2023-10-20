@@ -1,0 +1,33 @@
+{{template "HEAD" .Head}}
+<div class="plurals">
+    <h1 class="headers">drafts</h1>
+    <div id="drafts">
+        {{range .Drafts}}
+        <div class="box">
+            <div class="head">
+                <a href="/draft/{{.Hash}}" class="title">{{.Title}}</a>
+                <ul class="keywords">
+                    {{range .Keywords}}
+                        <li class="keyword">{{.}}</li>
+                    {{end}}
+                </ul>
+                <div class="abstract">
+                    <p class="boarddescr elipsis">{{.Description}}</p>
+                </div>
+            </div>
+            <ul class="foot listing">
+                {{range .Authors}}
+                    <li>
+                        {{if .Collective}}
+                            <a class="author" href="/collective/{{.Link}}">{{.Name}}</a>
+                        {{else}}
+                            <a class="author" href="/member/{{.Link}}">{{.Name}}</a>
+                        {{end}}
+                    </li>
+                {{end}}
+            </ul>
+        </div> 
+        {{end}}
+    </div>
+</div>
+{{template "TAIL"}}

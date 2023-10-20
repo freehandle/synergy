@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="/api">
+
+    <h1>Action Forms</h1>
+    
+    <br/>
+    <h2> AcceptCheckinEvent </h2>
+
+    <label for="action">Action</label><br/>
+    <input type="text" name="action" value="AcceptCheckinEvent" readonly/><br/>
+ 
+    <label for="reasons">Reasons</label><br/>
+    <input type="text" name="reasons"/><br/>
+
+    <label for="eventHash">Event Hash</label><br/>
+    <input type="string" name="eventHash"/><br/>
+
+    <label for="checkedIn">Checked In</label><br/>
+    <input type="string" name="checkedIn"/><br/>
+
+    <br/>
+    <input type="submit" value="Send Request"/>
+    <br/>
+
+</form>
+
+</body>

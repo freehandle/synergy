@@ -1,0 +1,73 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    height: 100%;
+}
+
+/* .formsize {
+    max-width: 600px;
+    width: auto;
+    padding: 10px;
+} */
+
+
+h2 {
+    font-size: 14pt;
+    font-weight: 300;
+    color: black;
+}
+
+.defaultitem {
+    font-size: 12pt;
+    font-weight: 100;
+    color: #012169;
+}
+
+.collectivename {
+    font-size: 12pt;
+    font-weight: 100;
+    color: darkgray;
+}
+
+.authorlist {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+.drafttitles {
+    font-size: 18pt;
+    font-weight: 500;
+    color: black;
+}
+
+.reasons {
+    font-size: 12pt;
+    font-weight: 100;
+    color: black;   
+}
+
+.majority {
+    font-size: 12pt;
+    font-weight: 200;
+    color: black;
+}
+
+.autofill {
+    display: none;
+}
+
+.links {
+    font-size: 12pt;
+    font-weight: 200;
+    color: lightseagreen;
+}
+
+.oldinfo {
+    font-size: 12pt;
+    color: #012169;
+    margin: 2px 0 2px 0;
+}

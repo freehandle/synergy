@@ -1,0 +1,39 @@
+#generalsignin {
+    width: min(100vw, 40rem);
+    height: 100vh;
+    background-color: white; 
+    display: block;
+    flex-direction: row;
+    font-family: "Lato";
+    color: #012169;
+}
+
+#generalsignin input.text {
+    background-color: #DBFFE9;
+    font-size: 1.2rem;
+    color: #009739;
+    border: none;
+    width: 100%;
+    line-height: 2em;
+    margin-bottom: 1em;
+    margin-top: 0.5em;
+    padding-left: 0.5em;
+}
+
+#generalsignin label {
+    color: #012169;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+#generalsignin input.click{
+    font-size: 1.2rem;
+    color: #012169;
+    margin-top: 0.313rem;
+    background-color: #AFC7FE;
+    padding: 0.5rem;
+    border: none;
+    box-shadow: #012169 0.125rem 0.125rem 0.125rem;
+    cursor: pointer;
+
+}

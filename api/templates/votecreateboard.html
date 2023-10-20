@@ -1,0 +1,53 @@
+{{template "HEAD" .Head}}
+<div class="singular">
+  <div class="center">
+    <form method="post" action="/api">
+      <input class="none" type="text" name="redirect" value="votes" readonly/>
+      <h1 class="headerdetails">create board vote</h1>
+      <p class="subheadersdraft">on behalf of</p>
+      <ul class="listing">
+        <li class="handletitle">
+          <a href="/collective/{{.CollectiveLink}}"> {{.Collective}}</a>
+        </li>
+      </ul>
+      <br/><br/>
+
+      {{if .Reasons}}
+        <p class="bold">reasons</p>
+        <p class="description">{{.Reasons}}</p><br/>
+      {{end}}
+      
+      <p class="bold">board description</p>
+      <p class="description">{{.Description}}</p><br/>
+      
+      <ul class="listing">
+        {{range .Keywords}}
+            <li class="keyword">{{.}}</li>
+        {{end}}
+    </ul><br/>   
+  
+      <p class="description">pin policy majority of {{.PinMajority}}</p><br/>
+      
+      <input class="none" type="text" name="action" value="Vote" readonly/>
+      <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
+    
+    <div class="large">
+      <input type="radio" id="approve" name="approve" value="on" checked>
+      <label class="voteradio" for="approve">favorable</label>
+      <input type="radio" id="against" name="approve" value="off">
+      <label class="voteradio" for="against">against</label> 
+    </div>
+    <textarea class="votereasons" type="textarea" name="reasons" rows="4" id="reasonsfield" placeholder="optional vote reasoning"></textarea>
+     <input class="submit" type="submit" value="vote"/>
+    </form>
+  </div>
+  <div class="right">
+    <p class="infotitle">consensus status</p>
+    <p class="info"> {{.Voting.Voted}} have already voted</p>
+    <p class="info"> {{len .Voting.Approve}} favorable </p>
+    <p class="info"> {{len .Voting.Reject }} against </p>
+    <p class="info"> {{len .Voting.NotCast }} not cast </p>
+    <br/>
+  </div>
+</div>
+{{template "TAIL"}}

@@ -1,0 +1,23 @@
+{{template "HEAD" .Head}}
+<div class="plurals">
+    <h1 class="headers">boards</h1>
+    <div class="objectinfos">
+        {{range .Boards}}
+        <div class="item"> 
+            <div class="boardfirst">
+                <a href="/board/{{.Link}}" class="titlelink"> {{.Name}} </a>
+            </div>
+            <ul class="boardsecond listing">
+                {{range .Keywords}}
+                <li class="keyword">{{.}}</li>
+                {{end}}
+            </ul>
+            <div class="boardthird">
+                <p class="boarddescr elipsis">{{.Description}}</p>
+            </div>
+            <a class="boardfourth authorship" href="/collective/{{.CollectiveLink}}"> by {{.Collective}} </a>
+        </div> 
+        {{end}}
+    </div>    
+</div>
+{{template "TAIL"}}

@@ -1,0 +1,15 @@
+{{template "HEAD" .}}        
+<div id="generalsignin">
+  <form method="post" action="/newuser">
+    <div>
+      <label for="handle">handle</label>
+      <input class="text" name="handle" id="handle"/> 
+    </div>
+    <div>
+      <label for="email">email</label>
+      <input class="text" name="email" id="email"/> 
+    </div>
+    <input class="click" type="submit" value="send"/>
+  </form>
+</div>
+{{template "TAIL"}}

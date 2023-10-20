@@ -1,0 +1,103 @@
+body,html {
+  margin: 0;
+  padding: 0;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  ::placeholder {
+    color: #988500;
+  }
+
+  .search:focus {
+    border: 3px solid #afc7fe;
+    outline: 2px solid #012169;
+  }  
+
+  .searchbar {
+    width: 100%;
+    padding: 10px;
+    background-color: #afc7fe;
+    display: flex;
+    height: 6vh;
+  }
+ 
+  .search  {
+    background-color: #fff8cc;
+    color: #012169;
+    width: 500px;
+    padding: 4px 4px 2px 4px;
+    margin-top: 2px;
+    border: #012169 2px;
+  } 
+  
+#mainview {
+  padding: 20px;
+  width: 100%;
+}
+
+.navbarp {
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+    padding-left: 20px;
+    font-size: 18px;
+    color:#012169;
+  }
+
+  .logo {
+    font-size: 20px;
+    font-weight: 800;
+    color: #012169;
+  }
+  
+  .bottom{
+    margin-top: auto;
+    padding-bottom: 20px;
+    text-align: right;
+  }
+  
+  .handle {
+    font-size: 16px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    color:#009739;
+  }
+  
+  .username {
+    font-size: 13px;
+    margin: 0px;
+    color:#012169;
+  }
+
+  .navbar a:link {
+    text-decoration: none;
+    color: #009739;
+  }
+
+  .navbar a:visited {
+    color: #009739;
+  }
+
+  .navbar a:hover {
+    color: #012169;
+    font-weight: 600;
+  }
+  
+  .menuseparator {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    border-bottom: 1px solid #009739;
+  }
+
+  .separator {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    border-bottom: 1px solid #012169;
+  }

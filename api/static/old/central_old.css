@@ -1,0 +1,123 @@
+
+#mainview div.full {
+    display: flex;
+    flex-direction: column;
+    flex-basis: 83vw;
+    overflow-y: scroll;
+}
+
+#mainview div.full .headers {
+    flex: 1;
+    font-family: "Lato";
+    font-weight: 400;
+    color:#012169;
+    font-size: 25pt;
+    padding-bottom: 15px;
+}
+
+.cards {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.cards div.type {
+    flex: 1 1 0px;
+    margin: 10px 10px 10px 0px;
+    background-color: #EBF1FF;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 15px;
+    overflow-y: scroll;
+}
+
+.cards div.type .item {
+    flex-grow: 1;
+    padding: 15px 15px 10px 15px;
+    font-family: "Lato";
+    color:#012169;
+}
+
+.cards div.type div.item h2 {
+    flex: 1;
+    font-weight: 300;
+    font-size: 18pt;
+}
+
+.cards div.type div.item h2 span {
+    flex: 1;
+    font-weight: 300;
+    font-size: 12pt;
+}
+
+.cards div.type div.item h3 {
+    flex: 1;
+    font-weight: 700;
+    font-size: 13pt;
+    margin-bottom: 2px;
+}
+
+.cards div.type div.item h4 {
+    flex: 1;
+    font-weight: 300;
+    font-size: 13pt;
+    margin-bottom: 8px;
+}
+
+.cards div.type div.item p {
+    flex: 1;
+    font-weight: 400;
+    font-size: 12pt;
+    padding-top: 2px;
+}
+
+.cards div.type div.item p.time {
+    flex: 1;
+    font-weight: 300;
+    font-size: 12pt;
+    padding-top: 2px;
+    font-style: italic;
+    padding-bottom: 6px;
+}
+
+.centralupdates {
+    margin: 10px 10px 10px 0;
+    background-color: #EBF1FF;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 15px;
+    /* overflow-y: scroll; */
+}
+
+.centralcard {
+    margin: 10px 10px 10px 0;
+    background-color: #EBF1FF;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-bottom: 15px;
+    overflow-y: scroll;
+    font-family: "Lato";
+}
+
+.centralcard p.title {
+    font-weight: 600;
+    font-size: 14pt;
+    padding: 15px 15px 5px 15px;
+}
+
+.centralcard div.actioninfo {
+    font-weight: 300;
+    font-size: 12pt;
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 2px;
+    flex-basis: inherit;
+}
+
+.centralcard div.actioninfo p.description {
+    padding: 0 10px 5px 15px;
+}

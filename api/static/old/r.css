@@ -1,0 +1,374 @@
+.boardname {
+    font-size: 18pt;
+    font-weight: 500;
+}
+
+.boarditem {
+    min-width: 400px;
+    max-width: 600px;
+    margin: 20px;
+    border: 1px solid gray;
+    background-color: #eeeeee;
+}
+
+.generallistitem {
+    min-width: 400px;
+    max-width: 600px;
+    margin: 10px 0 10px 0;
+    background-color: #d7e3ff;
+    padding: 10px 15px 10px 15px;
+}
+
+.generallistitem a.nameitem {
+    font-size: 16pt;
+    display: inline-block;
+    margin-bottom: 5px;
+    color:#012169;
+    text-decoration: none;
+}
+
+.generallistitem a.nameitem:hover {
+    font-weight: 600;
+}
+
+.generallistitem .listinfo{
+    font-size: 12pt;
+    color: #012169;
+    margin-bottom: 10px;
+}
+
+.generallistitem a.collectives{
+    font-size: 12pt;
+    color: #012169;
+    display: inline-block;
+    margin-bottom: 5px;
+    text-decoration: none;
+}
+
+.generallistitem a.collectives:hover{
+    font-weight: 600;
+}
+
+.generallistitem a.members{
+    font-size: 12pt;
+    color: #009739;
+    text-decoration: none;
+    border: solid #009739 1px;
+    padding: 5px;
+    display: inline-block;
+    background-color: #d7e3ff;
+    margin: 2px 0 2px 0;
+}
+
+.generallistitem a.members:hover{
+    border: solid #009739 2px;
+}
+
+.generallistitem .description {
+    font-size: 12pt;
+    color: #012169;
+}
+
+.generallistitem .keywords {
+    font-size: 12pt;
+    color: #012169;
+}
+
+.voteitem {
+    min-width: 400px;
+    max-width: 600px;
+    margin: 20px;
+    border: 1px solid gray;
+    background-color: #eeeeee;
+    padding: 10px;      
+}
+
+.eventitem {
+    min-width: 400px;
+    max-width: 600px;
+    margin: 20px;
+    border: 1px solid gray;
+    background-color: #eeeeee;
+    padding: 10px;              
+}
+
+.draftitem {
+    min-width: 400px;
+    max-width: 600px;
+    margin: 20px;
+    border: 1px solid gray;
+    background-color: #eeeeee;
+    padding: 10px;              
+}
+
+.votecastitem {
+    min-width: 400px;
+    max-width: 600px;
+    margin: 20px;
+    border: 1px solid gray;
+    background-color: #eeeeee;
+    padding: 10px;              
+}
+
+.showdraft {
+    min-width: 400px;
+    max-width: 600px;
+}
+
+li.memberitem {
+    margin: 10px;
+}
+
+.memberslist {
+    list-style-type: none;
+    overflow: hidden;    
+}
+
+.authorslist{
+    list-style-type: none;
+    overflow: hidden;    
+}
+
+.eventpublic {
+    font-size: 11pt;
+    font-weight: 400;
+}
+
+.eventtime {
+    font-size: 11pt;
+    font-weight: 400;
+}
+
+.eventstatus {
+    font-size: 12pt;
+    font-weight: 500;
+}
+
+.eventabout {
+    font-size: 12pt;
+    font-weight: 500;
+}
+
+
+.eventdetails{
+    color: black;   
+}
+
+.none {
+    display: none;
+}
+
+.votecaption {
+    font-size: 11pt;
+}
+
+.reasons {
+    font-weight: 400;
+    font-style: italic;
+    color: #012169;
+}
+
+.policy {
+    font-size: 11pt;
+    font-weight: 400;
+}
+
+label.r {
+    font-size: 12pt;
+    font-weight: 600;
+}
+
+.r {
+    font-size: 12pt;
+    font-weight: 400;
+    color: #012169;
+    margin: 15px 0 5px 0;
+}
+
+.ri {
+    font-size: 11pt;
+    font-weight: 400;
+    width: 100%;
+    padding: 4px;
+    margin: 2px 0 12px 0;
+    background-color: #fff8cc;
+    border: none;
+}
+
+.ri:focus {
+    border: 3px solid white;
+    outline: 2px solid #012169;
+}
+
+.newdraft {
+    max-width: 600px;
+    width: auto;
+    padding: 10px;
+}
+
+.borderless {
+    border: none;
+}
+
+input ~ .tab { 
+    display: none;
+}
+#single:checked ~ .tab.content1,
+#coauthored:checked ~ .tab.content2,
+#collectively:checked ~ .tab.content3 {display: block;}
+
+.tab {
+    margin-top: 10px;
+}
+
+input#showreasons:not(:checked)+#reasons {
+    display: none;
+  }
+
+input#showrefs:not(:checked)+#refs {
+    display: none;
+  }
+
+.submit {
+    margin: 5px 0 5px 0;
+    font-size: 12pt;
+    padding: 6px;
+    background-color: #afc7fe;
+    color: #012169;
+    border: none;
+    box-shadow: #012169 1px 1px 1px;
+    cursor: pointer;
+}
+
+.submit:hover {
+    /* font-weight: 600; */
+    box-shadow: #012169 2px 2px 2px;
+}
+
+.headers {
+    font-size: 20pt;
+    font-weight: 600;
+    color: #012169;
+}
+
+.subheaders {
+    font-size: 14pt;
+    font-weight: 600;
+    color: #012169;
+    margin: 10px 0 5px 0;
+}
+  
+.info {
+    font-size: 12pt;
+    color: #012169;
+    margin: 5px 0 5px 0;
+}
+
+.infodetail {
+    font-size: 10pt;
+    color: #012169;
+    padding: 5px 0 5px 0;
+}
+
+a.handlelink {
+    float: left;
+    border: 1px solid #009739;
+    font-size: 12pt;
+    font-weight: 200;
+    padding: 5px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #009739;
+}
+
+a.handlelink:hover {
+    float: left;
+    border: 2px solid #012169;
+    font-size: 12pt;
+    font-weight: 400;
+    padding: 5px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #012169;
+}
+
+
+a.collectivelink {
+    float: left;
+    font-size: 12pt;
+    font-weight: 200;
+    padding: 0 5px 5px 5px;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #012169;
+}
+
+a.collectivelink:hover {
+    font-weight: 600;
+}
+
+.buttonlabel {
+    font-size: 12pt;
+    font-weight: 100;
+    color: #012169;
+    display: inline-block;
+    margin: 5px 0 3px 0;
+}
+
+.buttonlink {
+    display: inline-block;
+    margin: 5px 0 10px 0;
+    font-size: 12pt;
+    padding: 6px;
+    background-color: #dbffe9;
+    color: #009739;
+    border: none;
+    box-shadow: #009739 1px 1px 1px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+  .buttonlink:hover {
+    box-shadow: #009739 2px 2px 2px;
+  }
+
+.keywords{
+    list-style-type: none;
+    overflow: hidden;
+}
+
+li.keyword {
+    float: left;
+    border: 1px solid #012169;
+    color: #012169;
+    font-size: 12pt;
+    font-weight: 200;
+    padding: 5px;
+    margin: 5px 10px 5px 0;
+}
+
+.votelink {
+    display: inline-block;
+    font-size: 12pt;
+    color: #012169;
+    margin: 5px 0 5px 0;
+    text-decoration: none;
+}
+
+.votelink:hover {
+    font-weight: 600;
+}
+
+.downloadlink {
+    display: inline-block;
+    font-size: 12pt;
+    color: #009739;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.downloadlink:hover{
+    color: #012169;
+}

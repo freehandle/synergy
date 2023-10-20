@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="/api">
+   
+    <br/>
+    <h2> Create Event </h2>
+
+    <label for="action">Action</label><br/>
+    <input type="text" name="action" value="CreateEvent" readonly/><br/>
+
+    <label for="reasons">Reasons</label><br/>
+    <input type="text" name="reasons"/><br/>
+
+    <label for="description">Description</label><br/>
+    <input type="text" name="description"/><br/>
+
+    <label for="startAt">Start at</label><br/>
+    <input type="datetime-local" name="startAt"/><br/>
+
+    <label for="estimatedEnd">EstimatedEnd</label><br/>
+    <input type="datetime-local" name="estimatedEnd"/><br/>
+
+    <label for="onBehalfOf">On behalf of</label><br/>
+    <input type="text" name="onBehalfOf"/><br/>
+
+    <label for="venue">Venue</label><br/>
+    <input type="text" name="venue"/><br/>
+
+    <label for="open">Open</label><br/>
+    <input type="checkbox" name="open"/><br/>
+
+    <label for="public">Public</label><br/>
+    <input type="checkbox" name="public"/><br/>
+
+    <label for="managers">Managers</label><br/>
+    <input type="text" name="managers"/><br/>
+
+    <br/>
+    <input type="submit" value="Send Request"/>
+    <br/>
+
+
+</form>
+
+</body>

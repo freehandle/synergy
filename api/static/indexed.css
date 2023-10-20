@@ -1,0 +1,150 @@
+/* GENERAL USE */
+
+#center div.indexed {
+    display: flex;
+    flex-direction: column;
+}
+
+#center div.indexed .headers {
+    font-family: "Lato";
+    font-weight: 400;
+    color:#012169;
+    font-size: 2em;
+    padding-bottom: 0.5em;
+}
+
+#center div.indexed .screen {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+    margin-right: 0.7em;
+    margin-bottom: 0.7em;
+
+}
+
+#center div.indexed div.screen .item {
+    padding-top: 0.5em;
+    font-size: 1.1em;
+    display: flex;
+    flex-direction: row;
+}
+
+#center div.indexed div.screen .hide{
+    display: none;
+}
+
+
+#center div.indexed div.screen .item .duration {
+    flex-basis: 6em;
+    font-size: 0.8em;
+}
+#center div.indexed div.screen .item .hideduration {
+    color: white;
+}
+
+
+
+#center div.indexed div.screen .item .description {
+    flex-grow: 1;
+}
+
+
+
+#center div.indexed div.screen .item .description a {
+    color: #012169;
+    text-decoration: none;
+}
+
+#center div.indexed div.screen .item .noun a {
+    font-weight: 600;
+}
+
+#center div.indexed div.screen .item .noun span{
+    font-weight: 300;
+}
+
+#center div.indexed div.screen .item .verb a {
+    font-weight: 300;
+}
+
+#center div.indexed div.screen .item .verb span{
+    font-weight: 600;
+}
+
+
+
+
+/* NEWS */
+
+#center div.indexed div.screen div.item .second {
+    flex: 1 1 83%;
+    display: flex;
+}
+
+#center div.indexed div.screen div.item .title {
+    font-size: 1.1em;
+    font-weight: 700;
+    justify-content: flex-end;
+    padding-right: 1em;
+}
+
+#center div.indexed div.screen div.item .description {
+    font-size: 1.1em;
+    font-weight: 400;
+    justify-content: flex-start;
+    padding-left: 1em;
+}
+
+#center div.indexed .selectmenu {
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+#center div.indexed .selectmenu span.selected {
+    font-weight: 500;
+}
+
+
+#center div.indexed .maintoggle {
+    padding-left: 2em;
+}
+
+#center div.indexed .actionpanel {
+    display: flex;
+    flex-direction: row;
+}
+
+#center div.indexed .actionpanel .left {
+    flex-grow: 1;    
+}
+
+#center div.indexed .actionpanel .right {
+    margin-top: -2.5em;
+    flex-basis: 1;
+    display: flex;
+    flex-direction: column;
+    justify-items: flex-end;
+    padding-left: 4em;
+    padding-right: 2em;
+    height: 10em;
+}
+
+#center div.indexed .actionpanel .right .first {
+    flex: 2;
+}
+
+#center div.indexed .actionpanel .right .notfirst {
+    flex: 1;
+}
+
+#center div.indexed .actionpanel .right span {
+    text-align: right;
+}
+
+#center div.indexed .selectmenu span:hover {
+    font-weight: 800;
+}
+   
+#selectmenu span:hover {
+    font-weight: 900;
+}

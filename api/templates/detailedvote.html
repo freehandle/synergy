@@ -1,0 +1,47 @@
+{{template "HEAD" .Head}}
+  <div id="detailedvote">
+    <div class="header">
+      <p class="left x3large"> pending actions <span class="detailed x2large light"> vote details</span></p>
+      <div class="right">
+        <p class="light"> action proposed </p>
+        <p class="light"> {{.ProposedAt}} ago </p>
+      </div>
+    </div>
+    <div class="header">
+      <p class="left description xlarge"> {{.Description}} </p>
+      <div class="right">
+        <p class="light"> {{.Needed}} votes </p>
+        <p class="bold"> for approval</p>
+      </div>
+    </div>
+    <p>
+      {{.Reasons}}
+    </p>
+    <p class="togglemenu xlarge light">
+      <span id="tg_favorable" class="tgmenu bold" onclick="selectToggle('favorable');">{{len .Approve}} favorable</span> |
+      <span id="tg_against" class="tgmenu" onclick="selectToggle('against');">{{len .Reject}} against</span> |
+      <span id="tg_remaining" class="tgmenu" onclick="selectToggle('remaining');">{{len .NotVoted}} not cast</span>
+    </p>
+    <div id="favorable" class="toggle">
+      {{range .Approve}}
+        <p class="mgt mgb handle"> <a href="/member/{{.Author.Link}}">{{.Author.Caption}}</a> </p> 
+        {{if .Reasons}}
+          <p class="light mgb"> {{.Reasons}} </p>
+        {{end}}
+      {{end}}
+    </div>
+    <div id="against" class="toggle none">
+      {{range .Reject}}
+        <p class="mgt mbg handle"> <a href="/member/{{.Author.Link}}">{{.Author.Caption}}</a> </p> 
+        {{if .Reasons}}
+          <p class="light"> {{.Reasons}} </p>
+        {{end}}
+      {{end}} 
+    </div>
+    <div id="remaining" class="toggle none">
+      {{range .NotVoted}}
+        <a class="handle" href="/member/{{.Link}}">{{.Caption}}</a>
+      {{end}}
+    </div>
+  </div>
+{{template "TAIL"}}

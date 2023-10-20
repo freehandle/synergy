@@ -1,0 +1,245 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Thin.ttf');
+    font-weight: 100;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Light.ttf');
+    font-weight: 300;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Regular.ttf');
+    font-weight: 400;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Black.ttf');
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-LightItalic.ttf');
+    font-weight: 300;
+    font-style: italic;
+}
+
+.smsize {
+    font-size: 0.8rem;
+}
+
+.mdsize {
+    font-size: 1rem;
+} 
+
+.lgsize {
+    font-size: 1.2em
+}
+
+.xlsize {
+    font-size: 1.2em
+}
+
+.x2lsize {
+    font-size: 1.5em
+}
+
+.x3lsize {
+    font-size: 2em
+}
+
+.xlight {
+    font-weight: 100;
+}
+
+.light {
+    font-weight: 300;
+}
+
+.regular {
+    font-weight: 400;
+}
+
+.bold {
+    font-weight: 700;
+}
+
+.xbold {
+    font-weight: 900;
+}
+
+.explore-bg {
+    background-color: #FFF8CC;
+}
+
+.explore-gb-dark {
+    box-shadow: #FFD700;
+}
+
+.venture-bg {
+    background-color: #DBFFE9;
+}
+
+.venture-bg-dark {
+    box-shadow: #009739;
+}
+
+.nav-bg {
+    background-color: #AFC7FE;
+}
+
+
+.bordercolor {
+    border-color: #012169;
+}
+
+.yscroll {
+    overflow-y: scroll;
+}
+
+.none {
+    display: none;
+}
+
+
+body {
+    font-family: 'Lato';
+    color: #012169;
+    background-color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#general {
+    width: max(100vw, 70em);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+  
+#topbar {
+    flex-basis: 7vh;
+    display: flex;
+    flex-direction: row;
+}
+
+#logo{
+    flex-basis: 5em;
+    display: flex;
+    padding-right: 0.2em;
+    font-weight: 700;
+    justify-content: flex-end;
+    font-size: 2.1em;
+    align-self: flex-start;
+    padding-top: 0.6vh;
+}
+
+  
+#sublogo{
+    flex-basis: 5em;
+    display: flex;
+    justify-content: left;
+    padding-left: 0.1em;
+    padding-top: 0.8em;
+    font-weight: 400;
+    font-size: 1.2em;
+    align-self: flex-end;
+    padding-bottom: 1.4vh;
+}
+
+#path{
+    flex-grow: 1;
+    display: flex;
+    justify-content: right;
+    font-size: 1.2em;
+    padding-right: 2em;
+    align-self: flex-end;
+    padding-bottom: 1.4vh;
+}
+
+ 
+#user {
+    flex-basis: 12em;
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    padding: 0 2em 0.3em 0.3em;
+}
+
+  
+#bulk {
+    flex-grow: 1;
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    max-height: 93vh;
+}
+
+#nav {
+    flex-basis: 17em;
+    min-width: 17em;
+    display: flex;
+    flex-direction: column;
+}
+
+#nav .explore {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.7em;
+    padding: 1.3em;
+}
+
+#nav .venture {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0.7em;
+    padding: 1.3em;
+}
+
+
+#nav ul li.active a {
+    font-weight: 700;
+}
+
+#nav ul li a:hover {
+    font-weight: 700;
+}
+
+#center {
+    flex-grow: 1;
+    margin: 1em 0 0 1em;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+  
+#right {
+    flex-basis: 13em;
+    min-width: 13em;
+    border-left: #012169 dashed 0.063rem;
+    padding: 2em 1em 1em 2em;
+}
+

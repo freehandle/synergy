@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="/api">
+
+    <h1>Action Forms</h1>
+    
+    <br/>
+    <h2> BoardEditor </h2>
+
+    <label for="action">Action</label><br/>
+    <input type="text" name="action" value="BoardEditor" readonly/><br/>
+ 
+    <label for="reasons">Reasons</label><br/>
+    <input type="text" name="reasons"/><br/>
+
+    <label for="board">Board</label><br/>
+    <input type="string" name="board"/><br/>
+
+    <label for="editor">Editor</label><br/>
+    <input type="string" name="editor"/><br/>
+    
+    <label for="insert">Insert</label><br/>
+    <input type="checkbox" name="insert" value="true"/><br/>
+
+    <br/>
+    <input type="submit" value="Send Request"/>
+    <br/>
+
+</form>
+
+</body>

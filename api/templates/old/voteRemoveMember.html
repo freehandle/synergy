@@ -1,0 +1,28 @@
+{{template "HEAD"}}
+<div class="formsize">
+  <form method="post" action="/api">
+    <h1 class="headers">remove member vote</h1><br/>
+
+    <h2 class="subheaders"> On behalf of </h2>
+    <a class="collectivelink" href="/collective/{{.Collective}}"> {{.Collective}}</a><br/>
+
+    <h2 class="subheaders"> Member </h2>
+    <p class="info">{{.Handle}}</p><br/>
+
+    {{if .Reasons}}
+      <h2 class="subheaders">Reasons</h2>
+      <p class="info">{{.Reasons}}</p><br/>
+    {{end}}
+
+    <h2 class="subheaders"> Collective majority policy</h2>
+    <p class="info">{{.Policy.Majority}}</p><br/>
+  
+    <h2 class="subheaders">Vote</h2>
+    <input class="none" type="text" name="action" value="Vote" readonly/>
+    <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
+    <input type="checkbox" name="approve" id="approve"/>
+    <label class="buttonlabel" for="approve"> Approve </label><br/>
+    <input class="submit" type="submit" value="Send request"/>
+</form>
+</div>
+{{template "TAIL"}}

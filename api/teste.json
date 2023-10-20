@@ -1,0 +1,9 @@
+{
+    "instruction": "Create Draft",
+    "reasons": "only testing",
+    "policy": {
+        "majority": 50,
+        "superMajority": 100
+    },
+    "filePath": "teste.json"
+}

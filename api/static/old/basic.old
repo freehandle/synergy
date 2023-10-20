@@ -1,0 +1,55 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    height: 100%;
+}
+
+h1 {
+    font-size: 16pt;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 12pt;
+    font-weight: 500;
+}
+
+.handle {
+    font-size: 18pt;
+    color: red;
+}
+
+.collectivename {
+    font-size: 18pt;
+    color: blue;
+}
+
+.boardname {
+    font-size: 20pt;
+    color: green;
+}
+
+
+.keywords{
+    list-style-type: none;
+    overflow: hidden;
+}
+
+li.keyword {
+    float: left;
+    border: 1px solid black;
+    margin-right: 10px;
+}
+
+.description {
+    font-size: 11pt;
+    color: gray;
+}
+
+.reasons {
+    font-size: 11pt;
+}

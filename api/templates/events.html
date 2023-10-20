@@ -1,0 +1,27 @@
+{{template "HEAD" .Head}}
+<div class="plurals">
+    <h1 class="headers">events</h1>
+    <div class="objectinfos">
+        {{range .Events}}
+            <div class="item">
+                <div class="eventfirst">
+                    <p class=" eventdescr elipsis">{{.Description}}</p>
+                </div>
+                <p class="eventsecond eventstatus">starts {{.StartAt}}</p>
+                {{if .Public}}
+                    <p class="eventthird eventstatus">public</p> 
+                {{else}}
+                    <p class="eventthird eventstatus">private</p>
+                {{end}}
+                {{if not .Live}}
+                    <p class="eventfourth eventstatus">cancelled</p>
+                {{else if .Live}}
+                    <p class="eventfourth eventstatus">active</p>
+                {{end}}
+                <a class="eventfifth authorship" href="/collective/{{.Collective.Link}}"> by {{.Collective.Name}} </a>
+                <p><a class="eventsixth details" href="/event/{{.Hash}}"> details </a></p>
+            </div>
+            {{end}}
+    </div> 
+</div>
+{{template "TAIL"}}

@@ -1,0 +1,22 @@
+{{template "HEAD"}}
+    <h1>Membership Request</h1>
+    <h2>Collective</h2>
+    <p class="collectivename">{{.Collective}}</p><br/>
+    <h2>Reasons</h2>
+    <p class="reasons">{{.Reasons}}</p><br/>
+    <h2>Member handle</h2>
+    <p class="handle">{{.Handle}}</p><br/>
+    <h2>Policy</h2>
+    <p class="majority">{{.Majority}}</p><br/>
+
+    <form method="post" action="/api">
+        <input class="autofill" type="text" name="action" value="Vote" readonly/><br/>
+        <input class="autofill" type="text" name="hash" value="{{.Hash}}"/><br/>
+        <label class="description" for="vote">Accept collective member</label><br/>
+        <input type="checkbox" name="vote"/><br/>
+        <label class="reasons" for="reasons">Reasons</label><br/>
+        <input type="text" name="reasons"/><br/>
+        <label class="description" for="approve">Approve</label><br/>
+        <input type="checkbox" name="approve"/><br/>
+        <input type="submit" value="Send Request"/>
+{{template "TAIL"}}

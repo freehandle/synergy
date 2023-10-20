@@ -1,0 +1,230 @@
+* {
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Thin.ttf');
+    font-weight: 100;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Light.ttf');
+    font-weight: 300;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Regular.ttf');
+    font-weight: 400;
+  }
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Bold.ttf');
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-Black.ttf');
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url('../static/Lato-LightItalic.ttf');
+    font-weight: 300;
+    font-style: italic;
+}
+
+.scroll {
+    overflow-y: scroll;
+}
+
+#general {
+    width: max(100vw, 70rem);
+    height: 100vh;
+    background-color: white; 
+    display: flex;
+    flex-direction: column;
+    font-family: "Lato";
+    color: #012169;
+}
+  
+#topbar {
+    flex-basis: 7vh;
+    background-color: #AFC7FE;
+    display: flex;
+    flex-direction: row;
+}
+  
+#logo{
+    flex-basis: 5rem;
+    display: flex;
+    padding-right: 0.2rem;
+    font-weight: 700;
+    justify-content: flex-end;
+    font-size: 2.1rem;
+    align-self: flex-start;
+    padding-top: 0.6vh;
+}
+  
+#sublogo{
+    flex-basis: 5rem;
+    display: flex;
+    justify-content: left;
+    background-color: #AFC7FE;
+    color: #FFF8CC;
+    padding-left: 0.1rem;
+    padding-top: 0.8rem;
+    font-weight: 400;
+    font-size: 1.2rem;
+    align-self: flex-end;
+    padding-bottom: 1.4vh;
+}
+
+#sublogo span{
+    color: #DBFFE9;
+}
+  
+#path{
+    flex-grow: 1;
+    background-color: #AFC7FE;
+    display: flex;
+    justify-content: right;
+    font-size: 1.2rem;
+    padding-right: 2rem;
+    color: #012169;
+    align-self: flex-end;
+    padding-bottom: 1.4vh;
+}
+  
+#user {
+    flex-basis: 12rem;
+    background-color: #AFC7FE;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    padding: 0 2rem 0.3rem 0.3rem;
+}
+
+#user .span {
+    font-size: 0.9rem;
+}
+  
+#bulk {
+    flex-grow: 1;
+    align-self: stretch;
+    display: flex;
+    flex-direction: row;
+    max-height: 93vh;
+}
+  
+#nav {
+    flex-basis: 17rem;
+    min-width: 17rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#nav .explore {
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF8CC;
+    margin-top: 0.7rem;
+    padding: 1.3rem;
+}
+
+#nav .venture {
+    display: flex;
+    flex-direction: column;
+    background-color: #DBFFE9;
+    margin-top: 0.7rem;
+    padding: 1.3rem;
+}
+
+#nav ul li {
+    list-style-type: none;
+    padding: 0.6rem 0 0.3rem 0.6rem;
+}
+
+#nav ul li a {
+    font-size: 1.45rem;
+    font-weight: 300;
+    text-decoration: none;
+    color: #012169;
+}
+
+#nav ul li.active a {
+    font-weight: 700;
+    color: #012169;
+}
+
+#nav ul li a:hover {
+    font-weight: 700;
+    color: #012169;
+}
+  
+#center {
+    flex-grow: 1;
+    margin: 1rem 0 0 1rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+  
+ 
+#right {
+    flex-basis: 13rem;
+    min-width: 13rem;
+    background-color: #fffdf2;
+    /* border-left: #012169 dashed 0.063rem; */
+    padding: 2rem 1rem 1rem 2rem;
+    overflow-y: scroll;
+}
+
+.none {
+    display: none;
+}
+
+/*#right .openform {
+    display: flex;
+    background-color: #DBFFE9;
+    color: #009739;
+    font-family: "Lato";
+    font-size: 12pt;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    font-weight: 400;
+    border: none;
+    box-shadow: #009739 0.125rem 0.125rem 0.125rem;
+    cursor: pointer;
+    width: 11.25rem;
+    margin-bottom: 0.625rem;
+    justify-content: center;
+}
+
+#right .openform a {
+    text-decoration: none;
+    color: #009739;
+    cursor: pointer;
+    padding: 0rem;
+}
+*/
+
+.link {
+    text-decoration: none;
+    color: #012169;
+    background-color: #d7e3ff;
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0.3rem 0.4rem 0.3rem 0;
+    padding: 0.4rem;
+    display: inline-block;
+}

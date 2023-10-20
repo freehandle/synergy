@@ -1,0 +1,17 @@
+{{template "HEAD"}}
+<form method="post" action="/api">
+    <h1>Event Check-in Acceptance - Manager vote</h1>
+    <br/>
+    <p> <span class="votecaption"> Description: </span> <span class="description"> {{.Description}} </span> </p>
+    <p> <span class="votecaption"> Starts at: </span> <span class="votetime"> {{.StartAt}} </span> </p>
+    <p> <span class="votecaption"> Venue: </span> <span class=""> {{.Venue}} </span> </p>
+    <p> <span class="votecaption"> Checking in: </span> <span class="member"> {{.Author}} </span> </p>
+    <p> <span class="votecaption"> Reasons: </span> <span class="reasons"> {{.Reasons}} </span> </p>
+    <h2>Event Policy</h2>
+    <p>Majority of {{.Event.Managers.Majority}}</p><br/>
+    
+    <label for="vote">Accept Check-in</label> <input type="checkbox" name="vote"/>
+    <br/>
+    <input type="submit" value="Send Vote"/>
+</form>
+{{template "TAIL"}}

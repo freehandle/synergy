@@ -1,0 +1,51 @@
+{{template "HEAD" .Head}}
+    <p class="headers x3large"> updates
+        <span class="maintoggle xlarge light"> 
+            <span class="tgmenu bold pointer" id="tg_actions" onclick="selectToggle('actions');">actions</span>
+            |
+            <span class="tgmenu pointer" id="tg_reactions" onclick="selectToggle('reactions');">reactions</span>  
+        </span>
+    </p> 
+    <div id="updates" class="centralcard">
+        <div id="actions" class="toggle">
+            {{range .Objects}}
+            <div class="card">
+                {{if .Updates}}
+                    <p class="title">{{.Name}} {{.ObjectKind}}</p>
+                    {{range .Updates}}
+                        <div class="actioninfo">
+                            <p class="description">{{.Description}}</p>
+                            {{if .VoteHash}}
+                                <a class="vote" href="/votes/{{.VoteHash}}">{{.VoteStatus}}</a>
+                            {{else}}
+                                <p class="vote">{{.VoteStatus}}</p>
+                            {{end}}
+                            <p class="duration">{{.LastUpdatedInterval}}</p>
+                        </div>
+                    {{end}}
+                {{end}}
+            </div>
+            <br>
+            {{end}}
+            <br/>
+        </div>
+        <div id="reactions" class="toggle none">
+            {{range .Objects}}
+            <div class="card">
+                {{if .Reactions}}
+                    <p class="title">{{.Name}} {{.ObjectKind}}</p>
+                    {{range .Reactions}}
+                        <div class="reactioninfo">
+                            <p class="light">{{.Description}} {{.LastUpdatedInterval}} ago </p>                      
+                            <p class="">{{.Reasons}} </p>
+                        </div>
+                    {{end}}
+                {{end}}
+            </div>
+            <br>
+            {{end}}
+            <br/>
+        </div>  
+    </div>
+</div>
+{{template "TAIL"}}

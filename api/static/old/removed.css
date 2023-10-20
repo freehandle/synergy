@@ -1,0 +1,109 @@
+ /* PLURALS */
+
+#mainview div.plurals .eventinfos{
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 28vh;
+    grid-gap: 20px;
+}
+
+#mainview div.plurals div.eventinfos .item{
+    background-color: #EBF1FF;
+    padding: 10px 15px 10px 15px;
+}
+
+#mainview div.plurals div.eventinfos div.item .status {
+    text-decoration: none;
+    color:#012169;
+    font-family: "Lato";
+    font-weight: 300;
+    font-size: 13pt;
+    width: inherit;
+    overflow: hidden;
+    padding-top: 5px;
+}
+
+#mainview div.plurals div.eventinfos div.item .eventdescr {
+    text-decoration: none;
+    color:#012169;
+    font-family: "Lato";
+    font-weight: 300;
+    font-size: 13pt;
+    width: inherit;
+    overflow: hidden;
+    overflow: scroll;
+    height: 10vh;
+    margin-bottom: 5px;
+}
+
+#mainview div.plurals div.eventinfos div.item a.details {
+    text-decoration: none;
+    display: flex;
+    justify-content: right;
+    color:#012169;
+    font-family: "Lato";
+    font-weight: 700;
+    font-size: 12pt;
+}
+
+#mainview div.plurals div.eventinfos .item a.nameitem {
+    text-decoration: none;
+    font-family: "Lato";
+    font-weight: 700;
+    font-size: 16pt;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    color: #012169;
+    text-transform: lowercase;
+}
+
+#mainview div.plurals div.eventinfos .item p.nameitem {
+    text-decoration: none;
+    font-family: "Lato";
+    font-weight: 700;
+    font-size: 16pt;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    color: #012169;
+    text-transform: lowercase;
+}
+
+
+#mainview div.plurals div.eventinfos .item p.listinfo {
+    text-decoration: none;
+    font-family: "Lato";
+    font-weight: 400;
+    font-size: 12pt;
+    padding-bottom: 15px;
+    color:#012169;
+    text-transform: lowercase;
+}
+
+#mainview div.plurals div.eventinfos .item p.listinfo a.votelink {
+    background-color: #d7e3ff;
+    font-family: "Lato";
+    font-size: 12pt;
+    font-weight: 400;
+    width: fit-content;
+    padding: 1px 3px 2px 3px;
+    display: inline;
+    text-decoration: none;
+    color: #012169;
+}
+
+#mainview div.plurals div.eventinfos .item .more {
+    flex: 3;
+    display: flex;
+    justify-content: right;
+}
+
+#mainview div.plurals div.infos .item a.nameitem {
+    text-decoration: none;
+    font-family: "Lato";
+    font-weight: 700;
+    font-size: 16pt;
+    padding-bottom: 5px;
+    margin-top: 10px;
+    color: #012169;
+}

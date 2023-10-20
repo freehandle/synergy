@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form method="post" action="/api">
+    {{if .PreviousDraft}}
+      <h2> New Version </h2>
+    {{else}}
+    <h2> New Draft </h2>
+    {{end}}
+    <label for="action">Action</label><br/>
+    <input type="text" name="action" value="Draft" readonly/><br/>
+
+    <label for="reasons">Reasons</label><br/>
+    <input type="text" name="reasons"/><br/>
+
+    <label for="onBehalfOf">On behalf of</label><br/>
+    <input type="text" name="onBehalfOf" value="{{.OnBehalfOf}}"/><br/>
+
+    <label for="coAuthors">Co-authors</label><br/>
+    <input type="text" name="coAuthors" value="{{.OnBehalfOf}}"/><br/>
+
+    <label for="policy">Policy</label><br/>
+    <input type="text" name="policy" value="{{.Policy.Majority}},{{.Policy.SuperMajority}}"/><br/>
+
+    <label for="title">Title</label><br/>
+    <input type="text" name="title" value="{{.Title}}"/><br/>
+
+    <label for="keywords">Keywords</label><br/>
+    <input type="text" name="keywords" value="{{.Keywords}}"/><br/>
+
+    <label for="description">Description</label><br/>
+    <input type="text" name="description" value="{{.Description}}"/><br/>
+
+    <label for="contentType">Content type</label><br/>
+    <input type="text" name="contentType"/><br/>
+
+    <label for="filePath">File path</label><br/>
+    <input type="text" name="filePath"/><br/>
+
+    <label for="previousDraft">Previous draft</label><br/>
+    <input type="text" name="previousDraft" value="{{.PreviousDraft}}" readonly/><br/>
+
+    <label for="references">References</label><br/>
+    <input type="text" name="references" value="{{.References}}"/><br/>
+
+    <br/>
+    <input type="submit" value="Send Request"/>
+    <br/>
+
+</form>
+
+</body>

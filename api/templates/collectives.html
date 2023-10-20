@@ -1,0 +1,14 @@
+{{template "HEAD" .Head}}        
+<div class="plurals">
+    <h1 class="headers">collectives</h1>
+    <div  class="objectinfos">
+        {{range .Collectives}}
+        <div class="collectiveitem">
+            <a href="/collective/{{.Link}}" class="title large bold hover">{{.Name}}</a>
+            <p class="members">{{.Participants}} {{if eq .Participants 1}} member {{else}} members {{end}}</p>
+            <p class="description light">{{.Description}}</p>
+        </div>
+        {{end}}
+    </div>    
+</div>
+{{template "TAIL"}}

@@ -1,0 +1,93 @@
+{{template "HEAD" .Head}}
+    <h1 class="headers"> connections</h1>
+    <div class="cards">
+        <div class="type">
+            <div class="stats">
+                <h2> you're a member of </h2>
+                <h3> {{.NCollectives}} {{if eq .NCollectives 1}} collective {{else}} collectives {{end}} </h3>
+            </div>
+            <div class="details">
+                {{range .Collectives}}
+                <div class="item">
+                    <a href="/collective/{{.Link}}" class="title">{{.Name}}</a>
+                    <p class="objects">
+                        {{.NBoards}} {{if eq .NBoards 1}} board {{else}} boards {{end}}, 
+                        {{.NStamps}} {{if eq .NStamps 1}} stamp {{else}} stamps {{end}}, 
+                        {{.NEvents}} {{if eq .NEvents 1}} event {{else}} events {{end}}
+                    </p>
+                    {{if .LastSelf.Type}}
+                    <div class="action">    
+                        <p class="who">your last action </p>
+                        <p class="time">{{.LastSelf.TimeOfInstr}} ago</p>
+                    </div>
+                    <p class="description">{{.LastSelf.Type}}</p>
+                    {{ else }}
+                        <p class="who">you don't have actions</p>
+                    {{end}}
+                    {{if .LastAny.Type}}                    
+                    <div class="action">    
+                        <p class="who">last action </p>
+                        <p class="time">{{.LastAny.TimeOfInstr}} ago</p>
+                    </div>
+                    <p class="description">{{.LastAny.Type}} by {{.LastAny.Handle}}</p>
+                    {{else}}
+                    <p class="who">there is no activity</p>
+                    {{end}}
+                </div>
+                {{end}}
+            </div>
+        </div>
+
+        <div class="type">
+            <div class="stats">
+                <h2> you're an editor of </h2>
+                <h3> {{.NBoards}} {{if eq .NBoards 1}} board {{else}} boards {{end}} </h3>
+            </div>
+            <div class="details">
+                {{range .Boards}}
+                <div class="item">
+                    <a href="/board/{{.Link}}" class="title">{{.Name}}</a>
+                    <p class="objects">
+                        {{.NPins}} {{if eq .NPins 1}} pin {{else}} pins {{end}}, 
+                        {{.NEditors}} {{if eq .NEditors 1}} editor {{else}} editors {{end}}
+                    </p>
+                    {{if .LastSelf.Type}}
+                    <div class="action">    
+                        <p class="who">your last action </p>
+                        <p class="time">{{.LastSelf.TimeOfInstr}} ago</p>
+                    </div>
+                    <p class="description">{{.LastSelf.Type}}</p>
+                    {{ else }}
+                        <p class="who">you don't have actions</p>
+                    {{end}}
+                    {{if .LastAny.Type}}                    
+                    <div class="action">    
+                        <p class="who">last action </p>
+                        <p class="time">{{.LastAny.TimeOfInstr}} ago</p>
+                    </div>
+                    <p class="description">{{.LastAny.Type}} by {{.LastAny.Handle}}</p>
+                    {{else}}
+                        <p class="who">there is no activity</p>
+                    {{end}}
+                </div>
+                {{end}}
+            </div>
+        </div>
+
+        <div class="type">
+            <div class="stats">
+                <h2> you're a manager on </h2>
+                <h3> {{.NEvents}} {{if eq .NEvents 1}} event {{else}} events {{end}} </h3>
+            </div>
+            <div class="details">
+                {{range .Events}}
+                <div class="item">
+                    <a href="/event/{{.Hash}}"" class="title">{{.DateCol}}</a>
+                    <p class="checkins">{{.NCheckins}} {{if eq .NCheckins 1}} check-in {{else}} check-ins {{end}} </p>
+                    <p class="pending">{{.NPenCheckins}} {{if eq .NPenCheckins 1}} check-in {{else}} check-ins {{end}} pending greeting</p>
+                </div>
+                {{end}}
+            </div>
+        </div>
+    </div>
+{{template "TAIL"}}
