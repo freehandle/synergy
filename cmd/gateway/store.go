@@ -5,7 +5,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/lienkolabs/breeze/util"
+	"github.com/freehandle/breeze/util"
 )
 
 type block struct {

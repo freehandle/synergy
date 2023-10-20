@@ -7,13 +7,12 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/vault"
-	"github.com/lienkolabs/synergy/api"
-	"github.com/lienkolabs/synergy/network"
-	"github.com/lienkolabs/synergy/social"
-	"github.com/lienkolabs/synergy/social/index"
-	"github.com/lienkolabs/synergy/social/state"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/cb/vault"
+	"github.com/freehandle/synergy/api"
+	"github.com/freehandle/synergy/network"
+	"github.com/freehandle/synergy/social/index"
+	"github.com/freehandle/synergy/social/state"
 )
 
 var pks []crypto.PrivateKey = []crypto.PrivateKey{
@@ -117,7 +116,6 @@ func server2() {
 		indexer.AddMemberToIndex(pks[n].PublicKey(), fmt.Sprintf("user_%v", n))
 	}
 }
-*/
 
 func server() {
 	N := 3
@@ -138,6 +136,7 @@ func server() {
 		api.NewAttorneyServer(attorneySecret, userToken[n], 3000+n, gateway, indexer)
 	}
 }
+*/
 
 func createNewServer() {
 	homeDir, err := os.UserHomeDir()

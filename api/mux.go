@@ -7,13 +7,23 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/lienkolabs/breeze/crypto"
+	"github.com/freehandle/breeze/crypto"
 
-	"github.com/lienkolabs/breeze/vault"
-	"github.com/lienkolabs/synergy/social/actions"
-	"github.com/lienkolabs/synergy/social/index"
-	"github.com/lienkolabs/synergy/social/state"
+	"github.com/freehandle/cb/vault"
+	"github.com/freehandle/synergy/social/actions"
+	"github.com/freehandle/synergy/social/index"
+	"github.com/freehandle/synergy/social/state"
 )
+
+var templateFiles []string = []string{
+	"main",
+	"boards", "board", "collectives", "collective", "draft", "drafts", "edits", "events",
+	"event", "member", "members", "votes", "newdraft2", "edit",
+	"createboard", "votecreateboard", "updateboard", "voteupdateboard", "updateevent",
+	"updatecollective", "voteupdatecollective", "createevent", "voteupdateevent", "editview",
+	"createcollective", "connections", "updates", "news", "pending", "mymedia", "myevents",
+	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin",
+}
 
 type ServerConfig struct {
 	Vault       *vault.SecureVault
@@ -51,11 +61,10 @@ func NewGeneralAttorneyServer(config ServerConfig) (*AttorneyGeneral, chan error
 
 	attorney := AttorneyGeneral{
 		//epoch:       config.State.Epoch, TODO: epoch get out of struct
-		pk:          attorneySecret,
-		credentials: config.Passwords,
-		wallet:      attorneySecret,
-		pending:     make(map[crypto.Hash]actions.Action),
-		//gateway:       config.Gateway,
+		pk:            attorneySecret,
+		signin:        NewSigninManager(config.Passwords, config.EmailPassword, attorneySecret.PublicKey()),
+		wallet:        attorneySecret,
+		pending:       make(map[crypto.Hash]actions.Action),
 		gateway:       config.Gateway,
 		state:         config.State,
 		indexer:       config.Indexer,

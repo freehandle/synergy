@@ -3,8 +3,8 @@ package actions
 import (
 	"time"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/util"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/util"
 )
 
 type CreateEvent struct {

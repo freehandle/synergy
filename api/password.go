@@ -5,7 +5,7 @@ import (
 	"os"
 	"sync"
 
-	"github.com/lienkolabs/breeze/crypto"
+	"github.com/freehandle/breeze/crypto"
 )
 
 type filePasswordManager struct {

@@ -1,169 +1,140 @@
 package api
 
 import (
-	"fmt"
+	"crypto/rand"
+	"encoding/hex"
 	"log"
 	"net/http"
+	"net/url"
 	"text/template"
 	"time"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/crypto/dh"
-	"github.com/lienkolabs/breeze/util"
-	"github.com/lienkolabs/synergy/social"
-	"github.com/lienkolabs/synergy/social/actions"
-	"github.com/lienkolabs/synergy/social/index"
-	"github.com/lienkolabs/synergy/social/state"
+	breeze "github.com/freehandle/breeze/protocol/actions"
+
+	"github.com/freehandle/axe/attorney"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/util"
+	"github.com/freehandle/synergy/social/actions"
+	"github.com/freehandle/synergy/social/index"
+	"github.com/freehandle/synergy/social/state"
 )
 
-var templateFiles []string = []string{
-	"main",
-	"boards", "board", "collectives", "collective", "draft", "drafts", "edits", "events",
-	"event", "member", "members", "votes", "newdraft2", "edit",
-	"createboard", "votecreateboard", "updateboard", "voteupdateboard", "updateevent",
-	"updatecollective", "voteupdatecollective", "createevent", "voteupdateevent", "editview",
-	"createcollective", "connections", "updates", "news", "pending", "mymedia", "myevents",
-	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin",
-}
+const cookieName = "synergySession"
 
-type Attorney struct {
-	author       crypto.Token
-	pk           crypto.PrivateKey
-	ephemeralprv crypto.PrivateKey
-	ephemeralpub crypto.Token
-	wallet       crypto.PrivateKey
-	pending      map[crypto.Hash]actions.Action
-	epoch        uint64
-	gateway      social.Gatewayer
-	state        *state.State
-	templates    *template.Template
-	indexer      *index.Index
-	genesisTime  time.Time
-}
+const cookieLifeItemSeconds = 60 * 60 * 24 * 7 // 1 week
 
-func NewAttorneyServer(pk crypto.PrivateKey, token crypto.Token, port int, gateway social.Gatewayer, indexer *index.Index) *Attorney {
-	attorney := Attorney{
-		author:  token,
-		pk:      pk,
-		wallet:  pk,
-		pending: make(map[crypto.Hash]actions.Action),
-		gateway: gateway,
-		state:   gateway.State(),
-		epoch:   0,
-		indexer: indexer,
+func newCookie(value string) *http.Cookie {
+	return &http.Cookie{
+		Name:     cookieName,
+		Value:    url.QueryEscape(value),
+		MaxAge:   cookieLifeItemSeconds,
+		Secure:   true,
+		HttpOnly: true,
 	}
-	attorney.genesisTime = time.Date(2023, 9, 20, 0, 0, 0, 0, time.UTC)
-	attorney.ephemeralprv, attorney.ephemeralpub = dh.NewEphemeralKey()
-	blockEvent := gateway.Register()
-	send := make(chan actions.Action)
-	go func() {
-		for {
-			select {
-			case epoch := <-blockEvent:
-				attorney.epoch = epoch
-			case action := <-send:
-				gateway.Action(attorney.DressAction(action))
-			}
-		}
-	}()
-
-	go func() {
-		attorney.templates = template.New("root")
-		files := make([]string, len(templateFiles))
-		for n, file := range templateFiles {
-			files[n] = fmt.Sprintf("./api/templates/%v.html", file)
-		}
-		t, err := template.ParseFiles(files...)
-		if err != nil {
-			log.Fatal(err)
-		}
-		attorney.templates = t
-
-		mux := http.NewServeMux()
-
-		fs := http.FileServer(http.Dir("./api/static"))
-		mux.Handle("/static/", http.StripPrefix("/static/", fs)) //
-
-		mux.HandleFunc("/api", attorney.ApiHandler)
-		mux.HandleFunc("/", attorney.MainHandler)
-		mux.HandleFunc("/boards", attorney.BoardsHandler)
-		mux.HandleFunc("/board/", attorney.BoardHandler)
-		mux.HandleFunc("/collectives", attorney.CollectivesHandler)
-		mux.HandleFunc("/collective/", attorney.CollectiveHandler)
-		mux.HandleFunc("/drafts", attorney.DraftsHandler)
-		mux.HandleFunc("/draft/", attorney.DraftHandler)
-		mux.HandleFunc("/edits/", attorney.EditsHandler)
-		mux.HandleFunc("/events", attorney.EventsHandler)
-		mux.HandleFunc("/event/", attorney.EventHandler)
-		mux.HandleFunc("/members", attorney.MembersHandler)
-		mux.HandleFunc("/member/", attorney.MemberHandler)
-		mux.HandleFunc("/votes/", attorney.VotesHandler)
-		mux.HandleFunc("/requestmembership/", attorney.RequestMemberShipVoteHandler)
-		mux.HandleFunc("/newdraft", attorney.NewDraft2Handler)
-		mux.HandleFunc("/edit", attorney.NewEditHandler)
-		mux.HandleFunc("/editview/", attorney.EditViewHandler)
-		mux.HandleFunc("/media/", attorney.MediaHandler)
-		mux.HandleFunc("/uploadfile", attorney.UploadHandler)
-		mux.HandleFunc("/createboard", attorney.CreateBoardHandler)
-		mux.HandleFunc("/votecreateboard/", attorney.VoteCreateBoardHandler)
-		mux.HandleFunc("/updateboard/", attorney.UpdateBoardHandler)
-		mux.HandleFunc("/voteupdateboard/", attorney.UpdateBoardHandler)
-		mux.HandleFunc("/updatecollective/", attorney.UpdateCollectiveHandler)
-		mux.HandleFunc("/voteupdatecollective/", attorney.VoteUpdateCollectiveHandler)
-		mux.HandleFunc("/updateevent/", attorney.UpdateEventHandler)
-		mux.HandleFunc("/votecancelevent/", attorney.VoteCancelEventHandler)
-		mux.HandleFunc("/votecreateevent/", attorney.VoteCreateEventHandler)
-		mux.HandleFunc("/createevent", attorney.CreateEventHandler)
-		mux.HandleFunc("/voteupdateevent/", attorney.VoteUpdateEventHandler)
-		mux.HandleFunc("/news", attorney.NewsHandler)
-		mux.HandleFunc("/connections/", attorney.ConnectionsHandler)
-		mux.HandleFunc("/updates", attorney.UpdatesHandler)
-		mux.HandleFunc("/pending", attorney.PendingActionsHandler)
-		mux.HandleFunc("/createcollective/", attorney.CreateCollectiveHandler)
-		mux.HandleFunc("/mymedia", attorney.MyMediaHandler)
-		mux.HandleFunc("/myevents", attorney.MyEventsHandler)
-		mux.HandleFunc("/detailedvote/", attorney.DetailedVoteHandler)
-		mux.HandleFunc("/reload", attorney.ReloadTemplates)
-		// mux.HandleFunc("/member/votes", attorney.VotesHandler)
-
-		srv := &http.Server{
-			Addr:         fmt.Sprintf(":%v", port),
-			Handler:      mux,
-			WriteTimeout: 2 * time.Second,
-		}
-		srv.ListenAndServe()
-
-	}()
-
-	return nil
 }
 
-func (a *Attorney) Send(all []actions.Action) {
+// credentials PasswordManager
+type AttorneyGeneral struct {
+	pk            crypto.PrivateKey
+	signin        *SigninManager
+	wallet        crypto.PrivateKey
+	pending       map[crypto.Hash]actions.Action
+	gateway       chan []byte
+	state         *state.State
+	templates     *template.Template
+	indexer       *index.Index
+	session       *CookieStore
+	emailPassword string
+	genesisTime   time.Time
+	ephemeralprv  crypto.PrivateKey
+	ephemeralpub  crypto.Token
+}
+
+func (a *AttorneyGeneral) Incorporate(action []byte) {
+	a.state.Action(action)
+}
+
+func (a *AttorneyGeneral) SetEpoch(epoch uint64) {
+	//a.epoch = uint64(epoch)
+	a.state.Epoch = epoch
+}
+
+func (a *AttorneyGeneral) DestroySession(token crypto.Token, cookie string) {
+	a.session.Unset(token, cookie)
+}
+
+func (a *AttorneyGeneral) CreateSession(handle string) string {
+	token, ok := a.state.MembersIndex[handle]
+	if !ok {
+		return ""
+	}
+	seed := make([]byte, 32)
+	if n, err := rand.Read(seed); n != 32 || err != nil {
+		log.Printf("unexpected error in cookie generation:%v", err)
+		return ""
+	}
+	cookie := hex.EncodeToString(seed)
+	a.session.Set(token, cookie, a.state.Epoch)
+	return cookie
+}
+
+func (a *AttorneyGeneral) Author(r *http.Request) crypto.Token {
+	cookie, err := r.Cookie(cookieName)
+	if err != nil {
+		return crypto.ZeroToken
+	}
+	if token, ok := a.session.Get(cookie.Value); ok {
+		return token
+	}
+	return crypto.ZeroToken
+}
+
+func (a *AttorneyGeneral) Handle(r *http.Request) string {
+	author := a.Author(r)
+	handle := a.state.Members[crypto.HashToken(author)]
+	return handle
+}
+
+func (a *AttorneyGeneral) Send(all []actions.Action, author crypto.Token) {
 	for _, action := range all {
-		dressed := a.DressAction(action)
-		a.gateway.Action(dressed)
+		dressed := a.DressAction(action, author)
+		a.gateway <- dressed
+		//a.gateway.Action(dressed)
 	}
 }
 
 // Dress a giving action with current epoch, attorney´s author
 // attorneys signature, attorneys wallet and wallet signature
-func (a *Attorney) DressAction(action actions.Action) []byte {
-	bytes := action.Serialize()
-	dress := []byte{0}
-	util.PutUint64(a.epoch, &dress)
-	util.PutToken(a.author, &dress)
-	dress = append(dress, 0, 1, 0, 0) // axe void synergy
-	dress = append(dress, bytes[8+crypto.TokenSize:]...)
-	util.PutToken(a.pk.PublicKey(), &dress)
-	signature := a.pk.Sign(dress)
-	util.PutSignature(signature, &dress)
-	util.PutToken(a.wallet.PublicKey(), &dress)
-	util.PutUint64(0, &dress) // zero fee
-	signature = a.wallet.Sign(dress)
-	util.PutSignature(signature, &dress)
-	return dress
+func (a *AttorneyGeneral) DressAction(action actions.Action, author crypto.Token) []byte {
+	bytes := SynergyToBreeze(action.Serialize())
+	if bytes == nil {
+		return nil
+	}
+	for n := 0; n < crypto.TokenSize; n++ {
+		bytes[15+n] = author[n]
+	}
+	// put attorney
+	util.PutToken(a.pk.PublicKey(), &bytes)
+	signature := a.pk.Sign(bytes)
+	util.PutSignature(signature, &bytes)
+	// put zero token wallet
+	util.PutToken(a.pk.PublicKey(), &bytes)
+	util.PutUint64(0, &bytes) // zero fee
+	signature = a.pk.Sign(bytes)
+	util.PutSignature(signature, &bytes)
+	return bytes
 }
 
-func (a *Attorney) Confirmed(hash crypto.Hash) {
+func (a *AttorneyGeneral) Confirmed(hash crypto.Hash) {
 	delete(a.pending, hash)
+}
+
+// Translate synergy byte array to the head of the corresponding breeze instruction
+// up to the specification of the signer in the axe void protocol
+func SynergyToBreeze(action []byte) []byte {
+	bytes := []byte{0, breeze.IVoid}                     // Breeze Void instruction version 0
+	bytes = append(bytes, action[:8]...)                 // epoch (synergy)
+	bytes = append(bytes, 1, 1, 0, 0, attorney.VoidType) // synergy protocol code + axe Void instruction code
+	bytes = append(bytes, action[8:]...)                 //
+	return bytes
 }

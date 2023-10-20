@@ -1,8 +1,8 @@
 package actions
 
 import (
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/util"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/util"
 )
 
 type CreateBoard struct {
@@ -34,8 +34,11 @@ func (c *CreateBoard) Authored() crypto.Token {
 }
 
 func (c *CreateBoard) Serialize() []byte {
+	//bytes := []byte{0, breeze.IVoid}
 	bytes := make([]byte, 0)
 	util.PutUint64(c.Epoch, &bytes)
+	//util.PutByteArray([]byte{1, 1, 0, 0}, &bytes)
+	//util.PutByte(attorney.VoidType, &bytes)
 	util.PutToken(c.Author, &bytes)
 	util.PutByte(ACreateBoard, &bytes)
 	util.PutString(c.Reasons, &bytes)

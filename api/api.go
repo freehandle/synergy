@@ -10,60 +10,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/synergy/social/actions"
+	"github.com/freehandle/breeze/crypto"
 )
-
-func (a *Attorney) ApiHandler(w http.ResponseWriter, r *http.Request) {
-	if err := r.ParseForm(); err != nil {
-		fmt.Fprintf(w, "ParseForm() err: %v", err)
-		return
-	}
-	var actionArray []actions.Action
-	var err error
-	fmt.Println(r.FormValue("action"))
-	switch r.FormValue("action") {
-	case "BoardEditor":
-		actionArray, err = BoardEditorForm(r, a.state.MembersIndex, a.author).ToAction()
-	case "CancelEvent":
-		actionArray, err = CancelEventForm(r).ToAction()
-	case "CheckinEvent":
-		actionArray, err = CheckinEventForm(r, a.ephemeralpub).ToAction()
-	case "CreateBoard":
-		actionArray, err = CreateBoardForm(r).ToAction()
-	case "CreateCollective":
-		actionArray, err = CreateCollectiveForm(r).ToAction()
-	case "CreateEvent":
-		actionArray, err = CreateEventForm(r, a.state.MembersIndex, a.author).ToAction()
-	case "GreetCheckinEvent":
-		actionArray, err = GreetCheckinEventForm(r, a.state.MembersIndex).ToAction()
-	case "ImprintStamp":
-		actionArray, err = ImprintStampForm(r).ToAction()
-	case "Pin":
-		actionArray, err = PinForm(r).ToAction()
-	case "React":
-		actionArray, err = ReactForm(r).ToAction()
-	case "Release":
-		actionArray, err = ReleaseDraftForm(r).ToAction()
-	case "RemoveMember":
-		actionArray, err = RemoveMemberForm(r, a.state.MembersIndex).ToAction()
-	case "RequestMembership":
-		actionArray, err = RequestMembershipForm(r).ToAction()
-	case "UpdateBoard":
-		actionArray, err = UpdateBoardForm(r).ToAction()
-	case "UpdateCollective":
-		actionArray, err = UpdateCollectiveForm(r).ToAction()
-	case "UpdateEvent":
-		actionArray, err = UpdateEventForm(r, a.state.MembersIndex).ToAction()
-	case "Vote":
-		actionArray, err = VoteForm(r).ToAction()
-	}
-	if err == nil && len(actionArray) > 0 {
-		a.Send(actionArray)
-	}
-	redirect := fmt.Sprintf("/%v", r.FormValue("redirect"))
-	http.Redirect(w, r, redirect, http.StatusSeeOther)
-}
 
 func FormToI(r *http.Request, field string) int {
 	value, _ := strconv.Atoi(r.FormValue(field))

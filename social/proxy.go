@@ -5,16 +5,16 @@ import (
 	"log"
 	"sync"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/network/trusted"
-	"github.com/lienkolabs/breeze/util"
-	"github.com/lienkolabs/synergy/social/state"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/socket"
+	"github.com/freehandle/breeze/util"
+	"github.com/freehandle/synergy/social/state"
 )
 
 type Proxy struct {
 	mu      sync.Mutex
 	state   *state.State
-	conn    *trusted.SignedConnection
+	conn    *socket.SignedConnection
 	viewers []chan uint64
 	epoch   uint64
 }
@@ -47,7 +47,7 @@ func (p *Proxy) Register() chan uint64 {
 }
 
 func SelfProxyState(host string, hostToken crypto.Token, credential crypto.PrivateKey, genesis *state.State) *Proxy {
-	conn, err := trusted.Dial(host, credential, hostToken)
+	conn, err := socket.Dial(host, credential, hostToken)
 	if err != nil {
 		log.Fatalf("could not connect to host: %v", err)
 	}

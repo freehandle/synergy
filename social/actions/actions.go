@@ -1,6 +1,6 @@
 package actions
 
-import "github.com/lienkolabs/breeze/crypto"
+import "github.com/freehandle/breeze/crypto"
 
 const (
 	AVote byte = iota

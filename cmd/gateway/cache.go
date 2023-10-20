@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/network/trusted"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/socket"
 )
 
 type ConnectionPool map[crypto.Token]*CachedConnection
@@ -32,7 +32,7 @@ func (p ConnectionPool) Drop(token crypto.Token) {
 
 type CachedConnection struct {
 	Live    bool
-	conn    *trusted.SignedConnection
+	conn    *socket.SignedConnection
 	ready   bool
 	receive chan []byte
 	queue   chan struct{}
@@ -73,7 +73,7 @@ func (c *CachedConnection) Close() {
 	c.receive <- nil
 }
 
-func NewCachedConnection(conn *trusted.SignedConnection) *CachedConnection {
+func NewCachedConnection(conn *socket.SignedConnection) *CachedConnection {
 
 	cached := &CachedConnection{
 		Live:    true,

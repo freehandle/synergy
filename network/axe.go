@@ -1,8 +1,8 @@
 package network
 
 import (
-	axe "github.com/lienkolabs/axeprotocol/social/actions"
-	"github.com/lienkolabs/breeze/crypto"
+	axe "github.com/freehandle/axe/attorney"
+	"github.com/freehandle/breeze/crypto"
 )
 
 // Synergy protocol code in binary is

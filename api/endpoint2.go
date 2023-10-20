@@ -4,10 +4,10 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/crypto/dh"
-	"github.com/lienkolabs/synergy/social/index"
-	"github.com/lienkolabs/synergy/social/state"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/crypto/dh"
+	"github.com/freehandle/synergy/social/index"
+	"github.com/freehandle/synergy/social/state"
 )
 
 type EventsView struct {

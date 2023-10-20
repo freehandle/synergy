@@ -1,8 +1,8 @@
 package actions
 
 import (
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/util"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/util"
 )
 
 type Edit struct {

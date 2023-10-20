@@ -3,29 +3,14 @@ package network
 import (
 	"log"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/network/trusted"
-	"github.com/lienkolabs/breeze/util"
-	"github.com/lienkolabs/synergy/api"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/socket"
+	"github.com/freehandle/breeze/util"
+	"github.com/freehandle/synergy/api"
 )
 
-type Proxy struct {
-	conn *trusted.SignedConnection
-}
-
-func (p *Proxy) Stop() {
-	p.conn.Shutdown()
-}
-
-func (p *Proxy) Action(data []byte) {
-	undressed := Undress(data)
-	if err := p.conn.Send(undressed); err != nil {
-		log.Printf("error sending action: %v", err)
-	}
-}
-
 func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, gateway chan []byte, attorney *api.AttorneyGeneral) {
-	conn, err := trusted.Dial(host, credentials, token)
+	conn, err := socket.Dial(host, credentials, token)
 	if err != nil {
 		log.Fatalf("could not connect to host: %v", err)
 	}
@@ -47,7 +32,7 @@ func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, ga
 	go func() {
 		for {
 			action := <-gateway
-			undressed := Undress(action)
+			undressed := BreezeToSynergy(action)
 			if err := conn.Send(undressed); err != nil {
 				log.Printf("error sending action: %v", err)
 			}
@@ -55,7 +40,7 @@ func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, ga
 	}()
 }
 
-func SelfProxyState(conn *trusted.SignedConnection, signal chan *Signal) {
+func SelfProxyState(conn *socket.SignedConnection, signal chan *Signal) {
 	for {
 		data, err := conn.Read()
 		if err != nil {
@@ -125,48 +110,4 @@ func ParseMultiBlocks(data []byte) []*blockdata {
 			return blocks
 		}
 	}
-}
-
-func Undress(data []byte) []byte {
-	// ignore first byte (breeze version)
-	head := data[1 : 8+crypto.TokenSize+1]
-	// ignore protocol id and tail
-	// tail = wallet signature + fee + wallet + attorney signature + attorney
-	tailSize := 2*crypto.SignatureSize + 2*crypto.TokenSize + 8
-	return append(head, data[8+crypto.TokenSize+1+4:len(data)-tailSize]...)
-}
-
-// como estão no breeze
-// 0 (byte) (Versão do Breeze) | 1 (exclsive)
-// 0 (byte) (Void do Breeze)   | 2
-// Epoch (8 bytes)             | 10
-// Author (32 bytes)           | 32
-// 0 (Void do Axé)             | 33
-// Data .... (info do synergy) | Varia
-// Signer (32 bytes)
-// Signature (64 bytes)
-// Wallet (32 bytes)
-// Fee (8 bytes)
-// Signature (64 bytes)
-
-// como estão no synergy
-// 0  (1 byte)
-// Epoch (8 bytes)
-// Author (32 bytes)
-// ActionKind (1Byte)
-// varia com a instrução (X bytes)
-
-const breezeTailSize = 2*crypto.SignatureSize + 8 + 2*crypto.Size
-
-func BreezeVoidToSynergy(action []byte) []byte {
-	if len(action) < 33+breezeTailSize {
-		return nil
-	}
-	if action[0] != 0 || action[1] != 0 || action[32] != 0 {
-		return nil
-	}
-
-	translated = action[2 : 10+32]
-	translated = append(translated, action[33:len(action)-breezeTailSize]...)
-
 }

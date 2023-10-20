@@ -3,8 +3,8 @@ package network
 import (
 	"log"
 
-	"github.com/lienkolabs/breeze/util"
-	"github.com/lienkolabs/synergy/api"
+	"github.com/freehandle/breeze/util"
+	"github.com/freehandle/synergy/api"
 )
 
 type Gateway interface {

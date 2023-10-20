@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/network/trusted"
-	"github.com/lienkolabs/synergy/social/actions"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/socket"
+	"github.com/freehandle/synergy/social/actions"
 )
 
 var pks []crypto.PrivateKey = []crypto.PrivateKey{
@@ -32,7 +32,7 @@ func main() {
 				Handle:  fmt.Sprintf("user_%v", n),
 			}
 			fmt.Println(action)
-			message <- trusted.Message{
+			message <- socket.Message{
 				Token: gatewayPK.PublicKey(),
 				Data:  action.Serialize(),
 			}

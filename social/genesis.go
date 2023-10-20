@@ -5,9 +5,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/synergy/social/index"
-	"github.com/lienkolabs/synergy/social/state"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/synergy/social/index"
+	"github.com/freehandle/synergy/social/state"
 )
 
 // Cria os usuários teste numa instância do estado

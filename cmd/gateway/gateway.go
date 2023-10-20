@@ -7,9 +7,9 @@ import (
 	"net"
 	"time"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/breeze/network/trusted"
-	"github.com/lienkolabs/synergy/social/state"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/socket"
+	"github.com/freehandle/synergy/social/state"
 )
 
 func GetState(chain *blockchain) (*state.State, error) {
@@ -28,8 +28,18 @@ func GetState(chain *blockchain) (*state.State, error) {
 	return genesis, nil
 }
 
-func NewActionsGateway(port int, credentials crypto.PrivateKey, chain *blockchain) (chan trusted.Message, error) {
-	validate := trusted.AcceptAllConnections
+func IsAxeNonVoid(action []byte) bool {
+	if len(action) < 15 {
+		return false
+	}
+	if action[0] != 0 || action[1] != 0 || action[10] != 1 || action[11] != 0 || action[12] != 0 || action[13] != 0 || action[14] != 0 {
+		return false
+	}
+	return true
+}
+
+func NewActionsGateway(port int, credentials crypto.PrivateKey, chain *blockchain) (chan socket.Message, error) {
+	validate := socket.AcceptAllConnections
 	listeners, err := net.Listen("tcp", fmt.Sprintf(":%v", port))
 	if err != nil {
 		return nil, err
@@ -44,19 +54,19 @@ func NewActionsGateway(port int, credentials crypto.PrivateKey, chain *blockchai
 	incorporate := make(chan *CachedConnection)
 
 	shutDown := make(chan crypto.Token) // receive connection shutdown
-	messages := make(chan trusted.Message)
+	messages := make(chan socket.Message)
 	click := time.NewTicker(time.Second)
 
 	go func() {
 		for {
 			if conn, err := listeners.Accept(); err == nil {
-				trustedConn, err := trusted.PromoteConnection(conn, credentials, validate)
+				socketConn, err := socket.PromoteConnection(conn, credentials, validate)
 				if err != nil {
 					conn.Close()
 				} else {
-					cached := NewCachedConnection(trustedConn)
+					cached := NewCachedConnection(socketConn)
 					incorporate <- cached
-					trustedConn.Listen(messages, shutDown)
+					socketConn.Listen(messages, shutDown)
 				}
 			} else {
 				return
@@ -77,7 +87,8 @@ func NewActionsGateway(port int, credentials crypto.PrivateKey, chain *blockchai
 			case token := <-shutDown:
 				pool.Drop(token)
 			case msg := <-messages:
-				if err := genesis.Action(msg.Data); err == nil {
+				axe := IsAxeNonVoid(msg.Data)
+				if err := genesis.Action(msg.Data); axe || err == nil {
 					// incorporate to chain and broadcast
 					chain.NewAction(msg.Data, pool)
 				} else {

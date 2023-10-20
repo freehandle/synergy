@@ -3,9 +3,9 @@ package index
 import (
 	"fmt"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/synergy/social/actions"
-	"github.com/lienkolabs/synergy/social/state"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/synergy/social/actions"
+	"github.com/freehandle/synergy/social/state"
 )
 
 const MaxRecentAction = 100

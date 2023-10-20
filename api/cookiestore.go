@@ -7,8 +7,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/synergy/social/state"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/synergy/social/state"
 )
 
 const cookieSessionDuration = 30 * 24 * 60 * 60 // epochs
@@ -91,7 +91,10 @@ func OpenCokieStore(path string, s *state.State) *CookieStore {
 		sessionend: make(map[uint64][]string),
 		position:   make(map[crypto.Token]int64),
 	}
-	epoch := s.Epoch
+	epoch := uint64(0)
+	if s != nil {
+		epoch = s.Epoch
+	}
 	for n := 0; n < len(data)/(2*crypto.Size); n++ {
 		var token crypto.Token
 		copy(token[:], data[2*n*crypto.Size:(2*n+1)*crypto.Size])

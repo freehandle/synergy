@@ -1,6 +1,6 @@
 package state
 
-import "github.com/lienkolabs/breeze/crypto"
+import "github.com/freehandle/breeze/crypto"
 
 /*
 Notify implements an interface to send notification messages through a

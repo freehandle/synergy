@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/lienkolabs/breeze/crypto"
-	"github.com/lienkolabs/synergy/social/actions"
+	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/synergy/social/actions"
 )
 
 type Stamp struct {

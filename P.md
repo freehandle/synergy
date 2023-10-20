@@ -1,7 +1,7 @@
 This is the official implementation of the ***Synergy Protocol*** by the 
 ***Synergy Protocol Collective***. In order to learn how to use it and deploy a 
 running instance of the interface click 
-*[here](https://github.com/lienkolabs/synergy/blob/main/how.md)*
+*[here](https://github.com/freehandle/synergy/blob/main/how.md)*
 
 ## Synergy Protocol Phisolophy
 
