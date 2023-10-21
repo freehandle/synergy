@@ -299,7 +299,6 @@ func (s *State) Action(data []byte) error {
 		err := s.GreetCheckinEvent(action)
 		return err
 	}
-
 	return errors.New("unrecognized action")
 }
 

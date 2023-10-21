@@ -19,10 +19,11 @@ func GetState(chain *blockchain) (*state.State, error) {
 	}
 	for _, block := range chain.blocks {
 		for _, action := range block.data {
-			if err := genesis.Action(action); err != nil {
-				return nil, fmt.Errorf("blockchain has invalid action: %v", err)
+			if !IsAxeNonVoid(action) {
+				if err := genesis.Action(action); err != nil {
+					log.Printf("blockchain has invalid action: %v", err)
+				}
 			}
-
 		}
 	}
 	return genesis, nil
@@ -32,7 +33,7 @@ func IsAxeNonVoid(action []byte) bool {
 	if len(action) < 15 {
 		return false
 	}
-	if action[0] != 0 || action[1] != 0 || action[10] != 1 || action[11] != 0 || action[12] != 0 || action[13] != 0 || action[14] != 0 {
+	if action[0] != 0 || action[1] != 0 || action[10] != 1 || action[11] != 0 || action[12] != 0 || action[13] != 0 || action[14] == 0 {
 		return false
 	}
 	return true
@@ -88,8 +89,9 @@ func NewActionsGateway(port int, credentials crypto.PrivateKey, chain *blockchai
 				pool.Drop(token)
 			case msg := <-messages:
 				axe := IsAxeNonVoid(msg.Data)
-				if err := genesis.Action(msg.Data); axe || err == nil {
-					// incorporate to chain and broadcast
+				if axe {
+					chain.NewAction(msg.Data, pool)
+				} else if err := genesis.Action(msg.Data); err == nil {
 					chain.NewAction(msg.Data, pool)
 				} else {
 					log.Println(err)

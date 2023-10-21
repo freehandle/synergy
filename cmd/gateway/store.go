@@ -54,18 +54,6 @@ func (b *blockchain) Sync(conn *CachedConnection, epoch, actionCount int) {
 	for _, action := range currentBlockCache {
 		conn.SendDirect(append([]byte{actionsignal}, action...))
 	}
-	/*for n := 0; n <= epoch; n++ {
-		conn.SendDirect(newBlockBytes(uint64(n)))
-		if n == epoch {
-			for _, action := range currentBlockCache {
-				conn.SendDirect(append([]byte{actionsignal}, action...))
-			}
-		} else {
-			for _, action := range b.blocks[n].data {
-				conn.SendDirect(append([]byte{actionsignal}, action...))
-			}
-		}
-	}*/
 	conn.Ready()
 }
 
