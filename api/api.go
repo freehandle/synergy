@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -201,7 +200,6 @@ func EditForm(r *http.Request, handles map[string]crypto.Token, file []byte, ext
 }
 
 func GreetCheckinEventForm(r *http.Request, handles map[string]crypto.Token) MultiGreetCheckinEvent {
-	fmt.Println(r.Form)
 	action := MultiGreetCheckinEvent{
 		Action:         "GreetCheckinEvent",
 		ID:             FormToI(r, "id"),
@@ -214,7 +212,6 @@ func GreetCheckinEventForm(r *http.Request, handles map[string]crypto.Token) Mul
 		if strings.HasPrefix(key, "check_") && len(value) > 0 {
 			ephemeral := crypto.TokenFromString(strings.ReplaceAll(key, "check_", ""))
 			handle := value[0]
-			fmt.Println(ephemeral, handle)
 			handleUnescaped, _ := url.QueryUnescape(handle)
 			if token, ok := handles[handleUnescaped]; ok {
 				action.CheckedIn[token] = ephemeral
@@ -266,8 +263,6 @@ func ReleaseDraftForm(r *http.Request) ReleaseDraft {
 		Reasons:     r.FormValue("reasons"),
 		ContentHash: FormToHash(r, "contentHash"),
 	}
-	text, _ := json.Marshal(action)
-	fmt.Println(string(text))
 	return action
 }
 

@@ -1,7 +1,6 @@
 package social
 
 import (
-	"fmt"
 	"sync"
 	"time"
 
@@ -95,9 +94,7 @@ func SelfGateway(engine *state.State) *Gateway {
 				undressed := Undress(action)
 				// engine (que é o estado) incorpora acao, se nao conseguir devolve o erro
 				if err := engine.Action(undressed); err != nil {
-					fmt.Println(err)
 				} else {
-					fmt.Println("Action performed")
 				}
 			// fechar o processo
 			case resp := <-gateway.stop:

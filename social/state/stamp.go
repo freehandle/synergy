@@ -2,7 +2,6 @@ package state
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/synergy/social/actions"
@@ -58,7 +57,6 @@ type Release struct {
 }
 
 func (p *Release) IncorporateVote(vote actions.Vote, state *State) error {
-	fmt.Println(vote)
 	if err := IsNewValidVote(vote, p.Votes, p.Hash); err != nil {
 		return err
 	}

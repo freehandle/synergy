@@ -31,14 +31,12 @@ func main() {
 				Reasons: "test",
 				Handle:  fmt.Sprintf("user_%v", n),
 			}
-			fmt.Println(action)
 			message <- socket.Message{
 				Token: gatewayPK.PublicKey(),
 				Data:  action.Serialize(),
 			}
 		}
 	}
-	fmt.Println("listening on port 4100")
 	for {
 	}
 }

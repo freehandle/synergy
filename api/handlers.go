@@ -265,7 +265,6 @@ func (a *AttorneyGeneral) NewEditHandler(w http.ResponseWriter, r *http.Request)
 	var hash crypto.Hash
 	if err := r.ParseForm(); err == nil {
 		hash = crypto.DecodeHash(r.FormValue("draftHash"))
-		fmt.Println(crypto.EncodeHash(hash))
 	}
 	view := NewEdit(a.state, hash)
 	if view != nil {

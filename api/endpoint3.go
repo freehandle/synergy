@@ -422,7 +422,6 @@ func NewActionsFromState(s *state.State, i *index.Index, genesisTime time.Time) 
 				actionTime := genesisTime.Add(time.Second * time.Duration(epoch))
 				duration := PrettyDuration(time.Since(actionTime))
 				if category[0:5] == "react" {
-					fmt.Println(des, category, epoch)
 					if duration == lastDurationReaction {
 						view.ReActions = append(view.ReActions, NewActionView{Action: fmt.Sprintf("<span>%v</span>", des), Category: strings.ReplaceAll(category, " ", "_"), Duration: duration, NotRepeated: false})
 					} else {

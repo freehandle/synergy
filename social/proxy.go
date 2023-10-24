@@ -1,7 +1,6 @@
 package social
 
 import (
-	"fmt"
 	"log"
 	"sync"
 
@@ -83,7 +82,6 @@ func SelfProxyState(host string, hostToken crypto.Token, credential crypto.Priva
 					if err := proxy.state.Action(action); err != nil {
 						log.Printf("invalid action: %v", err)
 					} else {
-						fmt.Println("action received")
 					}
 				}
 			} else if data[0] == 2 {

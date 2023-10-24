@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/hex"
-	"fmt"
 	"io"
 	"log"
 	"os"
@@ -102,7 +101,6 @@ func OpenCokieStore(path string, s *state.State) *CookieStore {
 		copy(hash[:], data[(2*n+1)*crypto.Size:2*(n+1)*crypto.Size])
 		if !hash.Equal(crypto.ZeroHash) && !token.Equal(crypto.ZeroToken) {
 			cookie := hex.EncodeToString(hash[:])
-			fmt.Println(cookie, token)
 			store.session[cookie] = token
 			store.position[token] = int64(position)
 			endEpoch := epoch + cookieSessionDuration

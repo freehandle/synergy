@@ -49,9 +49,6 @@ func (s *State) IndexConsensus(hash crypto.Hash, approve bool) {
 
 // printa o que ta rolando no terminal
 func logAction(a actions.Action) {
-	if a == nil {
-		fmt.Println("nil action")
-	}
 	var des string
 	switch a.(type) {
 	case *actions.Vote:
@@ -633,8 +630,6 @@ func (s *State) ReleaseDraft(release *actions.ReleaseDraft) error {
 	// 	fmt.Println("Released")
 	// 	return nil
 	// }
-	text, _ := json.Marshal(newRelease)
-	fmt.Println(string(text))
 	s.Proposals.AddRelease(&newRelease, release)
 	return newRelease.IncorporateVote(vote, s)
 }

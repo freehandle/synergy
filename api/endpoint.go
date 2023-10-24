@@ -109,13 +109,10 @@ type EditDetailedView struct {
 }
 
 func EditDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, token crypto.Token) *EditDetailedView {
-	fmt.Println(crypto.EncodeHash(hash))
 	edit, ok := s.Edits[hash]
 	if !ok {
-		fmt.Println("nao ache1")
 		edit, ok = s.Proposals.Edit[hash]
 		if !ok {
-			fmt.Println("nao ache2")
 			return nil
 		}
 	}
@@ -462,7 +459,6 @@ func VotesFromState(s *state.State, i *index.Index, token crypto.Token) VotesLis
 		Votes: make([]VotesView, 0),
 	}
 	votes := i.GetVotes(token)
-	fmt.Println(len(votes))
 	for hash := range votes {
 		hashText, _ := hash.MarshalText()
 		itemView := VotesView{
@@ -849,7 +845,6 @@ func NewDetailedVoteView(votes []actions.Vote, consensus state.Consensual, s *st
 		Majority: majority,
 	}
 	allVoters := consensus.ListOfMembers()
-	fmt.Println(allVoters)
 	for _, vote := range votes {
 		if !consensus.IsMember(vote.Author) {
 			continue
@@ -1092,7 +1087,6 @@ func ColletivesFromState(s *state.State) CollectivesListView {
 func CollectiveDetailFromState(s *state.State, i *index.Index, name string, token crypto.Token) *CollectiveDetailView {
 	collectiveName, _ := url.QueryUnescape(name)
 	collective, ok := s.Collective(collectiveName)
-	fmt.Println(name, collective)
 	if !ok {
 		return nil
 	}

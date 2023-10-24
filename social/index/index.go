@@ -199,9 +199,8 @@ func (i *Index) Personal(token crypto.Token) *Person {
 }
 
 func (i *Index) IndexActionToPerson(hash crypto.Hash) {
-	action, ok := i.allPendingactions[hash]
+	action, _ := i.allPendingactions[hash]
 	if action == nil {
-		fmt.Println("nao deu centro", crypto.EncodeHash(hash), ok)
 		return
 	}
 	switch v := action.(type) {
@@ -478,7 +477,6 @@ func removeItem[T comparable](values []T, value T) []T {
 func (i *Index) IndexConsensusAction(action actions.Action) {
 	switch v := action.(type) {
 	case *actions.CreateCollective:
-		fmt.Println("index", v)
 		if i.isIndexedMember(v.Author) {
 			i.memberToCollective[v.Author] = appendOrCreate[string](i.memberToCollective[v.Author], v.Name)
 		}

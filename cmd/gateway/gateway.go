@@ -94,8 +94,6 @@ func NewActionsGateway(port int, credentials crypto.PrivateKey, chain *blockchai
 					chain.NewAction(msg.Data, pool)
 				} else {
 					undressed := network.BreezeToSynergy(msg.Data)
-					fmt.Println(msg.Data)
-					fmt.Println(undressed)
 					if err := genesis.Action(undressed); err == nil {
 						chain.NewAction(undressed, pool)
 					} else {

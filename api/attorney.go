@@ -3,7 +3,6 @@ package api
 import (
 	"crypto/rand"
 	"encoding/hex"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -61,8 +60,6 @@ func (a *AttorneyGeneral) IncorporateGrantPower(handle string, grant *attorney.G
 
 func (a *AttorneyGeneral) Incorporate(action []byte) {
 	if err := a.state.Action(action); err != nil {
-		fmt.Println(err)
-		fmt.Println(action)
 	}
 
 }

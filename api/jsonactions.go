@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
@@ -75,7 +74,6 @@ func (a MultiGreetCheckinEvent) ToAction() ([]actions.Action, error) {
 		action.EphemeralToken = pub
 		action.SecretKey = dhCipher.Seal(key)
 		all = append(all, &action)
-		fmt.Println("%+v", action)
 	}
 	return all, nil
 }

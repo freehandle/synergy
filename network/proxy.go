@@ -3,6 +3,7 @@ package network
 import (
 	"log"
 
+	"github.com/freehandle/breeze/consensus/chain"
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/breeze/socket"
 	"github.com/freehandle/breeze/util"
@@ -43,6 +44,7 @@ func LaunchProxy(axeHost, gatewayHost string, axeToken, gatewayToken crypto.Toke
 		for {
 			action := <-gateway
 			//undressed := BreezeToSynergy(action)
+			action = append([]byte{chain.MsgActionSubmit}, action...)
 			if err := connGateway.Send(action); err != nil {
 				log.Printf("error sending action: %v", err)
 			}

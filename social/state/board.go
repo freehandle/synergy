@@ -2,7 +2,6 @@ package state
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/synergy/social/actions"
@@ -98,9 +97,7 @@ type PendingBoard struct {
 }
 
 func (b *PendingBoard) IncorporateVote(vote actions.Vote, state *State) error {
-	fmt.Println("vote cast")
 	if err := IsNewValidVote(vote, b.Votes, b.Hash); err != nil {
-		fmt.Println(err)
 	}
 	b.Votes = append(b.Votes, vote)
 	consensus := b.Board.Collective.Consensus(vote.Hash, b.Votes)
