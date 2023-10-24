@@ -38,6 +38,7 @@ type ServerConfig struct {
 	GenesisTime   time.Time
 	EmailPassword string
 	Port          int
+	Path          string
 }
 
 //type AuthorAction struct {
@@ -75,11 +76,16 @@ func NewGeneralAttorneyServer(config ServerConfig) (*AttorneyGeneral, chan error
 		ephemeralpub: config.Ephemeral,
 		ephemeralprv: ephemeralSecret,
 	}
+	if config.Path == "" {
+		config.Path = "./"
+	}
+	templatesPath := fmt.Sprintf("%v/api/templates", config.Path)
 	attorney.signin = NewSigninManager(config.Passwords, config.EmailPassword, &attorney)
 	attorney.templates = template.New("root")
 	files := make([]string, len(templateFiles))
+
 	for n, file := range templateFiles {
-		files[n] = fmt.Sprintf("./api/templates/%v.html", file)
+		files[n] = fmt.Sprintf("%v/%v.html", templatesPath, file)
 	}
 	t, err := template.ParseFiles(files...)
 	if err != nil {
@@ -103,15 +109,16 @@ func NewGeneralAttorneyServer(config ServerConfig) (*AttorneyGeneral, chan error
 	}()
 	*/
 
-	go NewServer(&attorney, config.Port, finalize)
+	staticPath := fmt.Sprintf("%v/api/static/", config.Path)
+	go NewServer(&attorney, config.Port, staticPath, finalize)
 
 	return &attorney, finalize
 }
 
-func NewServer(attorney *AttorneyGeneral, port int, finalize chan error) {
+func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize chan error) {
 
 	mux := http.NewServeMux()
-	fs := http.FileServer(http.Dir("./api/static"))
+	fs := http.FileServer(http.Dir(staticPath))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs)) //
 	mux.HandleFunc("/api", attorney.ApiHandler)
 	mux.HandleFunc("/", attorney.MainHandler)
