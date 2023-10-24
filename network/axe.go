@@ -73,24 +73,24 @@ func (a *AxeDB) IncorporateRevoke(action []byte) {
 	}
 }
 
-func (a *AxeDB) Incorporate2(action []byte) []byte {
-	return action
-}
-
 func (a *AxeDB) Incorporate(action []byte) []byte {
 	switch axe.Kind(action) {
 	case axe.VoidType:
-		if FilterSynergyProtocolCode(action) {
-			return action
-		}
+		//if FilterSynergyProtocolCode(action) {
+		return action
+		//}
 	case axe.JoinNetworkType:
 		a.IncorporateJoin(action)
+		return nil
 	case axe.UpdateInfoType:
 		a.IncorporateUpdate(action)
+		return nil
 	case axe.GrantPowerOfAttorneyType:
 		a.IncorporateGrant(action)
+		return nil
 	case axe.RevokePowerOfAttorneyType:
 		a.IncorporateRevoke(action)
+		return nil
 	}
-	return nil
+	return action
 }

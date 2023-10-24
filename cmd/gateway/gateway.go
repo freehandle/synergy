@@ -9,6 +9,7 @@ import (
 
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/breeze/socket"
+	"github.com/freehandle/synergy/network"
 	"github.com/freehandle/synergy/social/state"
 )
 
@@ -91,10 +92,15 @@ func NewActionsGateway(port int, credentials crypto.PrivateKey, chain *blockchai
 				axe := IsAxeNonVoid(msg.Data)
 				if axe {
 					chain.NewAction(msg.Data, pool)
-				} else if err := genesis.Action(msg.Data); err == nil {
-					chain.NewAction(msg.Data, pool)
 				} else {
-					log.Println(err)
+					undressed := network.BreezeToSynergy(msg.Data)
+					fmt.Println(msg.Data)
+					fmt.Println(undressed)
+					if err := genesis.Action(undressed); err == nil {
+						chain.NewAction(undressed, pool)
+					} else {
+						log.Println(err)
+					}
 				}
 			}
 		}

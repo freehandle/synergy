@@ -5,7 +5,7 @@ import (
 )
 
 const (
-	breezeTailSize = 2*crypto.SignatureSize + 8 + 2*crypto.TokenSize
+	breezeTailSize = crypto.SignatureSize + 8 + crypto.TokenSize
 	axeTailsize    = breezeTailSize + crypto.TokenSize + crypto.SignatureSize
 )
 

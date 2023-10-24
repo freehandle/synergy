@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/synergy/social/actions"
 )
 
 var emailSigninMessage = "To: %v\r\n" + "Subject: Synergy Protocol Sigin\r\n" + "\r\n" + "%v\r\n"
@@ -44,14 +45,15 @@ type Signerin struct {
 	Token       crypto.Token
 	Email       string
 	TimeStamp   time.Time
-	FingerPrint crypto.Hash
+	FingerPrint string
 }
 
-func NewSigninManager(passwords PasswordManager, emailsecret string, attorney crypto.Token) *SigninManager {
+func NewSigninManager(passwords PasswordManager, emailsecret string, attorney *AttorneyGeneral) *SigninManager {
 	return &SigninManager{
 		pending:       make([]*Signerin, 0),
 		passwords:     passwords,
-		AttorneyToken: attorney,
+		AttorneyToken: attorney.Token,
+		Attorney:      attorney,
 		Password:      emailsecret,
 	}
 }
@@ -61,6 +63,7 @@ type SigninManager struct {
 	passwords     PasswordManager
 	AttorneyToken crypto.Token
 	Password      string
+	Attorney      *AttorneyGeneral
 }
 
 func (s *SigninManager) Check(user crypto.Token, password string) bool {
@@ -88,10 +91,10 @@ func (s *SigninManager) AddSigner(handle, email string, token crypto.Token) {
 	signer.Handle = handle
 	signer.Email = email
 	t, _ := crypto.RandomAsymetricKey()
-	signer.FingerPrint = crypto.HashToken(t)
+	signer.FingerPrint = crypto.EncodeHash(crypto.HashToken(t))
 	signer.TimeStamp = time.Now()
 	signer.Token = token
-	go s.sendSigninEmail(handle, email, crypto.EncodeHash(signer.FingerPrint))
+	go s.sendSigninEmail(handle, email, signer.FingerPrint)
 	s.pending = append(s.pending, signer)
 }
 
@@ -101,11 +104,20 @@ func randomPassword() string {
 	return base64.StdEncoding.EncodeToString(bytes)
 }
 
-func (s *SigninManager) GrantAttorney(token crypto.Token, fingerprint crypto.Hash) {
+func (s *SigninManager) GrantAttorney(token crypto.Token, handle, fingerprint string) {
+	log.Println("to aqui", handle, fingerprint)
 	for n, signer := range s.pending {
-		if signer.Token.Equal(token) && signer.FingerPrint.Equal(fingerprint) {
+		if signer.Handle == handle && signer.FingerPrint == fingerprint {
+			log.Print("achei")
 			passwd := randomPassword()
 			s.Set(token, passwd, signer.Email)
+			signin := actions.Signin{
+				Epoch:   s.Attorney.state.Epoch,
+				Handle:  handle,
+				Author:  token,
+				Reasons: "Synergy app sign in with approved power of attorney",
+			}
+			s.Attorney.Send([]actions.Action{&signin}, token)
 			go s.sendPasswordEmail(signer.Handle, signer.Email, passwd)
 			s.pending = append(s.pending[:n], s.pending[n+1:]...)
 		}

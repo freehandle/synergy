@@ -62,7 +62,7 @@ func NewGeneralAttorneyServer(config ServerConfig) (*AttorneyGeneral, chan error
 	attorney := AttorneyGeneral{
 		//epoch:       config.State.Epoch, TODO: epoch get out of struct
 		pk:            attorneySecret,
-		signin:        NewSigninManager(config.Passwords, config.EmailPassword, attorneySecret.PublicKey()),
+		Token:         config.Attorney,
 		wallet:        attorneySecret,
 		pending:       make(map[crypto.Hash]actions.Action),
 		gateway:       config.Gateway,
@@ -75,7 +75,7 @@ func NewGeneralAttorneyServer(config ServerConfig) (*AttorneyGeneral, chan error
 		ephemeralpub: config.Ephemeral,
 		ephemeralprv: ephemeralSecret,
 	}
-
+	attorney.signin = NewSigninManager(config.Passwords, config.EmailPassword, &attorney)
 	attorney.templates = template.New("root")
 	files := make([]string, len(templateFiles))
 	for n, file := range templateFiles {

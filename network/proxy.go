@@ -9,7 +9,7 @@ import (
 	"github.com/freehandle/synergy/api"
 )
 
-func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, gateway chan []byte, attorney *api.AttorneyGeneral) {
+func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, gateway chan []byte, attorneyGeneral *api.AttorneyGeneral) {
 	conn, err := socket.Dial(host, credentials, token)
 	if err != nil {
 		log.Fatalf("could not connect to host: %v", err)
@@ -23,7 +23,7 @@ func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, ga
 	signal := make(chan *Signal)
 
 	// get actions incorporate to axedb and foward to attorney
-	go NewSynergyNode(axe, attorney, signal)
+	go NewSynergyNode(axe, attorneyGeneral, signal)
 
 	// get data from host andforwar to sinergy node
 	go SelfProxyState(conn, signal)
@@ -32,8 +32,8 @@ func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, ga
 	go func() {
 		for {
 			action := <-gateway
-			undressed := BreezeToSynergy(action)
-			if err := conn.Send(undressed); err != nil {
+			//undressed := BreezeToSynergy(action)
+			if err := conn.Send(action); err != nil {
 				log.Printf("error sending action: %v", err)
 			}
 		}
@@ -66,9 +66,9 @@ func SelfProxyState(conn *socket.SignedConnection, signal chan *Signal) {
 		} else if data[0] == 2 {
 			blocks := ParseMultiBlocks(data)
 			if len(blocks) == 0 {
-				log.Printf("invalid multiblocv: %v", err)
+				//log.Printf("invalid multiblocv: %v", err)
 			} else {
-				log.Printf("multiple blocks: %v", len(blocks))
+				//log.Printf("multiple blocks: %v", len(blocks))
 			}
 			for _, block := range blocks {
 				epochBytes := make([]byte, 8)

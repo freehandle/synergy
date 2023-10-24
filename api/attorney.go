@@ -3,6 +3,7 @@ package api
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -36,6 +37,7 @@ func newCookie(value string) *http.Cookie {
 // credentials PasswordManager
 type AttorneyGeneral struct {
 	pk            crypto.PrivateKey
+	Token         crypto.Token
 	signin        *SigninManager
 	wallet        crypto.PrivateKey
 	pending       map[crypto.Hash]actions.Action
@@ -50,8 +52,19 @@ type AttorneyGeneral struct {
 	ephemeralpub  crypto.Token
 }
 
+func (a *AttorneyGeneral) IncorporateGrantPower(handle string, grant *attorney.GrantPowerOfAttorney) {
+	if grant != nil {
+		a.signin.GrantAttorney(grant.Author, handle, string(grant.Fingerprint))
+	}
+
+}
+
 func (a *AttorneyGeneral) Incorporate(action []byte) {
-	a.state.Action(action)
+	if err := a.state.Action(action); err != nil {
+		fmt.Println(err)
+		fmt.Println(action)
+	}
+
 }
 
 func (a *AttorneyGeneral) SetEpoch(epoch uint64) {
@@ -106,17 +119,19 @@ func (a *AttorneyGeneral) Send(all []actions.Action, author crypto.Token) {
 // Dress a giving action with current epoch, attorney´s author
 // attorneys signature, attorneys wallet and wallet signature
 func (a *AttorneyGeneral) DressAction(action actions.Action, author crypto.Token) []byte {
-	bytes := SynergyToBreeze(action.Serialize())
+	bytes := SynergyToBreeze(action.Serialize(), a.state.Epoch)
 	if bytes == nil {
 		return nil
 	}
 	for n := 0; n < crypto.TokenSize; n++ {
 		bytes[15+n] = author[n]
 	}
+
 	// put attorney
 	util.PutToken(a.pk.PublicKey(), &bytes)
 	signature := a.pk.Sign(bytes)
 	util.PutSignature(signature, &bytes)
+
 	// put zero token wallet
 	util.PutToken(a.pk.PublicKey(), &bytes)
 	util.PutUint64(0, &bytes) // zero fee
@@ -131,9 +146,9 @@ func (a *AttorneyGeneral) Confirmed(hash crypto.Hash) {
 
 // Translate synergy byte array to the head of the corresponding breeze instruction
 // up to the specification of the signer in the axe void protocol
-func SynergyToBreeze(action []byte) []byte {
+func SynergyToBreeze(action []byte, epoch uint64) []byte {
 	bytes := []byte{0, breeze.IVoid}                     // Breeze Void instruction version 0
-	bytes = append(bytes, action[:8]...)                 // epoch (synergy)
+	util.PutUint64(epoch, &bytes)                        // epoch (synergy)
 	bytes = append(bytes, 1, 1, 0, 0, attorney.VoidType) // synergy protocol code + axe Void instruction code
 	bytes = append(bytes, action[8:]...)                 //
 	return bytes

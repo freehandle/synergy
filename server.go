@@ -31,7 +31,8 @@ func server4(pass string) {
 	indexer := index.NewIndex()
 	genesis := state.GenesisState(indexer)
 	indexer.SetState(genesis)
-	_, attorneySecret := crypto.RandomAsymetricKey()
+	attorneySecret := pks[0]
+	//_, attorneySecret := crypto.RandomAsymetricKey()
 
 	gateway := make(chan []byte)
 

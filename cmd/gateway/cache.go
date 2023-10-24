@@ -70,7 +70,7 @@ func (c *CachedConnection) Ready() {
 }
 
 func (c *CachedConnection) Close() {
-	c.receive <- nil
+	//c.receive <- nil
 }
 
 func NewCachedConnection(conn *socket.SignedConnection) *CachedConnection {
