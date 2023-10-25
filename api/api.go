@@ -13,31 +13,63 @@ import (
 )
 
 func FormToI(r *http.Request, field string) int {
+	if r == nil {
+		log.Print("PANIC BUG: FormToI called with nil request ")
+		return 0
+	}
 	value, _ := strconv.Atoi(r.FormValue(field))
 	return value
 }
 
 func FormToB(r *http.Request, field string) byte {
+	if r == nil {
+		log.Print("PANIC BUG: FormToB called with nil request ")
+		return 0
+	}
 	value, _ := strconv.Atoi(r.FormValue(field))
 	byteValue := byte(value)
 	return byteValue
 }
 
 func FormToHash(r *http.Request, field string) crypto.Hash {
+	if r == nil {
+		log.Print("PANIC BUG: FormToHash called with nil request ")
+		return crypto.ZeroHash
+	}
 	hash := crypto.DecodeHash(r.FormValue(field))
 	return hash
 }
 
 func FormToToken(r *http.Request, field string, handles map[string]crypto.Token) crypto.Token {
+	if r == nil {
+		log.Print("PANIC BUG: FormToToken called with nil request ")
+		return crypto.ZeroToken
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: FormToToken called with nil handles ")
+		return crypto.ZeroToken
+	}
 	token := handles[r.FormValue(field)]
 	return token
 }
 
 func FormToEphemeralToken(r *http.Request, field string) crypto.Token {
+	if r == nil {
+		log.Print("PANIC BUG: FormToEphemeralToken called with nil request ")
+		return crypto.ZeroToken
+	}
 	return crypto.TokenFromString(r.FormValue(field))
 }
 
 func FormToTokenArray(r *http.Request, field string, handles map[string]crypto.Token) []crypto.Token {
+	if r == nil {
+		log.Print("PANIC BUG: FormToTokenArray called with nil request ")
+		return nil
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: FormToTokenArray called with nil handles ")
+		return nil
+	}
 	h := strings.Split(r.FormValue(field), ",")
 	tokens := make([]crypto.Token, 0)
 	for _, handle := range h {
@@ -49,6 +81,10 @@ func FormToTokenArray(r *http.Request, field string, handles map[string]crypto.T
 }
 
 func FormToHashArray(r *http.Request, field string) []crypto.Hash {
+	if r == nil {
+		log.Print("PANIC BUG: FormToHashArray called with nil request ")
+		return nil
+	}
 	h := strings.Split(r.FormValue(field), ",")
 	hashes := make([]crypto.Hash, 0)
 	for _, caption := range h {
@@ -61,16 +97,27 @@ func FormToHashArray(r *http.Request, field string) []crypto.Hash {
 }
 
 func FormToStringArray(r *http.Request, field string) []string {
+	if r == nil {
+		log.Print("PANIC BUG: FormToStringArray called with nil request ")
+		return nil
+	}
 	words := strings.Split(r.FormValue(field), ",")
 	return words
 }
 
 func FormToBool(r *http.Request, field string) bool {
+	if r == nil {
+		log.Print("PANIC BUG: FormToBool called with nil request ")
+		return false
+	}
 	return r.FormValue(field) == "on"
-
 }
 
 func FormToPolicy(r *http.Request) Policy {
+	if r == nil {
+		log.Print("PANIC BUG: FormToPolicy called with nil request ")
+		return Policy{}
+	}
 	return Policy{
 		Majority:      FormToI(r, "policyMajority"),
 		SuperMajority: FormToI(r, "policySupermajority"),
@@ -78,6 +125,10 @@ func FormToPolicy(r *http.Request) Policy {
 }
 
 func FormToTime(r *http.Request, field string) time.Time {
+	if r == nil {
+		log.Print("PANIC BUG: FormToTime called with nil request ")
+		return time.Time{}
+	}
 	t, _ := time.Parse("2006-01-02T15:04", r.FormValue(field))
 	return t
 }
