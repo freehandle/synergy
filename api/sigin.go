@@ -70,6 +70,10 @@ type Signerin struct {
 }
 
 func NewSigninManager(passwords PasswordManager, emailsecret string, attorney *AttorneyGeneral) *SigninManager {
+	if attorney == nil {
+		log.Print("PANIC BUG: NewSigninManager called with nil attorney ")
+		return nil
+	}
 	return &SigninManager{
 		pending:       make([]*Signerin, 0),
 		passwords:     passwords,

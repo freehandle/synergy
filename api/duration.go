@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -11,6 +12,10 @@ import (
 )
 
 func mdToHTML(md []byte) string {
+	if md == nil {
+		log.Print("PANIC BUG: mdToHTML called with nil md ")
+		return ""
+	}
 	// create markdown parser with extensions
 	extensions := parser.CommonExtensions | parser.AutoHeadingIDs | parser.NoEmptyLineBeforeBlock
 	p := parser.NewWithExtensions(extensions)

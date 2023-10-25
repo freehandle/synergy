@@ -72,6 +72,10 @@ func (c *CookieStore) Set(token crypto.Token, cookie string, epoch uint64) bool 
 }
 
 func OpenCokieStore(path string, s *state.State) *CookieStore {
+	if s == nil {
+		log.Print("PANIC BUG: OpenCokieStore called with nil state ")
+		return nil
+	}
 	file, err := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0666)
 	if err != nil {
 		log.Fatalf("could not open cookie store file: %v", err)

@@ -151,6 +151,10 @@ func (a *AttorneyGeneral) Confirmed(hash crypto.Hash) {
 // Translate synergy byte array to the head of the corresponding breeze instruction
 // up to the specification of the signer in the axe void protocol
 func SynergyToBreeze(action []byte, epoch uint64) []byte {
+	if action == nil {
+		log.Print("PANIC BUG: SynergyToBreeze called with nil action ")
+		return nil
+	}
 	bytes := []byte{0, breeze.IVoid}                     // Breeze Void instruction version 0
 	util.PutUint64(epoch, &bytes)                        // epoch (synergy)
 	bytes = append(bytes, 1, 1, 0, 0, attorney.VoidType) // synergy protocol code + axe Void instruction code
