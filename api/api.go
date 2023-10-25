@@ -134,6 +134,14 @@ func FormToTime(r *http.Request, field string) time.Time {
 }
 
 func BoardEditorForm(r *http.Request, handles map[string]crypto.Token, token crypto.Token) BoardEditor {
+	if r == nil {
+		log.Print("PANIC BUG: BoardEditorForm called with nil request ")
+		return BoardEditor{}
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: BoardEditorForm called with nil handles ")
+		return BoardEditor{}
+	}
 	action := BoardEditor{
 		Action:  "BoardEditor",
 		ID:      FormToI(r, "id"),
@@ -149,6 +157,10 @@ func BoardEditorForm(r *http.Request, handles map[string]crypto.Token, token cry
 }
 
 func CancelEventForm(r *http.Request) CancelEvent {
+	if r == nil {
+		log.Print("PANIC BUG: CancelEventForm called with nil request ")
+		return CancelEvent{}
+	}
 	action := CancelEvent{
 		Action:  "CancelEvent",
 		Reasons: r.FormValue("reasons"),
@@ -159,6 +171,10 @@ func CancelEventForm(r *http.Request) CancelEvent {
 }
 
 func CheckinEventForm(r *http.Request, ephemeralToken crypto.Token) CheckinEvent {
+	if r == nil {
+		log.Print("PANIC BUG: CheckinEventForm called with nil request ")
+		return CheckinEvent{}
+	}
 	action := CheckinEvent{
 		Action:         "CheckinEvent",
 		ID:             FormToI(r, "id"),
@@ -170,6 +186,10 @@ func CheckinEventForm(r *http.Request, ephemeralToken crypto.Token) CheckinEvent
 }
 
 func CreateBoardForm(r *http.Request) CreateBoard {
+	if r == nil {
+		log.Print("PANIC BUG: CreateBoardForm called with nil request ")
+		return CreateBoard{}
+	}
 	action := CreateBoard{
 		Action:      "CreateBoard",
 		ID:          FormToI(r, "id"),
@@ -184,6 +204,10 @@ func CreateBoardForm(r *http.Request) CreateBoard {
 }
 
 func CreateCollectiveForm(r *http.Request) CreateCollective {
+	if r == nil {
+		log.Print("PANIC BUG: CreateCollectiveForm called with nil request ")
+		return CreateCollective{}
+	}
 	action := CreateCollective{
 		Action:      "CreateCollective",
 		ID:          FormToI(r, "id"),
@@ -196,6 +220,14 @@ func CreateCollectiveForm(r *http.Request) CreateCollective {
 }
 
 func CreateEventForm(r *http.Request, handles map[string]crypto.Token, token crypto.Token) CreateEvent {
+	if r == nil {
+		log.Print("PANIC BUG: CreateEventForm called with nil request ")
+		return CreateEvent{}
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: CreateEventForm called with nil handles ")
+		return CreateEvent{}
+	}
 	action := CreateEvent{
 		Action:          "CreateEvent",
 		ID:              FormToI(r, "id"),
@@ -219,6 +251,18 @@ func CreateEventForm(r *http.Request, handles map[string]crypto.Token, token cry
 }
 
 func DraftForm(r *http.Request, handles map[string]crypto.Token, file []byte, ext string) Draft {
+	if r == nil {
+		log.Print("PANIC BUG: DraftForm called with nil request ")
+		return Draft{}
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: DraftForm called with nil handles ")
+		return Draft{}
+	}
+	if file == nil {
+		log.Print("PANIC BUG: DraftForm called with nil file ")
+		return Draft{}
+	}
 	action := Draft{
 		Action:        "Draft",
 		ID:            FormToI(r, "id"),
@@ -237,6 +281,18 @@ func DraftForm(r *http.Request, handles map[string]crypto.Token, file []byte, ex
 }
 
 func EditForm(r *http.Request, handles map[string]crypto.Token, file []byte, ext string) Edit {
+	if r == nil {
+		log.Print("PANIC BUG: EditForm called with nil request ")
+		return Edit{}
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: EditForm called with nil handles ")
+		return Edit{}
+	}
+	if file == nil {
+		log.Print("PANIC BUG: EditForm called with nil file ")
+		return Edit{}
+	}
 	action := Edit{
 		Action:      "Edit",
 		ID:          FormToI(r, "id"),
@@ -251,6 +307,14 @@ func EditForm(r *http.Request, handles map[string]crypto.Token, file []byte, ext
 }
 
 func GreetCheckinEventForm(r *http.Request, handles map[string]crypto.Token) MultiGreetCheckinEvent {
+	if r == nil {
+		log.Print("PANIC BUG: GreetCheckinEventForm called with nil request ")
+		return MultiGreetCheckinEvent{}
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: GreetCheckinEventForm called with nil handles ")
+		return MultiGreetCheckinEvent{}
+	}
 	action := MultiGreetCheckinEvent{
 		Action:         "GreetCheckinEvent",
 		ID:             FormToI(r, "id"),
@@ -273,6 +337,10 @@ func GreetCheckinEventForm(r *http.Request, handles map[string]crypto.Token) Mul
 }
 
 func ImprintStampForm(r *http.Request) ImprintStamp {
+	if r == nil {
+		log.Print("PANIC BUG: ImprintStampForm called with nil request ")
+		return ImprintStamp{}
+	}
 	action := ImprintStamp{
 		Action:     "ImprintStamp",
 		ID:         FormToI(r, "id"),
@@ -284,6 +352,10 @@ func ImprintStampForm(r *http.Request) ImprintStamp {
 }
 
 func PinForm(r *http.Request) Pin {
+	if r == nil {
+		log.Print("PANIC BUG: PinForm called with nil request ")
+		return Pin{}
+	}
 	action := Pin{
 		Action:  "Pin",
 		ID:      FormToI(r, "id"),
@@ -296,6 +368,10 @@ func PinForm(r *http.Request) Pin {
 }
 
 func ReactForm(r *http.Request) React {
+	if r == nil {
+		log.Print("PANIC BUG: ReactForm called with nil request ")
+		return React{}
+	}
 	action := React{
 		Action:     "React",
 		ID:         FormToI(r, "id"),
@@ -308,6 +384,10 @@ func ReactForm(r *http.Request) React {
 }
 
 func ReleaseDraftForm(r *http.Request) ReleaseDraft {
+	if r == nil {
+		log.Print("PANIC BUG: ReleaseDraftForm called with nil request ")
+		return ReleaseDraft{}
+	}
 	action := ReleaseDraft{
 		Action:      "ReleaseDraft",
 		ID:          FormToI(r, "id"),
@@ -318,6 +398,14 @@ func ReleaseDraftForm(r *http.Request) ReleaseDraft {
 }
 
 func RemoveMemberForm(r *http.Request, handles map[string]crypto.Token) RemoveMember {
+	if r == nil {
+		log.Print("PANIC BUG: RemoveMemberForm called with nil request ")
+		return RemoveMember{}
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: RemoveMemberForm called with nil handles ")
+		return RemoveMember{}
+	}
 	action := RemoveMember{
 		Action:     "RemoveMember",
 		ID:         FormToI(r, "id"),
@@ -329,6 +417,10 @@ func RemoveMemberForm(r *http.Request, handles map[string]crypto.Token) RemoveMe
 }
 
 func RequestMembershipForm(r *http.Request) RequestMembership {
+	if r == nil {
+		log.Print("PANIC BUG: RequestMembershipForm called with nil request ")
+		return RequestMembership{}
+	}
 	action := RequestMembership{
 		Action:     "RequestMembership",
 		ID:         FormToI(r, "id"),
@@ -342,6 +434,10 @@ func RequestMembershipForm(r *http.Request) RequestMembership {
 }
 
 func UpdateBoardForm(r *http.Request) UpdateBoard {
+	if r == nil {
+		log.Print("PANIC BUG: UpdateBoardForm called with nil request ")
+		return UpdateBoard{}
+	}
 	action := UpdateBoard{
 		Action:  "UpdateBoard",
 		ID:      FormToI(r, "id"),
@@ -367,6 +463,10 @@ func UpdateBoardForm(r *http.Request) UpdateBoard {
 }
 
 func UpdateCollectiveForm(r *http.Request) UpdateCollective {
+	if r == nil {
+		log.Print("PANIC BUG: UpdateCollectiveForm called with nil request ")
+		return UpdateCollective{}
+	}
 	action := UpdateCollective{
 		Action:     "UpdateCollective",
 		ID:         FormToI(r, "id"),
@@ -389,6 +489,14 @@ func UpdateCollectiveForm(r *http.Request) UpdateCollective {
 }
 
 func UpdateEventForm(r *http.Request, handles map[string]crypto.Token) UpdateEvent {
+	if r == nil {
+		log.Print("PANIC BUG: UpdateEventForm called with nil request ")
+		return UpdateEvent{}
+	}
+	if handles == nil {
+		log.Print("PANIC BUG: UpdateEventForm called with nil handles ")
+		return UpdateEvent{}
+	}
 	action := UpdateEvent{
 		Action:    "UpdateEvent",
 		ID:        FormToI(r, "id"),
@@ -421,6 +529,10 @@ func UpdateEventForm(r *http.Request, handles map[string]crypto.Token) UpdateEve
 }
 
 func VoteForm(r *http.Request) Vote {
+	if r == nil {
+		log.Print("PANIC BUG: VoteForm called with nil request ")
+		return Vote{}
+	}
 	action := Vote{
 		Action:  "Vote",
 		ID:      FormToI(r, "id"),
