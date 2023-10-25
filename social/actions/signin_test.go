@@ -12,7 +12,6 @@ var (
 		Epoch:   26,
 		Author:  crypto.Token{},
 		Reasons: "signin test",
-		Handle:  "first_handle",
 	}
 )
 

@@ -18,4 +18,5 @@ type Indexer interface {
 	AddDraftToIndex(*Draft)
 	AddEditToIndex(*Edit)
 	AddCheckin(crypto.Token, *Event)
+	AddMemberToIndex(crypto.Token, string)
 }

@@ -50,6 +50,22 @@ func NewSynergyNode(axe *AxeDB, attorneyGeneral *api.AttorneyGeneral, signals ch
 							}
 						}
 					}
+				} else if attorney.Kind(signal.Data) == attorney.RevokePowerOfAttorneyType {
+					revoke := attorney.ParseGrantPowerOfAttorney(signal.Data)
+					if revoke != nil {
+						if attorneyGeneral.Token.Equal(revoke.Attorney) {
+							if user, ok := axe.TokenToHandle[revoke.Author]; ok {
+								attorneyGeneral.IncorporateRevokePower(user.Handle)
+							}
+						}
+					}
+				} else if attorney.Kind(signal.Data) == attorney.JoinNetworkType {
+					join := attorney.ParseJoinNetwork(signal.Data)
+					if join != nil {
+						axe.IncorporateJoin(signal.Data)
+					}
+				} else if attorney.Kind(signal.Data) == attorney.UpdateInfoType {
+					axe.IncorporateUpdate(signal.Data)
 				}
 			}
 			synergyAction := axe.Incorporate(signal.Data)

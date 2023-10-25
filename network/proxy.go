@@ -29,6 +29,8 @@ func LaunchProxy(axeHost, gatewayHost string, axeToken, gatewayToken crypto.Toke
 		Attorneys:     make(map[crypto.Token]struct{}),
 		SynergyApp:    credentials.PublicKey(),
 	}
+	attorneyGeneral.RegisterAxeDataBase(axe)
+
 	signal := make(chan *Signal)
 
 	// get actions incorporate to axedb and foward to attorney

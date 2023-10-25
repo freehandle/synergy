@@ -67,26 +67,20 @@ func (a *AttorneyGeneral) NewUserHandler(w http.ResponseWriter, r *http.Request)
 	}
 	email := r.FormValue("email")
 	handle := r.FormValue("handle")
-	token, isMember := a.state.MembersIndex[handle]
-	if isMember && a.signin.Has(token) {
-		if err := a.templates.ExecuteTemplate(w, "login.html", "you are already a user: please log in"); err != nil {
-			log.Println(err)
+	token := a.state.Axe.Token(handle)
+	if token != nil {
+		isMember := a.signin.passwords.Has(*token)
+		if isMember {
+			if err := a.templates.ExecuteTemplate(w, "login.html", "you are already a user: please log in"); err != nil {
+				log.Println(err)
+				http.Redirect(w, r, "/login", http.StatusSeeOther)
+			}
+			return
 		}
-		return
-	}
-	if !isMember {
-		token, _ = crypto.RandomAsymetricKey()
-		signin := actions.Signin{
-			Epoch:   a.state.Epoch,
-			Author:  token,
-			Reasons: "new user",
-			Handle:  handle,
-		}
-		a.Send([]actions.Action{&signin}, token)
 	}
 	a.signin.AddSigner(handle, email, token)
 	//a.sendEmail(handle, email, crypto.EncodeHash(crypto.Hasher(fingerprint)), a.emailPassword)
-	a.signin.Set(token, "1234", email)
+	//a.signin.Set(token, "1234", email)
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 

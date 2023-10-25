@@ -242,7 +242,7 @@ func (i *Index) ActionToFormatedString(action actions.Action) (string, string, u
 	case *actions.Signin:
 		authorhash := crypto.HashToken(v.Author)
 		if _, ok := i.state.Members[authorhash]; ok {
-			return fmt.Sprintf("%v joined Synergy", fmtHandle(v.Handle)), "people", v.Epoch
+			return fmt.Sprintf("%v joined Synergy"), "people", v.Epoch
 		}
 	}
 	return "", "", 0
@@ -473,7 +473,7 @@ func (i *Index) ActionToString(action actions.Action, status bool) (string, stri
 		authorhash := crypto.HashToken(v.Author)
 		if _, ok := i.state.Members[authorhash]; ok {
 			if status {
-				return fmt.Sprintf("%v joined Synergy", v.Handle), "", v.Author, v.Epoch, "sign in"
+				return fmt.Sprintf("%v joined Synergy"), "", v.Author, v.Epoch, "sign in"
 			}
 		}
 		return "", "", v.Author, 0, ""
@@ -668,7 +668,7 @@ func (i *Index) ActionToStringWithLinks(action actions.Action, status bool) (str
 		authorhash := crypto.HashToken(v.Author)
 		if _, ok := i.state.Members[authorhash]; ok {
 			if status {
-				return fmt.Sprintf("%v joined Synergy", fmtHandle(v.Handle)), v.Epoch, v.Reasons
+				return fmt.Sprintf("%v joined Synergy"), v.Epoch, v.Reasons
 			}
 		}
 	}

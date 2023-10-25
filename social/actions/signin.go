@@ -9,7 +9,7 @@ type Signin struct {
 	Epoch   uint64
 	Author  crypto.Token
 	Reasons string
-	Handle  string // provided by the protocol connection rules
+	// Handle  string // provided by the protocol connection rules
 }
 
 func (c *Signin) Reasoning() string {
@@ -34,7 +34,7 @@ func (c *Signin) Serialize() []byte {
 	util.PutToken(c.Author, &bytes)
 	util.PutByte(ASignIn, &bytes)
 	util.PutString(c.Reasons, &bytes)
-	util.PutString(c.Handle, &bytes)
+	//util.PutString(c.Handle, &bytes)
 	return bytes
 }
 
@@ -48,8 +48,8 @@ func ParseSignIn(create []byte) *Signin {
 	}
 	position += 1
 	action.Reasons, position = util.ParseString(create, position)
-	action.Handle, position = util.ParseString(create, position)
-	if position != len(create) {
+	//action.Handle, position = util.ParseString(create, position)
+	if position > len(create) {
 		return nil
 	}
 	return &action

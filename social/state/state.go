@@ -15,6 +15,15 @@ const (
 	ProposalDeadline = 30 * 24 * 60 * 60
 )
 
+type UserInfo struct {
+	Handle string
+}
+
+type HandleProvider interface {
+	Handle(token crypto.Token) *UserInfo
+	Token(handle string) *crypto.Token
+}
+
 type State struct {
 	Epoch        uint64
 	MembersIndex map[string]crypto.Token       // mapa do handle to token
@@ -30,6 +39,7 @@ type State struct {
 	Proposals    *Proposals                    // map[crypto.Hash]Proposal // proposals pending vote actions
 	Deadline     map[uint64][]crypto.Hash      // map do epoch que morre para o array de hash dos elementos que vao morrer naquele epoch
 	Reactions    [ReactionsCount]map[crypto.Hash]uint
+	Axe          HandleProvider
 	GenesisTime  time.Time
 	index        Indexer
 	action       Notifier // pra ser usado pra notificacao real time
@@ -731,8 +741,15 @@ func (s *State) SignIn(signin *actions.Signin) error {
 	if _, ok := s.Members[hash]; ok {
 		return errors.New("already a member of synergy")
 	}
-	s.Members[hash] = signin.Handle
-	s.MembersIndex[signin.Handle] = signin.Author // TODO: who guarantees single names?
+	user := s.Axe.Handle(signin.Author)
+	if user == nil {
+		return errors.New("protocol error: not a recognized member of axe")
+	}
+	s.Members[hash] = user.Handle
+	s.MembersIndex[user.Handle] = signin.Author
+	if s.index != nil {
+		s.index.AddMemberToIndex(signin.Author, user.Handle)
+	}
 	//s.Notify(SigninAction, hash)
 	return nil
 }

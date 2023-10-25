@@ -55,7 +55,14 @@ func (a *AttorneyGeneral) IncorporateGrantPower(handle string, grant *attorney.G
 	if grant != nil {
 		a.signin.GrantAttorney(grant.Author, handle, string(grant.Fingerprint))
 	}
+}
 
+func (A *AttorneyGeneral) RegisterAxeDataBase(axe state.HandleProvider) {
+	A.state.Axe = axe
+}
+
+func (a *AttorneyGeneral) IncorporateRevokePower(handle string) {
+	//TODO: implement interface for a user to revoke power of attorney
 }
 
 func (a *AttorneyGeneral) Incorporate(action []byte) {

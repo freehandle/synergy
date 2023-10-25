@@ -3,6 +3,7 @@ package network
 import (
 	axe "github.com/freehandle/axe/attorney"
 	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/synergy/social/state"
 )
 
 // Synergy protocol code in binary is
@@ -24,6 +25,22 @@ type AxeDB struct {
 	HandleToToken map[string]crypto.Token
 	Attorneys     map[crypto.Token]struct{}
 	SynergyApp    crypto.Token
+}
+
+func (a *AxeDB) Handle(token crypto.Token) *state.UserInfo {
+	if user, ok := a.TokenToHandle[token]; ok {
+		return &state.UserInfo{
+			Handle: user.Handle,
+		}
+	}
+	return nil
+}
+
+func (a *AxeDB) Token(handle string) *crypto.Token {
+	if token, ok := a.HandleToToken[handle]; ok {
+		return &token
+	}
+	return nil
 }
 
 func (a *AxeDB) IncorporateJoin(action []byte) {
