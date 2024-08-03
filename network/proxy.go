@@ -1,19 +1,21 @@
 package network
 
+/*
 import (
+	"context"
 	"log"
 
-	"github.com/freehandle/breeze/consensus/chain"
+	"github.com/freehandle/breeze/consensus/messages"
 	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/middleware/social"
 	"github.com/freehandle/breeze/socket"
 	"github.com/freehandle/breeze/util"
-	"github.com/freehandle/cb/social"
 	"github.com/freehandle/synergy/api"
 )
 
 func LaunchProxy(axeHost, gatewayHost string, axeToken, gatewayToken crypto.Token, credentials crypto.PrivateKey, gateway chan []byte, attorneyGeneral *api.AttorneyGeneral) {
 
-	connGateway, err := socket.Dial(gatewayHost, credentials, gatewayToken)
+	connGateway, err := socket.Dial("", gatewayHost, credentials, gatewayToken)
 	if err != nil {
 		log.Fatalf("could not connect to axe host: %v", err)
 	}
@@ -23,7 +25,7 @@ func LaunchProxy(axeHost, gatewayHost string, axeToken, gatewayToken crypto.Toke
 	//		log.Fatalf("could not connect to axe host: %v", err)
 	//	}
 
-	axe := &AxeDB{
+	axe := &HandlesDB{
 		TokenToHandle: make(map[crypto.Token]UserInfo),
 		HandleToToken: make(map[string]crypto.Token),
 		Attorneys:     make(map[crypto.Token]struct{}),
@@ -33,7 +35,7 @@ func LaunchProxy(axeHost, gatewayHost string, axeToken, gatewayToken crypto.Toke
 
 	signal := make(chan *Signal)
 
-	// get actions incorporate to axedb and foward to attorney
+	// get actions incorporate to HandlesDB and foward to attorney
 	go NewSynergyNode(axe, attorneyGeneral, signal)
 
 	// get data from host andforwar to sinergy node
@@ -46,7 +48,7 @@ func LaunchProxy(axeHost, gatewayHost string, axeToken, gatewayToken crypto.Toke
 		for {
 			action := <-gateway
 			//undressed := BreezeToSynergy(action)
-			action = append([]byte{chain.MsgActionSubmit}, action...)
+			action = append([]byte{messages.MsgActionSubmit}, action...)
 			if err := connGateway.Send(action); err != nil {
 				log.Printf("error sending action: %v", err)
 			}
@@ -56,11 +58,11 @@ func LaunchProxy(axeHost, gatewayHost string, axeToken, gatewayToken crypto.Toke
 }
 
 func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, gateway chan []byte, attorneyGeneral *api.AttorneyGeneral) {
-	conn, err := socket.Dial(host, credentials, token)
+	conn, err := socket.Dial("", host, credentials, token)
 	if err != nil {
 		log.Fatalf("could not connect to host: %v", err)
 	}
-	axe := &AxeDB{
+	axe := &HandlesDB{
 		TokenToHandle: make(map[crypto.Token]UserInfo),
 		HandleToToken: make(map[string]crypto.Token),
 		Attorneys:     make(map[crypto.Token]struct{}),
@@ -68,7 +70,7 @@ func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, ga
 	}
 	signal := make(chan *Signal)
 
-	// get actions incorporate to axedb and foward to attorney
+	// get actions incorporate to HandlesDB and foward to attorney
 	go NewSynergyNode(axe, attorneyGeneral, signal)
 
 	// get data from host andforwar to sinergy node
@@ -87,7 +89,8 @@ func NewProxy(host string, token crypto.Token, credentials crypto.PrivateKey, ga
 }
 
 func SocialProtocolProxy(address string, token crypto.Token, credentials crypto.PrivateKey, epoch uint64, signal chan *Signal) {
-	listener := social.SocialProtocolBlockListener(address, token, credentials, epoch)
+	ctx := context.Background()
+	listener := social.SocialProtocolBlockListener(ctx, address, token, credentials, epoch)
 	for {
 		block := <-listener
 		if block != nil {
@@ -177,3 +180,4 @@ func ParseMultiBlocks(data []byte) []*blockdata {
 		}
 	}
 }
+*/

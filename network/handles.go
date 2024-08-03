@@ -1,8 +1,8 @@
 package network
 
 import (
-	axe "github.com/freehandle/axe/attorney"
 	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/handles/attorney"
 	"github.com/freehandle/synergy/social/state"
 )
 
@@ -20,14 +20,14 @@ type UserInfo struct {
 	Details string
 }
 
-type AxeDB struct {
+type HandlesDB struct {
 	TokenToHandle map[crypto.Token]UserInfo
 	HandleToToken map[string]crypto.Token
 	Attorneys     map[crypto.Token]struct{}
 	SynergyApp    crypto.Token
 }
 
-func (a *AxeDB) Handle(token crypto.Token) *state.UserInfo {
+func (a *HandlesDB) Handle(token crypto.Token) *state.UserInfo {
 	if user, ok := a.TokenToHandle[token]; ok {
 		return &state.UserInfo{
 			Handle: user.Handle,
@@ -36,15 +36,15 @@ func (a *AxeDB) Handle(token crypto.Token) *state.UserInfo {
 	return nil
 }
 
-func (a *AxeDB) Token(handle string) *crypto.Token {
+func (a *HandlesDB) Token(handle string) *crypto.Token {
 	if token, ok := a.HandleToToken[handle]; ok {
 		return &token
 	}
 	return nil
 }
 
-func (a *AxeDB) IncorporateJoin(action []byte) {
-	join := axe.ParseJoinNetwork(action)
+func (a *HandlesDB) IncorporateJoin(action []byte) {
+	join := attorney.ParseJoinNetwork(action)
 	if join == nil {
 		return
 	}
@@ -55,8 +55,8 @@ func (a *AxeDB) IncorporateJoin(action []byte) {
 	a.HandleToToken[join.Handle] = join.Author
 }
 
-func (a *AxeDB) IncorporateUpdate(action []byte) {
-	update := axe.ParseUpdateInfo(action)
+func (a *HandlesDB) IncorporateUpdate(action []byte) {
+	update := attorney.ParseUpdateInfo(action)
 	if update == nil {
 		return
 	}
@@ -70,8 +70,8 @@ func (a *AxeDB) IncorporateUpdate(action []byte) {
 	}
 }
 
-func (a *AxeDB) IncorporateGrant(action []byte) {
-	grant := axe.ParseGrantPowerOfAttorney(action)
+func (a *HandlesDB) IncorporateGrant(action []byte) {
+	grant := attorney.ParseGrantPowerOfAttorney(action)
 	if grant == nil {
 		return
 	}
@@ -80,8 +80,8 @@ func (a *AxeDB) IncorporateGrant(action []byte) {
 	}
 }
 
-func (a *AxeDB) IncorporateRevoke(action []byte) {
-	revoke := axe.ParseRevokePowerOfAttorney(action)
+func (a *HandlesDB) IncorporateRevoke(action []byte) {
+	revoke := attorney.ParseRevokePowerOfAttorney(action)
 	if revoke == nil {
 		return
 	}
@@ -90,22 +90,22 @@ func (a *AxeDB) IncorporateRevoke(action []byte) {
 	}
 }
 
-func (a *AxeDB) Incorporate(action []byte) []byte {
-	switch axe.Kind(action) {
-	case axe.VoidType:
+func (a *HandlesDB) Incorporate(action []byte) []byte {
+	switch attorney.Kind(action) {
+	case attorney.VoidType:
 		//if FilterSynergyProtocolCode(action) {
 		return action
 		//}
-	case axe.JoinNetworkType:
+	case attorney.JoinNetworkType:
 		a.IncorporateJoin(action)
 		return nil
-	case axe.UpdateInfoType:
+	case attorney.UpdateInfoType:
 		a.IncorporateUpdate(action)
 		return nil
-	case axe.GrantPowerOfAttorneyType:
+	case attorney.GrantPowerOfAttorneyType:
 		a.IncorporateGrant(action)
 		return nil
-	case axe.RevokePowerOfAttorneyType:
+	case attorney.RevokePowerOfAttorneyType:
 		a.IncorporateRevoke(action)
 		return nil
 	}

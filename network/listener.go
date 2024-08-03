@@ -3,8 +3,8 @@ package network
 import (
 	"log"
 
-	"github.com/freehandle/axe/attorney"
 	"github.com/freehandle/breeze/util"
+	"github.com/freehandle/handles/attorney"
 	"github.com/freehandle/synergy/api"
 )
 
@@ -14,7 +14,7 @@ type Gateway interface {
 
 type SynergyNode struct {
 	Gateway Gateway
-	Axe     *AxeDB
+	Axe     *HandlesDB
 	General *api.AttorneyGeneral
 }
 
@@ -29,7 +29,7 @@ type Signal struct {
 // canal é um primitivo de sincronia
 // canal <- value manda para o canal
 // value = <-canal recebe do canal
-func NewSynergyNode(axe *AxeDB, attorneyGeneral *api.AttorneyGeneral, signals chan *Signal) {
+func NewSynergyNode(axe *HandlesDB, attorneyGeneral *api.AttorneyGeneral, signals chan *Signal) {
 	for {
 		signal := <-signals
 		if signal.Signal == 0 {

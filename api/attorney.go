@@ -11,9 +11,9 @@ import (
 
 	breeze "github.com/freehandle/breeze/protocol/actions"
 
-	"github.com/freehandle/axe/attorney"
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/breeze/util"
+	"github.com/freehandle/handles/attorney"
 	"github.com/freehandle/synergy/social/actions"
 	"github.com/freehandle/synergy/social/index"
 	"github.com/freehandle/synergy/social/state"

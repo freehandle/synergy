@@ -46,7 +46,7 @@ func (p *Proxy) Register() chan uint64 {
 }
 
 func SelfProxyState(host string, hostToken crypto.Token, credential crypto.PrivateKey, genesis *state.State) *Proxy {
-	conn, err := socket.Dial(host, credential, hostToken)
+	conn, err := socket.Dial("", host, credential, hostToken)
 	if err != nil {
 		log.Fatalf("could not connect to host: %v", err)
 	}

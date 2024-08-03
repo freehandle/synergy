@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 
 	"github.com/freehandle/breeze/crypto"
-	"github.com/freehandle/cb/vault"
 	"github.com/freehandle/synergy/api"
+	"github.com/freehandle/synergy/config"
 	"github.com/freehandle/synergy/network"
 	"github.com/freehandle/synergy/social/index"
 	"github.com/freehandle/synergy/social/state"
@@ -36,7 +36,7 @@ func server4(pass string) {
 
 	gateway := make(chan []byte)
 
-	vault := vault.SecureVault{
+	vault := &config.SecretsVault{
 		Secrets: make(map[crypto.Token]crypto.PrivateKey),
 	}
 	vault.Secrets[attorneySecret.PublicKey()] = attorneySecret
@@ -45,7 +45,7 @@ func server4(pass string) {
 	passwordManager := api.NewFilePasswordManager("passwords.dat")
 
 	config := api.ServerConfig{
-		Vault:         &vault,
+		Vault:         vault,
 		Attorney:      attorneySecret.PublicKey(),
 		Ephemeral:     attorneySecret.PublicKey(),
 		Passwords:     passwordManager,

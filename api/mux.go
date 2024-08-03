@@ -9,7 +9,7 @@ import (
 
 	"github.com/freehandle/breeze/crypto"
 
-	"github.com/freehandle/cb/vault"
+	"github.com/freehandle/synergy/config"
 	"github.com/freehandle/synergy/social/actions"
 	"github.com/freehandle/synergy/social/index"
 	"github.com/freehandle/synergy/social/state"
@@ -26,7 +26,7 @@ var templateFiles []string = []string{
 }
 
 type ServerConfig struct {
-	Vault       *vault.SecureVault
+	Vault       *config.SecretsVault
 	Attorney    crypto.Token
 	Ephemeral   crypto.Token
 	Passwords   PasswordManager
@@ -46,15 +46,15 @@ type ServerConfig struct {
 //	action actions.Action
 //}
 
-func NewGeneralAttorneyServer(config ServerConfig) (*AttorneyGeneral, chan error) {
+func NewGeneralAttorneyServer(cfg ServerConfig) (*AttorneyGeneral, chan error) {
 	finalize := make(chan error, 2)
 
-	attorneySecret, ok := config.Vault.Secrets[config.Attorney]
+	attorneySecret, ok := cfg.Vault.Secrets[cfg.Attorney]
 	if !ok {
 		finalize <- fmt.Errorf("attorney secret key not found in vault")
 		return nil, finalize
 	}
-	ephemeralSecret, ok := config.Vault.Secrets[config.Ephemeral]
+	ephemeralSecret, ok := cfg.Vault.Secrets[cfg.Ephemeral]
 	if !ok {
 		finalize <- fmt.Errorf("ephemeral secret key not found in vault")
 		return nil, finalize
@@ -63,24 +63,24 @@ func NewGeneralAttorneyServer(config ServerConfig) (*AttorneyGeneral, chan error
 	attorney := AttorneyGeneral{
 		//epoch:       config.State.Epoch, TODO: epoch get out of struct
 		pk:            attorneySecret,
-		Token:         config.Attorney,
+		Token:         cfg.Attorney,
 		wallet:        attorneySecret,
 		pending:       make(map[crypto.Hash]actions.Action),
-		gateway:       config.Gateway,
-		state:         config.State,
-		indexer:       config.Indexer,
-		session:       config.CookieStore,
-		emailPassword: config.EmailPassword,
+		gateway:       cfg.Gateway,
+		state:         cfg.State,
+		indexer:       cfg.Indexer,
+		session:       cfg.CookieStore,
+		emailPassword: cfg.EmailPassword,
 		//sessionend:   make(map[uint64][]string),
-		genesisTime:  config.GenesisTime,
-		ephemeralpub: config.Ephemeral,
+		genesisTime:  cfg.GenesisTime,
+		ephemeralpub: cfg.Ephemeral,
 		ephemeralprv: ephemeralSecret,
 	}
-	if config.Path == "" {
-		config.Path = "./"
+	if cfg.Path == "" {
+		cfg.Path = "./"
 	}
-	templatesPath := fmt.Sprintf("%v/api/templates", config.Path)
-	attorney.signin = NewSigninManager(config.Passwords, config.EmailPassword, &attorney)
+	templatesPath := fmt.Sprintf("%v/api/templates", cfg.Path)
+	attorney.signin = NewSigninManager(cfg.Passwords, cfg.EmailPassword, &attorney)
 	attorney.templates = template.New("root")
 	files := make([]string, len(templateFiles))
 
@@ -109,8 +109,8 @@ func NewGeneralAttorneyServer(config ServerConfig) (*AttorneyGeneral, chan error
 	}()
 	*/
 
-	staticPath := fmt.Sprintf("%v/api/static/", config.Path)
-	go NewServer(&attorney, config.Port, staticPath, finalize)
+	staticPath := fmt.Sprintf("%v/api/static/", cfg.Path)
+	go NewServer(&attorney, cfg.Port, staticPath, finalize)
 
 	return &attorney, finalize
 }
