@@ -10,7 +10,6 @@ import (
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/synergy/api"
 	"github.com/freehandle/synergy/config"
-	"github.com/freehandle/synergy/network"
 	"github.com/freehandle/synergy/social/index"
 	"github.com/freehandle/synergy/social/state"
 )
@@ -63,7 +62,7 @@ func server4(pass string) {
 		log.Printf("error creating attorney: %v", err)
 		return
 	}
-	network.NewProxy("localhost:4100", gatewayPK.PublicKey(), attorneySecret, gateway, attorney)
+	// network.NewProxy("localhost:4100", gatewayPK.PublicKey(), attorneySecret, gateway, attorney)
 }
 
 /*func server3(pass string) {
