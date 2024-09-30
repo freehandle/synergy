@@ -26,6 +26,24 @@ type Signal struct {
 	Data   []byte
 }
 
+func ByteArrayToSignal(receive chan []byte) chan *Signal {
+	signals := make(chan *Signal)
+	go func() {
+		for {
+			action, ok := <-receive
+			if !ok {
+				return
+			}
+			if len(action) == 8 {
+				signals <- &Signal{Signal: 0, Data: action}
+				continue
+			}
+			signals <- &Signal{Signal: 1, Data: action}
+		}
+	}()
+	return signals
+}
+
 // canal é um primitivo de sincronia
 // canal <- value manda para o canal
 // value = <-canal recebe do canal
@@ -34,11 +52,7 @@ func NewSynergyNode(axe *HandlesDB, attorneyGeneral *api.AttorneyGeneral, signal
 		signal := <-signals
 		if signal.Signal == 0 {
 			epoch, _ := util.ParseUint64(signal.Data, 0)
-			if epoch >= 0 {
-				attorneyGeneral.SetEpoch(epoch)
-			} else {
-				//log.Printf("invalid new block epoch: %v", epoch)
-			}
+			attorneyGeneral.SetEpoch(epoch)
 		} else if signal.Signal == 1 {
 			if attorney.IsAxeNonVoid(signal.Data) {
 				if attorney.Kind(signal.Data) == attorney.GrantPowerOfAttorneyType {
@@ -68,11 +82,11 @@ func NewSynergyNode(axe *HandlesDB, attorneyGeneral *api.AttorneyGeneral, signal
 					axe.IncorporateUpdate(signal.Data)
 				}
 			}
-			synergyAction := axe.Incorporate(signal.Data)
-			if synergyAction != nil {
-				action := BreezeToSynergy(signal.Data)
-				attorneyGeneral.Incorporate(action)
-			}
+			//synergyAction := axe.Incorporate(signal.Data)
+			//if synergyAction != nil {
+			//	action := BreezeToSynergy(signal.Data)
+			//	attorneyGeneral.Incorporate(action)
+			//}
 		} else {
 			log.Printf("invalid signal: %v", signal.Signal)
 		}
