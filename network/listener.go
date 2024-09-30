@@ -34,11 +34,9 @@ func ByteArrayToSignal(receive chan []byte) chan *Signal {
 			if !ok {
 				return
 			}
-			if len(action) == 8 {
-				signals <- &Signal{Signal: 0, Data: action}
-				continue
+			if len(action) > 0 {
+				signals <- &Signal{Signal: action[0], Data: action[1:]}
 			}
-			signals <- &Signal{Signal: 1, Data: action}
 		}
 	}()
 	return signals

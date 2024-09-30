@@ -140,7 +140,7 @@ func main() {
 
 	_, pk := crypto.RandomAsymetricKey()
 
-	errSafe := launchSafeServer(ctx, pk, emailPassword, ByArraySender(synergyListener), safeListener)
+	errSafe := launchSafeServer(ctx, pk, emailPassword, ByArraySender(sender), safeListener)
 	go launchSynergyServer(pk, sender, synergyListener, emailPassword)
 
 	err := <-errSafe
