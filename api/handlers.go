@@ -67,6 +67,7 @@ func (a *AttorneyGeneral) NewUserHandler(w http.ResponseWriter, r *http.Request)
 	}
 	email := r.FormValue("email")
 	handle := r.FormValue("handle")
+	fmt.Printf("%+v", a)
 	token := a.state.Axe.Token(handle)
 	if token != nil {
 		isMember := a.signin.passwords.Has(*token)

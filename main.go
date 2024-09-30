@@ -99,6 +99,7 @@ func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan
 		Attorneys:     make(map[crypto.Token]struct{}),
 		SynergyApp:    attorneySecret.PublicKey(),
 	}
+	genesis.Axe = handles
 	signal := network.ByteArrayToSignal(receive)
 	network.NewSynergyNode(handles, attorney, signal)
 }

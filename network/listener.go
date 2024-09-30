@@ -82,11 +82,11 @@ func NewSynergyNode(axe *HandlesDB, attorneyGeneral *api.AttorneyGeneral, signal
 					axe.IncorporateUpdate(signal.Data)
 				}
 			}
-			//synergyAction := axe.Incorporate(signal.Data)
-			//if synergyAction != nil {
-			//	action := BreezeToSynergy(signal.Data)
-			//	attorneyGeneral.Incorporate(action)
-			//}
+			synergyAction := axe.Incorporate(signal.Data)
+			if synergyAction != nil {
+				action := BreezeToSynergy(signal.Data)
+				attorneyGeneral.Incorporate(action)
+			}
 		} else {
 			log.Printf("invalid signal: %v", signal.Signal)
 		}
