@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/breeze/middleware/social"
@@ -41,7 +42,7 @@ func launchLocalChain(ctx context.Context, listeners []chan []byte, receiver cha
 	}
 	defer IO.Close()
 	chain := &social.LocalBlockChain[*attorney.Mutations, *attorney.MutatingState]{
-		Interval:  1,
+		Interval:  time.Second,
 		Listeners: listeners,
 		Receiver:  receiver,
 		IO:        IO,
