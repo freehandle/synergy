@@ -1,6 +1,8 @@
 package network
 
 import (
+	"fmt"
+
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/handles/attorney"
 	"github.com/freehandle/synergy/social/state"
@@ -94,6 +96,7 @@ func (a *HandlesDB) Incorporate(action []byte) []byte {
 	switch attorney.Kind(action) {
 	case attorney.VoidType:
 		//if FilterSynergyProtocolCode(action) {
+		fmt.Println("Synergy protocol code")
 		return action
 		//}
 	case attorney.JoinNetworkType:

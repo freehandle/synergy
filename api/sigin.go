@@ -95,12 +95,14 @@ type SigninManager struct {
 
 func (s *SigninManager) Check(user crypto.Token, password string) bool {
 	hashed := crypto.Hasher(append(user[:], []byte(password)...))
+	fmt.Println("hashed check", hashed)
 	return s.passwords.Check(user, hashed)
 
 }
 
 func (s *SigninManager) Set(user crypto.Token, password string, email string) {
 	hashed := crypto.Hasher(append(user[:], []byte(password)...))
+	fmt.Println("hashed set", hashed)
 	s.passwords.Set(user, hashed, email)
 }
 

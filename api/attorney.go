@@ -3,12 +3,14 @@ package api
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
 	"text/template"
 	"time"
 
+	"github.com/freehandle/breeze/consensus/messages"
 	breeze "github.com/freehandle/breeze/protocol/actions"
 
 	"github.com/freehandle/breeze/crypto"
@@ -67,6 +69,7 @@ func (a *AttorneyGeneral) IncorporateRevokePower(handle string) {
 
 func (a *AttorneyGeneral) Incorporate(action []byte) {
 	if err := a.state.Action(action); err != nil {
+		fmt.Println("Error incorporating action:", err, action)
 	}
 
 }
@@ -115,7 +118,7 @@ func (a *AttorneyGeneral) Handle(r *http.Request) string {
 func (a *AttorneyGeneral) Send(all []actions.Action, author crypto.Token) {
 	for _, action := range all {
 		dressed := a.DressAction(action, author)
-		a.gateway <- dressed
+		a.gateway <- append([]byte{messages.MsgAction}, dressed...)
 		//a.gateway.Action(dressed)
 	}
 }

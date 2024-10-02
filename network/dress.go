@@ -1,6 +1,8 @@
 package network
 
 import (
+	"fmt"
+
 	"github.com/freehandle/breeze/crypto"
 )
 
@@ -30,6 +32,9 @@ func BreezeToSynergy(action []byte) []byte {
 	}
 	// strip first 2 bytes, the 4 bytes of protocol, the byte for the axe void and
 	// the tail (signer ... wallet signayture)
-	return append(action[2:10], action[15:len(action)-axeTailsize]...)
+	fmt.Println(action)
+	synergy := append(action[2:10], action[15:len(action)-axeTailsize]...)
+	fmt.Println(synergy)
+	return synergy
 
 }
