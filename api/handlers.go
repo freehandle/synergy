@@ -298,6 +298,8 @@ func (a *AttorneyGeneral) BoardHandler(w http.ResponseWriter, r *http.Request) {
 		view.Head.UserHandle = a.Handle(r)
 		if err := a.templates.ExecuteTemplate(w, "board.html", view); err != nil {
 			log.Println(err)
+		} else {
+			return
 		}
 	}
 	head := HeaderInfo{
