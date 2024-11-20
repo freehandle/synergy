@@ -465,7 +465,7 @@ func (a *AttorneyGeneral) CreateBoardHandler(w http.ResponseWriter, r *http.Requ
 		Head:           head,
 		CollectiveName: collective,
 	}
-	if err := a.templates.ExecuteTemplate(w, "main.html", info); err != nil {
+	if err := a.templates.ExecuteTemplate(w, "createboard.html", info); err != nil {
 		log.Println(err)
 	}
 }
@@ -649,7 +649,7 @@ func (a *AttorneyGeneral) CreateEventHandler(w http.ResponseWriter, r *http.Requ
 		Head:           head,
 		CollectiveName: collective,
 	}
-	if err := a.templates.ExecuteTemplate(w, "main.html", info); err != nil {
+	if err := a.templates.ExecuteTemplate(w, "createevent.html", info); err != nil {
 		log.Println(err)
 	}
 }
