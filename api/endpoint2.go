@@ -309,6 +309,7 @@ func EventDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, toke
 			}
 		}
 	}
+	println(view.Description)
 	return &view
 }
 
