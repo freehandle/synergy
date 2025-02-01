@@ -106,16 +106,6 @@ func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan
 
 func main() {
 
-	/*token, _ := crypto.RandomAsymetricKey()
-	signin := actions.Signin{
-		Epoch:   10,
-		Author:  token,
-		Reasons: "I am the best",
-	}
-	data := network.SynergyToBreeze(signin.Serialize())
-	network.BreezeToSynergy(data)
-	*/
-
 	envs := os.Environ()
 	var emailPassword string
 	for _, env := range envs {
@@ -123,12 +113,6 @@ func main() {
 			emailPassword, _ = strings.CutPrefix(env, "FREEHANDLE_SECRET=")
 		}
 	}
-
-	//vault, err := util.NewSecureVault([]byte(emailPassword), "vault.dat")
-	//if err == nil {
-	//	vault.Close()
-	//	return
-	//}
 
 	safeListener := make(chan []byte)
 	synergyListener := make(chan []byte)
@@ -146,5 +130,4 @@ func main() {
 	err := <-errSafe
 	log.Printf("error launching safe server: %v", err)
 	cancel()
-
 }
