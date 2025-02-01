@@ -66,26 +66,26 @@ func (i *Index) ActionToObjects(action actions.Action) []crypto.Hash {
 }
 
 func fmtHandle(handle string) string {
-	return fmt.Sprintf("<a href=\"/member/%v\">%v</a>", url.QueryEscape(handle), handle)
+	return fmt.Sprintf("<a href=\"./member/%v\">%v</a>", url.QueryEscape(handle), handle)
 }
 
 func fmtCollective(collective string) string {
-	return fmt.Sprintf("<a href=\"/collective/%v\">%v</a>", url.QueryEscape(collective), collective)
+	return fmt.Sprintf("<a href=\"./collective/%v\">%v</a>", url.QueryEscape(collective), collective)
 }
 
 func fmtBoard(board string) string {
-	return fmt.Sprintf("<a href=\"/board/%v\">%v</a>", url.QueryEscape(board), board)
+	return fmt.Sprintf("<a href=\"./board/%v\">%v</a>", url.QueryEscape(board), board)
 }
 
 func fmtDraft(draft string, hash crypto.Hash) string {
 	if len(draft) > 40 {
 		draft = draft[:40] + "..."
 	}
-	return fmt.Sprintf("<a href=\"/draft/%v\">&ldquo;%v&rdquo;</a>", crypto.EncodeHash(hash), draft)
+	return fmt.Sprintf("<a href=\"./draft/%v\">&ldquo;%v&rdquo;</a>", crypto.EncodeHash(hash), draft)
 }
 
 func fmtEvent(date time.Time, hash crypto.Hash) string {
-	return fmt.Sprintf("<a href=\"/event/%v\">%v</a>", crypto.EncodeHash(hash), date.Format("Mon Jan 2 at 15:04 MST"))
+	return fmt.Sprintf("<a href=\"./event/%v\">%v</a>", crypto.EncodeHash(hash), date.Format("Mon Jan 2 at 15:04 MST"))
 }
 
 func fmtAuthors(authors state.Consensual, s *state.State) string {

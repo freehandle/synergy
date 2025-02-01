@@ -2,7 +2,7 @@
     <div class="singular">
         <div class="center">
             <p class="x2large bold"> edit <span class="xlarge light "> for 
-                <a class="xlarge bold hover" href="/draft/{{.DraftHash}}"> {{.DraftTitle}} </a> 
+                <a class="xlarge bold hover" href="./draft/{{.DraftHash}}"> {{.DraftTitle}} </a> 
             </span> 
             </p>
             <br>
@@ -11,9 +11,9 @@
                 {{range .Authors}}
                     <li class="handletitle">
                         {{if .Collective}}
-                            <a href="/collective/{{.Link}}">{{.Name}}</a>
+                            <a href="./collective/{{.Link}}">{{.Name}}</a>
                         {{else}}
-                            <a href="/member/{{.Link}}">{{.Name}}</a>
+                            <a href="./member/{{.Link}}">{{.Name}}</a>
                         {{end}}
                     </li>
                 {{end}}
@@ -22,7 +22,7 @@
             <p class="bold"> reasons</p>
             <p class=""> {{.Reasons}} </p>
             <br>
-            <p><a class="hover" href="/media/{{.Hash}}">download</a></p>
+            <p><a class="hover" href="./media/{{.Hash}}">download</a></p>
             
         </div>
     </div>
@@ -35,7 +35,7 @@
             {{if .OnBehalfOf}} 
                 on behalf of {{.OnBehalfOf}}
                 {{end}}
-                <form method="post" action="/api">
+                <form method="post" action="./api">
                     <input class="none" type="text" name="action" value="Vote" readonly/>
                     <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
                     <input type="checkbox" name="approve"> approve </input>

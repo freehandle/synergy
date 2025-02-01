@@ -1,13 +1,13 @@
 {{template "HEAD" .Head}}
 <div class="singular">
   <div class="center">
-    <form method="post" action="/api">
+    <form method="post" action="./api">
       <input class="none" type="text" name="redirect" value="votes" readonly/>
       <h1 class="headerdetails">create board vote</h1>
       <p class="subheadersdraft">on behalf of</p>
       <ul class="listing">
         <li class="handletitle">
-          <a href="/collective/{{.CollectiveLink}}"> {{.Collective}}</a>
+          <a href="./collective/{{.CollectiveLink}}"> {{.Collective}}</a>
         </li>
       </ul>
       <br/><br/>

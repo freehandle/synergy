@@ -1,6 +1,6 @@
 {{template "HEAD" .Head}}
 <div class="plurals">    
-    <h1 class="headers"> edits for <a class="headers" href="/draft/{{ .DraftHash }}"> {{.DraftTitle}} </a></h1> 
+    <h1 class="headers"> edits for <a class="headers" href="./draft/{{ .DraftHash }}"> {{.DraftTitle}} </a></h1> 
     <div class="infos">
         {{range .Edits}}
         <div class="item">
@@ -9,9 +9,9 @@
                 {{range .Authors}}
                 <li>
                     {{if .Collective}}
-                        <a class="linked" href="/collective/{{.Link}}">{{.Name}}</a>
+                        <a class="linked" href="./collective/{{.Link}}">{{.Name}}</a>
                     {{else}}
-                        <a class="linked" href="/member/{{.Link}}">{{.Name}}</a>
+                        <a class="linked" href="./member/{{.Link}}">{{.Name}}</a>
                     {{end}}
                 </li>
             {{end}}
@@ -19,7 +19,7 @@
             <p class="listinfotitle">reasons</p>
             <p class="description"> {{.Reasons}} </p>
             <br/>
-            <a class="details" href="/editview/{{.Hash}}">check edit</a>
+            <a class="details" href="./editview/{{.Hash}}">check edit</a>
         </div>
         {{end}}
     </div>

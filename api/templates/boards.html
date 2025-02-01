@@ -5,7 +5,7 @@
         {{range .Boards}}
         <div class="item"> 
             <div class="boardfirst">
-                <a href="/board/{{.Link}}" class="titlelink"> {{.Name}} </a>
+                <a href="./board/{{.Link}}" class="titlelink"> {{.Name}} </a>
             </div>
             <ul class="boardsecond listing">
                 {{range .Keywords}}
@@ -15,7 +15,7 @@
             <div class="boardthird">
                 <p class="boarddescr elipsis">{{.Description}}</p>
             </div>
-            <a class="boardfourth authorship" href="/collective/{{.CollectiveLink}}"> by {{.Collective}} </a>
+            <a class="boardfourth authorship" href="./collective/{{.CollectiveLink}}"> by {{.Collective}} </a>
         </div> 
         {{end}}
     </div>    

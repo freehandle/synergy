@@ -5,14 +5,14 @@
         {{range .Votes}}
             <div class="item">
                 {{if .Handler}}
-                    <a class="titlelink" href="/{{.Handler}}/{{ .Hash }}">
+                    <a class="titlelink" href="./{{.Handler}}/{{ .Hash }}">
                         {{.Action}} 
                     </a>
                         {{if .Scope}} 
                             <ul class="listing">
                                 <div class="backgroundhover">        
                                 by
-                                <a class="votelink bold backgroundhover" href="/collective/{{.ScopeLink}}"> {{.Scope}} </a><br/>
+                                <a class="votelink bold backgroundhover" href="./collective/{{.ScopeLink}}"> {{.Scope}} </a><br/>
                                 </div>
                             </ul>
                         {{end}}
@@ -22,13 +22,13 @@
                 <div class="firstrow">
                     <p class="xlarge bold"> {{.Action}}</p>
                     {{if .ObjectCaption}} 
-                        <div class="backgroundhover"> {{.ObjectType}} <a class="votelink bold backgroundhover" href="{{.ObjectLink}}">{{.ObjectCaption}}</a></div>
+                        <div class="backgroundhover"> {{.ObjectType}} <a class="votelink bold backgroundhover" href="./{{.ObjectLink}}">{{.ObjectCaption}}</a></div>
                     {{end}}
                     {{if .Scope}} 
-                        <div class="backgroundhover"> on behalf of  <a class="votelink bold backgroundhover" href="/collective/{{.ScopeLink}}"> {{.Scope}} </a> </div>
+                        <div class="backgroundhover"> on behalf of  <a class="votelink bold backgroundhover" href="./collective/{{.ScopeLink}}"> {{.Scope}} </a> </div>
                     {{end}}
                     {{if .ComplementType}} 
-                        <div class="backgroundhover"> {{.ComplementType}}  <a class="votelink bold backgroundhover" href="{{.ComplementLink}}"> {{.ComplementCaption}} </a> </div>
+                        <div class="backgroundhover"> {{.ComplementType}}  <a class="votelink bold backgroundhover" href="./{{.ComplementLink}}"> {{.ComplementCaption}} </a> </div>
                     {{end}}
                         
                     <p class=""> {{.Reasons}} </p>                   
@@ -36,7 +36,7 @@
                 <div class="secondrow"> <button class="submit" onclick="dialogreact()" value="send">vote</button> </div>
                 <dialog id="dialogreactel" class="modalshow">
                     <p class="modaltitle">instruction outline</p>
-                    <form method="post" action="/api">
+                    <form method="post" action="./api">
                         <input class="nonemodal" type="text" name="action" value="Vote" readonly/>
                         <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
 

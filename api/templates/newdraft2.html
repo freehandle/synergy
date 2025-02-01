@@ -1,7 +1,7 @@
 {{template "HEAD" .Head}}
   <div class="singular">
     <div class="center">
-      <form method="post" action="/uploadfile" enctype="multipart/form-data">
+      <form method="post" action="./uploadfile" enctype="multipart/form-data">
         {{if .PreviousDraft}}
           <h1 class="headers"> new version </h1>
         {{else}}

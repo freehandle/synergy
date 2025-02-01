@@ -10,7 +10,7 @@
                     <div class="boxes">    
                     {{range .Stamps}}
                         <div class="item">
-                            <a href="{{.Draft.Link}}" class="boxitemtitle hover">{{.Draft.Caption}}</a>
+                            <a href="./{{.Draft.Link}}" class="boxitemtitle hover">{{.Draft.Caption}}</a>
                             <p class="minidescr">{{.DraftDescription}}</p>
                             <ul class="listing">
                                 {{range .DraftKeywords}}
@@ -26,7 +26,7 @@
                     <div class="boxes">
                     {{range .Boards}}
                         <div class="item">
-                            <a href="{{.Board.Link}}" class="boxitemtitle hover">{{.Board.Caption}}</a>
+                            <a href="./{{.Board.Link}}" class="boxitemtitle hover">{{.Board.Caption}}</a>
                             <p class="minidescr">{{.Description}}</p>
                             <ul class="listing">
                                 {{range .Keywords}}
@@ -42,12 +42,12 @@
                     <div class="boxes">
                     {{range .Events}}    
                         <div class="item">
-                            <a href="/event/{{.Hash}}" class="boxitemtitle hover">{{.StartAt}}</a>
+                            <a href="./event/{{.Hash}}" class="boxitemtitle hover">{{.StartAt}}</a>
                             <p class="minidescr">{{.Description}}</p>
                             <ul class="listing">
                                 <li class="label">managers</li>
                                 {{range .Managers}}
-                                <li><a class="linked" href="/member/{{.Caption}}">{{.Caption}}</a></li>
+                                <li><a class="linked" href="./member/{{.Caption}}">{{.Caption}}</a></li>
                                 {{end}}
                             </ul>
                         </div> 
@@ -73,7 +73,7 @@
     <!-- react modal -->
     <dialog id="dialogreactel" class="modalshow">
         <p class="modaltitle">instruction outline</p>
-        <form method="post" action="/api">
+        <form method="post" action="./api">
             <input class="nonemodal" type="text" name="action" value="React" readonly/>
             <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
             <input class="nonemodal" type="text" name="redirect" value="collective/{{.Link}}" readonly/>
@@ -90,15 +90,15 @@
     <br/><br/>
     {{if .Membership}}
         <p class="infotitle pb">on behalf of <span>{{.Name}}</span></p>
-        <form method="post" action="/createboard">
+        <form method="post" action="./createboard">
             <input class="openform" type="submit" value="create board"/>
             <input class="none" type="text" name="collective" value="{{.Name}}" readonly/>
         </form>
-        <form method="post" action="/createevent">
+        <form method="post" action="./createevent">
             <input class="openform" type="submit" value="create event"/>
             <input class="none" type="text" name="collective" value="{{.Name}}" readonly/>
         </form>
-        <a class="openform" href="/updatecollective/{{.Link}}">update</a>        
+        <a class="openform" href="./updatecollective/{{.Link}}">update</a>        
         <br/>
         <div>
             <p class="infotitle">leave <span>{{.Name}}</span></p>
@@ -108,7 +108,7 @@
         <!-- leave collective modal -->
         <dialog id="dialogleavecollectiveel" class="modalshow">
             <p class="modaltitle">instruction outline</p>
-            <form method="post" action="/api">
+            <form method="post" action="./api">
                 <input class="nonemodal" type="text" name="action" value="RequestMembership" readonly/>
                 <input class="nonemodal" type="text" name="collective" value="{{.Name}}" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="collective/{{.Link}}" readonly/>
@@ -133,7 +133,7 @@
         <!-- join collective modal -->
         <dialog id="dialogjoincollectiveel" class="modalshow">
             <p class="modaltitle">instruction outline</p>
-            <form method="post" action="/api">
+            <form method="post" action="./api">
                 <input class="none" type="text" name="action" value="RequestMembership" readonly/>
                 <input class="none" type="text" name="collective" value="{{.Name}}" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="collective/{{.Link}}" readonly/>
@@ -153,7 +153,7 @@
     <p class="infotitle"> <span>no</span> members</p>
     <ul class="listing">
     {{range .Members}} 
-    <li><a class="linked" href="/member/{{.Link}}">{{ .Handle }}</a></li>
+    <li><a class="linked" href="./member/{{.Link}}">{{ .Handle }}</a></li>
     {{end}}
 </ul>
 <br/>

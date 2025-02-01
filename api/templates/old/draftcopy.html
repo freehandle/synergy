@@ -11,14 +11,14 @@
         {{range .Keywords}}
             <p>{{.}}</p>
         {{end}}        
-        <p><a href="/media/{{.Hash}}">Download</a></p>
+        <p><a href="./media/{{.Hash}}">Download</a></p>
         <p>Authors:</p>
         {{range .Authors}}
             <p>
             {{if .Collective}}
-                <a href="/collective/{{.Name}}">{{.Name}}</a>
+                <a href="./collective/{{.Name}}">{{.Name}}</a>
             {{else}}
-                <a href="/member/{{.Name}}">{{.Name}}</a>
+                <a href="./member/{{.Name}}">{{.Name}}</a>
             {{end}}
             </p>
         {{end}}
@@ -29,7 +29,7 @@
             <p> .Date </p>
         {{end}}
         {{if .PreviousHash}}
-            <p><a href="/draft/{{.PreviousHash}}">Previous Version</a></p>
+            <p><a href="./draft/{{.PreviousHash}}">Previous Version</a></p>
         {{else}}
             <p> first version </p>    
         {{end}}
@@ -37,15 +37,15 @@
         <p>Policy: majority {{.Policy.Majority}}, super-majority {{.Policy.SuperMajority}} </p>
         {{if .Pinned}}
             {{range .Pinned}}
-                <p><a href="/board/{{.}}">{{.}}</a></p>
+                <p><a href="./board/{{.}}">{{.}}</a></p>
             {{end}}
         {{else}}
              <p> not pinned </p>
         {{end}}
         {{if .Edited}}
-        <p><a href="/edits/{{.Hash}}">Edits</a></p>
+        <p><a href="./edits/{{.Hash}}">Edits</a></p>
         {{end}}
-        <form method="post" action="/api">
+        <form method="post" action="/.api">
             <input type="text" name="action" value="Pin" readonly/>
             <input type="text" name="draft" value="{{.Hash}}" readonly/>
             <input type="text" name="pin" value="on" readonly/>
@@ -54,7 +54,7 @@
         }
         </form>
         {{if .Released}}
-            <form method="post" action="/api">
+            <form method="post" action="./api">
                 <input type="text" name="action" value="Stamp" readonly/>
                 <input type="text" name="hash" value="{{.Hash}}" readonly/>
                 <input type="text" name="onBehalfOf"/>
@@ -62,7 +62,7 @@
             </form>
         {{else}}
             {{if .Authorship}}
-            <form method="post" action="/api">
+            <form method="post" action="./api">
                 <input type="text" name="action" value="Release" readonly/>
                 <input type="text" name="contentHash" value="{{.Hash}}" readonly/>
                 <input type="submit" value="Request Release"/>
@@ -70,12 +70,12 @@
             {{end}}
         {{end}}
         
-        <form method="post" action="/edit">
+        <form method="post" action="./edit">
             <input type="text" name="draftHash" value="{{.Hash}}" readonly/>
             <input type="submit" value="New Edit"/>
         </form>
         {{if .Authorship}}
-            <form method="post" action="/newdraft">
+            <form method="post" action="./newdraft">
                 <input type="text" name="previousVersion" value="{{.Hash}}" readonly/>
                 <input type="submit" value="New Version"/>
             </form>
@@ -88,7 +88,7 @@
                         {{if .OnBehalfOf}} 
                         on behalf of {{.OnBehalfOf}}
                         {{end}}
-                        <form method="post" action="/api">
+                        <form method="post" action="./api">
                             <input type="text" name="action" value="Vote" readonly/>
                             <input type="text" name="hash" value="{{.Hash}}" readonly/>
                             <input type="checkbox" name="approve"> Approve </input>
