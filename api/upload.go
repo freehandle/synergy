@@ -59,5 +59,5 @@ func (a *AttorneyGeneral) UploadHandler(w http.ResponseWriter, r *http.Request) 
 	if err == nil && len(actionArray) > 0 {
 		a.Send(actionArray, author)
 	}
-	http.Redirect(w, r, "/", http.StatusSeeOther)
+	http.Redirect(w, r, "./", http.StatusSeeOther)
 }
