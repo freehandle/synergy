@@ -74,7 +74,7 @@ func (a *AttorneyGeneral) NewUserHandler(w http.ResponseWriter, r *http.Request)
 		if isMember {
 			if err := a.templates.ExecuteTemplate(w, "login.html", "you are already a user: please log in"); err != nil {
 				log.Println(err)
-				http.Redirect(w, r, "./login", http.StatusSeeOther)
+				http.Redirect(w, r, fmt.Sprintf("%v/login", a.serverName), http.StatusSeeOther)
 			}
 			return
 		}
@@ -82,7 +82,7 @@ func (a *AttorneyGeneral) NewUserHandler(w http.ResponseWriter, r *http.Request)
 	a.signin.AddSigner(handle, email, token)
 	//a.sendEmail(handle, email, crypto.EncodeHash(crypto.Hasher(fingerprint)), a.emailPassword)
 	//a.signin.Set(token, "1234", email)
-	http.Redirect(w, r, "./login", http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("%v/login", a.serverName), http.StatusSeeOther)
 }
 
 func (a *AttorneyGeneral) ApiHandler(w http.ResponseWriter, r *http.Request) {
@@ -132,7 +132,7 @@ func (a *AttorneyGeneral) ApiHandler(w http.ResponseWriter, r *http.Request) {
 	if err == nil && len(actionArray) > 0 {
 		a.Send(actionArray, author)
 	}
-	redirect := fmt.Sprintf("./%v", r.FormValue("redirect"))
+	redirect := fmt.Sprintf("%v/%v", a.serverName, r.FormValue("redirect"))
 	http.Redirect(w, r, redirect, http.StatusSeeOther)
 }
 
@@ -167,7 +167,7 @@ func (a *AttorneyGeneral) SignoutHandler(w http.ResponseWriter, r *http.Request)
 	cookie, _ := r.Cookie(cookieName)
 	author := a.Author(r)
 	a.session.Unset(author, cookie.Value)
-	http.Redirect(w, r, "./", http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("%v/", a.serverName), http.StatusSeeOther)
 }
 
 func (a *AttorneyGeneral) CreateCollectiveHandler(w http.ResponseWriter, r *http.Request) {

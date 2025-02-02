@@ -59,6 +59,7 @@ func launchSafeServer(ctx context.Context, pk crypto.PrivateKey, password string
 		HtmlPath:    "../safe/",
 		Path:        ".",
 		Port:        7000,
+		ServerName:  "/safe",
 	}
 	return safe.NewLocalServer(ctx, cfg, password, gateway, receive)
 }
@@ -86,6 +87,7 @@ func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan
 		GenesisTime:   genesis.GenesisTime,
 		EmailPassword: pass,
 		Port:          3000,
+		ServerName:    "/synergy",
 	}
 	attorney, finalize := api.NewGeneralAttorneyServer(config)
 	if attorney == nil {

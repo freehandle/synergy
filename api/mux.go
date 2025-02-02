@@ -39,6 +39,7 @@ type ServerConfig struct {
 	EmailPassword string
 	Port          int
 	Path          string
+	ServerName    string
 }
 
 //type AuthorAction struct {
@@ -75,6 +76,7 @@ func NewGeneralAttorneyServer(cfg ServerConfig) (*AttorneyGeneral, chan error) {
 		genesisTime:  cfg.GenesisTime,
 		ephemeralpub: cfg.Ephemeral,
 		ephemeralprv: ephemeralSecret,
+		serverName:   cfg.ServerName,
 	}
 	if cfg.Path == "" {
 		cfg.Path = "./"
@@ -110,12 +112,12 @@ func NewGeneralAttorneyServer(cfg ServerConfig) (*AttorneyGeneral, chan error) {
 	*/
 
 	staticPath := fmt.Sprintf("%v/api/static/", cfg.Path)
-	go NewServer(&attorney, cfg.Port, staticPath, finalize)
+	go NewServer(&attorney, cfg.Port, staticPath, finalize, cfg.ServerName)
 
 	return &attorney, finalize
 }
 
-func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize chan error) {
+func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize chan error, servername string) {
 
 	mux := http.NewServeMux()
 	fs := http.FileServer(http.Dir(staticPath))

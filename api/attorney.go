@@ -51,6 +51,7 @@ type AttorneyGeneral struct {
 	genesisTime   time.Time
 	ephemeralprv  crypto.PrivateKey
 	ephemeralpub  crypto.Token
+	serverName    string
 }
 
 func (a *AttorneyGeneral) IncorporateGrantPower(handle string, grant *attorney.GrantPowerOfAttorney) {
