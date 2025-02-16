@@ -9,7 +9,7 @@
             <div class="details">
                 {{range .Collectives}}
                 <div class="item">
-                    <a href="./collective/{{.Link}}" class="title">{{.Name}}</a>
+                    <a href="{{$ServerName}}/collective/{{.Link}}" class="title">{{.Name}}</a>
                     <p class="objects">
                         {{.NBoards}} {{if eq .NBoards 1}} board {{else}} boards {{end}}, 
                         {{.NStamps}} {{if eq .NStamps 1}} stamp {{else}} stamps {{end}}, 
@@ -46,7 +46,7 @@
             <div class="details">
                 {{range .Boards}}
                 <div class="item">
-                    <a href="./board/{{.Link}}" class="title">{{.Name}}</a>
+                    <a href="{{$ServerName}}/board/{{.Link}}" class="title">{{.Name}}</a>
                     <p class="objects">
                         {{.NPins}} {{if eq .NPins 1}} pin {{else}} pins {{end}}, 
                         {{.NEditors}} {{if eq .NEditors 1}} editor {{else}} editors {{end}}
@@ -82,7 +82,7 @@
             <div class="details">
                 {{range .Events}}
                 <div class="item">
-                    <a href="./event/{{.Hash}}" class="title">{{.DateCol}}</a>
+                    <a href="{{$ServerName}}/event/{{.Hash}}" class="title">{{.DateCol}}</a>
                     <p class="checkins">{{.NCheckins}} {{if eq .NCheckins 1}} check-in {{else}} check-ins {{end}} </p>
                     <p class="pending">{{.NPenCheckins}} {{if eq .NPenCheckins 1}} check-in {{else}} check-ins {{end}} pending greeting</p>
                 </div>

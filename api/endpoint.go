@@ -22,6 +22,12 @@ type HeaderInfo struct {
 	EndPath    string
 	Section    string
 	Error      string
+	ServerName string
+}
+
+type ServerName struct {
+	Head       HeaderInfo
+	ServerName string
 }
 
 // Drafts template struct
@@ -32,11 +38,13 @@ type DraftsView struct {
 	Hash        string
 	Description string
 	Keywords    []string
+	ServerName  string
 }
 
 type DraftsListView struct {
-	Drafts []DraftsView
-	Head   HeaderInfo
+	Drafts     []DraftsView
+	Head       HeaderInfo
+	ServerName string
 }
 
 type AuthorDetail struct {
@@ -71,9 +79,10 @@ func NameLinker(name string) NameLink {
 }
 
 type DraftEditView struct {
-	Date    string
-	Authors []AuthorDetail
-	Hash    string
+	Date       string
+	Authors    []AuthorDetail
+	Hash       string
+	ServerName string
 }
 
 type DraftDetailView struct {
@@ -96,6 +105,7 @@ type DraftDetailView struct {
 	Head         HeaderInfo
 	Content      string
 	Edits        []DraftEditView
+	ServerName   string
 }
 
 type EditDetailedView struct {
@@ -106,6 +116,7 @@ type EditDetailedView struct {
 	Authors    []AuthorDetail
 	Votes      []DraftVoteAction
 	Head       HeaderInfo
+	ServerName string
 }
 
 func EditDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, token crypto.Token) *EditDetailedView {
@@ -381,9 +392,10 @@ func DraftDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, toke
 // Edits template struct
 
 type EditsView struct {
-	Authors []AuthorDetail
-	Reasons string
-	Hash    string
+	Authors    []AuthorDetail
+	Reasons    string
+	Hash       string
+	ServerName string
 }
 
 type EditsListView struct {
@@ -391,6 +403,7 @@ type EditsListView struct {
 	DraftHash  string
 	Edits      []EditsView
 	Head       HeaderInfo
+	ServerName string
 }
 
 func EditsFromState(s *state.State, drafthash crypto.Hash) EditsListView {
@@ -436,15 +449,18 @@ type VotesView struct {
 	ComplementLink    string
 	ComplementCaption string
 	Reasons           string
+	ServerName        string
 }
 
 type VotesListView struct {
-	Votes []VotesView
-	Head  HeaderInfo
+	Votes      []VotesView
+	Head       HeaderInfo
+	ServerName string
 }
 
 type VoteDetailView struct {
-	Hash string
+	Hash       string
+	ServerName string
 }
 
 func VotesFromState(s *state.State, i *index.Index, token crypto.Token) VotesListView {
@@ -554,6 +570,7 @@ type RequestMembershipView struct {
 	Hash       string
 	Reasons    string
 	Majority   string
+	ServerName string
 }
 
 func RequestMembershipFromState(s *state.State, hash crypto.Hash) *RequestMembershipView {
@@ -578,8 +595,9 @@ func RequestMembershipFromState(s *state.State, hash crypto.Hash) *RequestMember
 }
 
 type EditVersion struct {
-	DraftHash string
-	Head      HeaderInfo
+	DraftHash  string
+	Head       HeaderInfo
+	ServerName string
 }
 
 func NewEdit(s *state.State, hash crypto.Hash) *EditVersion {
@@ -608,6 +626,7 @@ type DraftVersion struct {
 	PreviousDraft string
 	References    string
 	Head          HeaderInfo
+	ServerName    string
 }
 
 func NewDraftVersion(s *state.State, hash crypto.Hash) *DraftVersion {
@@ -662,6 +681,7 @@ type CollectiveUpdateView struct {
 	Reasons          string
 	Head             HeaderInfo
 	Voting           DetailedVoteView
+	ServerName       string
 }
 
 func CollectiveToUpdateFromState(s *state.State, name string) *CollectiveUpdateView {
@@ -740,6 +760,7 @@ type BoardUpdateView struct {
 	Hash              string
 	Head              HeaderInfo
 	Voting            DetailedVoteView
+	ServerName        string
 }
 
 func BoardToUpdateFromState(s *state.State, name string) *BoardUpdateView {
@@ -815,11 +836,13 @@ type BoardsView struct {
 	CollectiveLink string
 	Link           string
 	Keywords       []string
+	ServerName     string
 }
 
 type BoardsListView struct {
-	Boards []BoardsView
-	Head   HeaderInfo
+	Boards     []BoardsView
+	Head       HeaderInfo
+	ServerName string
 }
 
 type VoteDetails struct {
@@ -829,11 +852,12 @@ type VoteDetails struct {
 }
 
 type DetailedVoteView struct {
-	Voted    int
-	Approve  []VoteDetails
-	Reject   []VoteDetails
-	NotCast  []VoteDetails
-	Majority int
+	Voted      int
+	Approve    []VoteDetails
+	Reject     []VoteDetails
+	NotCast    []VoteDetails
+	Majority   int
+	ServerName string
 }
 
 func NewDetailedVoteView(votes []actions.Vote, consensus state.Consensual, s *state.State) DetailedVoteView {
@@ -892,6 +916,7 @@ type BoardDetailView struct {
 	Hash             string
 	Head             HeaderInfo
 	Voting           DetailedVoteView
+	ServerName       string
 }
 
 func BoardsFromState(s *state.State) BoardsListView {
@@ -1013,11 +1038,13 @@ type CollectivesView struct {
 	Description  string
 	Participants int
 	Link         string
+	ServerName   string
 }
 
 type CollectivesListView struct {
 	Collectives []CollectivesView
 	Head        HeaderInfo
+	ServerName  string
 }
 
 type CaptionLink struct {
@@ -1030,12 +1057,14 @@ type StampView struct {
 	DraftAuthors     []CaptionLink
 	DraftDescription string
 	DraftKeywords    []string
+	ServerName       string
 }
 
 type BoardOnCollectiveView struct {
 	Board       CaptionLink
 	Description string
 	Keywords    []string
+	ServerName  string
 }
 
 type EventOnCollectiveView struct {
@@ -1044,6 +1073,7 @@ type EventOnCollectiveView struct {
 	Venue       string
 	Description string
 	Managers    []CaptionLink
+	ServerName  string
 }
 
 type CollectiveDetailView struct {
@@ -1059,6 +1089,7 @@ type CollectiveDetailView struct {
 	Stamps        []StampView
 	Boards        []BoardOnCollectiveView
 	Events        []EventOnCollectiveView
+	ServerName    string
 }
 
 func ColletivesFromState(s *state.State) CollectivesListView {

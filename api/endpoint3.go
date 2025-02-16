@@ -13,8 +13,9 @@ import (
 )
 
 type UpdatesView struct {
-	Objects []ObjectUpdateView
-	Head    HeaderInfo
+	Objects    []ObjectUpdateView
+	Head       HeaderInfo
+	ServerName string
 }
 
 func (u *UpdatesView) Len() int {
@@ -34,6 +35,7 @@ type ObjectUpdateView struct {
 	ObjectKind string
 	Updates    []ActionUpdateView
 	Reactions  []ReactionUpdateView
+	ServerName string
 }
 
 func (o ObjectUpdateView) LastUpdated() time.Time {
@@ -51,6 +53,7 @@ type ReactionUpdateView struct {
 	Reasons             string
 	LastUpdatedInterval string
 	LastUpdatedTime     time.Time
+	ServerName          string
 }
 
 type ActionUpdateView struct {
@@ -59,6 +62,7 @@ type ActionUpdateView struct {
 	VoteHash            string
 	LastUpdatedInterval string
 	LastUpdatedTime     time.Time
+	ServerName          string
 }
 
 func actionsToActionUpdateView(actions []index.ActionDetails, genesisTime time.Time, token crypto.Token) ([]ActionUpdateView, []ReactionUpdateView) {
@@ -188,8 +192,9 @@ func UpdatesViewFromState(s *state.State, i *index.Index, token crypto.Token, ge
 }
 
 type PendingActionsView struct {
-	Pending []PendingActionDetailView
-	Head    HeaderInfo
+	Pending    []PendingActionDetailView
+	Head       HeaderInfo
+	ServerName string
 }
 
 type PendingActionDetailView struct {
@@ -199,6 +204,7 @@ type PendingActionDetailView struct {
 	VotesReject  int
 	VotesNeeded  int
 	VoteHash     string
+	ServerName   string
 }
 
 func PendingActionsFromState(s *state.State, i *index.Index, token crypto.Token, genesisTime time.Time) *PendingActionsView {
@@ -244,12 +250,14 @@ type MyEditView struct {
 	Hash        string
 	PublishedAt string
 	AuthorType  string
+	ServerName  string
 }
 
 type EditOnDraftView struct {
-	Caption string
-	Link    string
-	Time    string
+	Caption    string
+	Link       string
+	Time       string
+	ServerName string
 }
 
 type MyDraftView struct {
@@ -261,12 +269,14 @@ type MyDraftView struct {
 	Edit        []EditOnDraftView
 	Stamps      []CaptionLink
 	AuthorType  string
+	ServerName  string
 }
 
 type MyMediaView struct {
-	Drafts []MyDraftView
-	Edits  []MyEditView
-	Head   HeaderInfo
+	Drafts     []MyDraftView
+	Edits      []MyEditView
+	Head       HeaderInfo
+	ServerName string
 }
 
 func MyMediaFromState(s *state.State, i *index.Index, token crypto.Token) *MyMediaView {
@@ -384,6 +394,7 @@ type NewActionView struct {
 	Category    string
 	Duration    string
 	NotRepeated bool
+	ServerName  string
 }
 
 type NewActionsView struct {
@@ -399,6 +410,7 @@ type NewActionsView struct {
 	Actions    []NewActionView
 	ReActions  []NewActionView
 	Head       HeaderInfo
+	ServerName string
 }
 
 func NewActionsFromState(s *state.State, i *index.Index, genesisTime time.Time) *NewActionsView {
@@ -476,6 +488,7 @@ type MyEventView struct {
 	GreetingCount        int
 	GreetingPendingCount int
 	Hash                 string
+	ServerName           string
 }
 
 type MyEventsView struct {
@@ -485,6 +498,7 @@ type MyEventsView struct {
 	Events        []MyEventView
 	Managed       []MyEventView
 	Head          HeaderInfo
+	ServerName    string
 }
 
 func MyEventsFromState(s *state.State, i *index.Index, token crypto.Token) *MyEventsView {
@@ -570,9 +584,10 @@ func MyEventsFromState(s *state.State, i *index.Index, token crypto.Token) *MyEv
 }
 
 type DetailedVote struct {
-	Author  CaptionLink
-	Approve bool
-	Reasons string
+	Author     CaptionLink
+	Approve    bool
+	Reasons    string
+	ServerName string
 }
 
 type DetailedPool struct {
@@ -584,6 +599,7 @@ type DetailedPool struct {
 	NotVoted    []CaptionLink
 	Head        HeaderInfo
 	ProposedAt  string
+	ServerName  string
 }
 
 func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, genesisTime time.Time) *DetailedPool {
@@ -641,6 +657,7 @@ type DraftFromMember struct {
 	Link        string
 	CoAuthors   []CaptionLink
 	Keywords    []string
+	ServerName  string
 }
 
 type MemberView struct {
@@ -651,6 +668,7 @@ type MemberView struct {
 	Events      []CaptionLink
 	Drafts      []DraftFromMember
 	Edits       []CaptionLink
+	ServerName  string
 }
 
 func MemberViewFromState(s *state.State, i *index.Index, handle string) *MemberView {

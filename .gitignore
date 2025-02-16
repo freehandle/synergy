@@ -1,2 +1,6 @@
 *.bin
+*.dat
+go.mod
+go.sum
+synergy
 /cmd/gateway/*.dat

@@ -14,7 +14,7 @@
                     <div class="right">
                         <p class="small light"> {{.VotesApprove}} favorable</p>
                         <p class="small light"> {{.VotesReject}} against</p>
-                        <p class="needed"> <span class="light">{{.VotesNeeded}}</span> <a href="./detailedvote/{{.VoteHash}}"> needed </a></p>
+                        <p class="needed"> <span class="light">{{.VotesNeeded}}</span> <a href="{{$ServerName}}/detailedvote/{{.VoteHash}}"> needed </a></p>
                     </div>
                 </div>
                 <div class="foot">

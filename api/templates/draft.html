@@ -7,7 +7,7 @@
                     <p class="released">released</p>
                 {{end}}
                 {{if .PreviousHash}}
-                    <p><a class="released" href="./draft/{{.PreviousHash}}">previous version</a></p>
+                    <p><a class="released" href="{{$ServerName}}/draft/{{.PreviousHash}}">previous version</a></p>
                 {{else}}
                     <p class="released"> first version </p>
                 {{end}}
@@ -22,9 +22,9 @@
                 {{range .Authors}}
                     <li class="handletitle">
                     {{if .Collective}}
-                        <a href="./collective/{{.Link}}">{{.Name}}</a>
+                        <a href="{{$ServerName}}/collective/{{.Link}}">{{.Name}}</a>
                     {{else}}
-                        <a href="./member/{{.Link}}">{{.Name}}</a>
+                        <a href="{{$ServerName}}/member/{{.Link}}">{{.Name}}</a>
                     {{end}}
                     </li>
                 {{end}}
@@ -34,7 +34,7 @@
 
             <br/>
             <p class="description"> {{.Description}} </p><br/>
-            <a class="downloadlink hover" href="./media/{{.Hash}}">Download</a>
+            <a class="downloadlink hover" href="{{$ServerName}}/media/{{.Hash}}">Download</a>
             <div class="draftpreview">
                 {{.Content}}
             </div>
@@ -59,7 +59,7 @@
     {{if .Pinned}}
         <ul class="listing">
             {{range .Pinned}}
-            <li><a class="linked" href="./board/{{.Link}}">{{.Name}}</a></li>
+            <li><a class="linked" href="{{$ServerName}}/board/{{.Link}}">{{.Name}}</a></li>
             {{end}}
         </ul><br/><br/>
     {{else}}
@@ -67,7 +67,7 @@
             <br/>
     {{end}}
     {{if .Edited}}
-        <p><a href="./edits/{{.Hash}}">see edits</a></p>
+        <p><a href="{{$ServerName}}/edits/{{.Hash}}">see edits</a></p>
         <br/>
     {{end}}
 
@@ -80,7 +80,7 @@
     <!-- pin to board modal -->
     <dialog id="dialogpinboardel" class="modalshow">
         <p class="modaltitle">instruction outline</p>
-        <form method="post" action="./api">
+        <form method="post" action="{{$ServerName}}/api">
 
             <input class="nonemodal" type="text" name="action" value="Pin" readonly/>
             <input class="nonemodal" type="text" name="draft" value="{{.Hash}}" readonly/>
@@ -103,7 +103,7 @@
             <p class="infotitle">stamps received</p>
             <ul class="listing">
             {{range .Stamps}}   
-                <li> <a class="linked" href="./collective/{{.Link}}">{{.Name}}</a></li>
+                <li> <a class="linked" href="{{$ServerName}}/collective/{{.Link}}">{{.Name}}</a></li>
             {{end}}
             </ul><br/>
         {{end}}       
@@ -117,7 +117,7 @@
         <!-- propose stamp modal -->
         <dialog id="dialogproposestampel" class="modalshow">
             <p class="modaltitle">instruction outline</p>
-            <form method="post" action="./api">
+            <form method="post" action="{{$ServerName}}/api">
                 <input class="nonemodal" type="text" name="action" value="ImprintStamp" readonly/>
                 <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="draft/{{.Hash}}" readonly/>
@@ -143,7 +143,7 @@
             <!-- propose release modal -->
             <dialog id="dialogreleaseel" class="modalshow">
                 <p class="modaltitle">instruction outline</p>
-                <form method="post" action="./api">
+                <form method="post" action="{{$ServerName}}/api">
                     <input class="nonemodal" type="text" name="action" value="Release" readonly/>
                     <input class="nonemodal" type="text" name="contentHash" value="{{.Hash}}" readonly/>
                     <input class="nonemodal" type="text" name="redirect" value="draft/{{.Hash}}" readonly/>
@@ -163,14 +163,14 @@
     
     {{if .Authorship}}
         <p class="infotitle">further actions</p>
-        <form method="post" action="./newdraft">
+        <form method="post" action="{{$ServerName}}/newdraft">
             <input class="none" type="text" name="previousVersion" value="{{.Hash}}" readonly/>
             <input class="openform" type="submit" value="new version"/>
         </form>
         <br/>
     {{else}}
         <p class="infotitle">further actions</p>
-        <form method="post" action="./edit">
+        <form method="post" action="{{$ServerName}}/edit">
             <input class="none" type="text" name="draftHash" value="{{.Hash}}" readonly/>
             <input class="openform" type="submit" value="propose edit"/>
         </form>
@@ -181,7 +181,7 @@
         {{range .Votes}}
                 <div> 
                     <p class="info">{{.Kind}} {{if .OnBehalfOf}} on behalf of {{.OnBehalfOf}} {{end}} </p>
-                    <form method="post" action="./api">
+                    <form method="post" action="{{$ServerName}}/api">
                         <input class="none" type="text" name="action" value="Vote" readonly/>
                         <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
                         <p class="infotitle"><input type="checkbox" name="approve" id="approve"/> 
@@ -199,7 +199,7 @@
     <!-- react modal -->
     <dialog id="dialogreactel" class="modalshow">
         <p class="modaltitle"></p>
-        <form method="post" action="./api">
+        <form method="post" action="{{$ServerName}}/api">
             <input class="nonemodal" type="text" name="action" value="React" readonly/>
             <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
             <input class="nonemodal" type="text" name="redirect" value="draft/{{.Hash}}" readonly/>
@@ -216,12 +216,12 @@
     {{if len .Edits}}
         <p class="infotitle">edits</p>
         {{range .Edits}}
-            <p><a href="./editview/{{.Hash}}"> On {{.Date}} by 
+            <p><a href="{{$ServerName}}/editview/{{.Hash}}"> On {{.Date}} by 
                 {{range .Authors}}
                     {{if .Collective}}
-                        <a href="./collective/{{.Link}}">{{.Name}}</a>
+                        <a href="{{$ServerName}}/collective/{{.Link}}">{{.Name}}</a>
                     {{else}}
-                        <a href="./member/{{.Link}}">{{.Name}}</a>
+                        <a href="{{$ServerName}}/member/{{.Link}}">{{.Name}}</a>
                     {{end}}
                     </a> 
                 {{end}}

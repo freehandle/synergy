@@ -17,6 +17,7 @@ type EventsView struct {
 	StartAt     time.Time
 	Collective  NameLink
 	Public      bool
+	ServerName  string
 }
 
 type EventVoteAction struct {
@@ -26,8 +27,9 @@ type EventVoteAction struct {
 }
 
 type EventsListView struct {
-	Events []EventsView
-	Head   HeaderInfo
+	Events     []EventsView
+	Head       HeaderInfo
+	ServerName string
 }
 
 type VoteUpdateEventView struct {
@@ -51,6 +53,7 @@ type VoteUpdateEventView struct {
 	VoteHash        string
 	Head            HeaderInfo
 	Voting          DetailedVoteView
+	ServerName      string
 }
 
 func yesorno(b *bool) string {
@@ -144,6 +147,7 @@ type EventDetailView struct {
 	MyGreeting         string
 	Head               HeaderInfo
 	EventReasons       string
+	ServerName         string
 }
 
 func PendingEventFromState(s *state.State, i *index.Index, hash crypto.Hash) *EventDetailView {
@@ -354,24 +358,28 @@ func EventUpdateDetailFromState(s *state.State, i *index.Index, hash crypto.Hash
 // Members template struct
 
 type MembersView struct {
-	Hash   string
-	Handle string
-	Link   string
+	Hash       string
+	Handle     string
+	Link       string
+	ServerName string
 }
 
 type MembersListView struct {
-	Members []MembersView
-	Head    HeaderInfo
+	Members    []MembersView
+	Head       HeaderInfo
+	ServerName string
 }
 
 type MemberDetailView struct {
-	Handle string
-	Link   string
+	Handle     string
+	Link       string
+	ServerName string
 }
 
 type MemberDetailViewPage struct {
-	Detail MemberDetailView
-	Head   HeaderInfo
+	Detail     MemberDetailView
+	Head       HeaderInfo
+	ServerName string
 }
 
 func MembersFromState(state *state.State) MembersListView {
@@ -477,6 +485,7 @@ type ConnectionsListView struct {
 	NEvents      int
 	Edits        []CentralEdits
 	NEdits       int
+	ServerName   string
 }
 
 func ConnectionsFromState(state *state.State, indexer *index.Index, token crypto.Token, genesisTime time.Time) ConnectionsListView {

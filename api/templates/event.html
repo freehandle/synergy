@@ -15,7 +15,7 @@
             <p class="subheadersdraft">proposed by</p>
             <ul class="listing">
                 <li class="handletitle">
-                    <a href="./collective/{{.Collective.Link}}">{{.Collective.Name}}</a>
+                    <a href="{{$ServerName}}/collective/{{.Collective.Link}}">{{.Collective.Name}}</a>
                 </li>
             </ul>
             <br/>
@@ -31,12 +31,12 @@
                     <div class="item">
                         <p class="title">pending greetings</p>
                         {{if .Checkedin}}
-                                <form method="post" action="./api">
+                                <form method="post" action="{{$ServerName}}/api">
                                     <input class="none" type="text" name="action" value="GreetCheckinEvent" readonly/>
                                     <input class="none" type="text" name="eventhash" value="{{$hash}}" readonly/>
                                     {{range .Checkedin}}
                                         <input type="checkbox" name="check_{{.EphemeralKey}}" id="greet_{{.Handle.Link}}" value="{{.Handle.Link}}"/>
-                                        <label for="greet_{{.Handle.Link}}"><a class="linked" href="./member/{{.Handle.Link}}">{{.Handle.Name}}</a></label>
+                                        <label for="greet_{{.Handle.Link}}"><a class="linked" href="{{$ServerName}}/member/{{.Handle.Link}}">{{.Handle.Name}}</a></label>
                                         <p> {{.Reasons}} </p>
                                     {{end}}
                                     <!--<textarea class="formentry detailed" type="text" name="reasons" rows="3" id="reasons"></textarea>-->
@@ -57,7 +57,7 @@
                         {{if .Greeted}}
                             {{range .Greeted}}
                                 <ul class="listing">
-                                    <li> <a class="linked" href="./member/{{.Link}}">{{.Handle}}</a></li>
+                                    <li> <a class="linked" href="{{$ServerName}}/member/{{.Link}}">{{.Handle}}</a></li>
                                 </ul>
                                 <br/>
                             {{end}}
@@ -74,7 +74,7 @@
                                 <br/>
                             {{else}}
                                 <p class="title">check-in to event</p>
-                                <form method="post" action="./api">
+                                <form method="post" action="{{$ServerName}}/api">
                                     <textarea class="checkinreasons" type="textarea" name="reasons" rows="4" placeholder="(optional) share reasons for checkin or introduce yourself"></textarea>
                                     <div class="blockright">
                                         <input class="submit" type="submit" value="send"/><br/>
@@ -95,7 +95,7 @@
                             <p class="title">checked-in members</p>
                             {{range .Greeted}}
                                 <ul class="listing">
-                                    <li> <a class="linked" href="./member/{{.Link}}">{{.Handle}}</a></li>
+                                    <li> <a class="linked" href="{{$ServerName}}/member/{{.Link}}">{{.Handle}}</a></li>
                                 </ul><br/>
                                 <!-- <li><a  class="handlelink" href="/member/{{ .Handle }}"> {{ .Handle }} </a></li> -->
                             {{end}}
@@ -112,15 +112,15 @@
     <p class="infotitle">managers</p>
     <ul class="listing">
         {{range .Managers}}   
-        <li> <a class="linked" href="./member/{{.Link}}">{{.Handle}}</a></li>
+        <li> <a class="linked" href="{{$ServerName}}/member/{{.Link}}">{{.Handle}}</a></li>
         {{end}}
     </ul><br/>
     {{if .Managing}}
      
         {{ if .Live}}
 
-        <p class="infotitle pb">on behalf of <a class="link" href="./collective/{{.Collective.Link}}">{{.Collective.Name}}</a></p>
-        <a class="openform" href="./updateevent/{{.Hash}}">update</a> 
+        <p class="infotitle pb">on behalf of <a class="link" href="{{$ServerName}}/collective/{{.Collective.Link}}">{{.Collective.Name}}</a></p>
+        <a class="openform" href="{{$ServerName}}/updateevent/{{.Hash}}">update</a> 
 
 
         <div>
@@ -128,7 +128,7 @@
         </div>
 
         {{end}}
-<!--        <form method="post" action="/api">
+<!--        <form method="post" action="{{$ServerName}}/api">
             <input class="openform" type="submit" value="cancel"/>
             <input class="none" type="text" name="action" value="CancelEvent" readonly/>
             <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
@@ -145,7 +145,7 @@
         <!-- react modal -->
         <dialog id="dialogreactel" class="modalshow">
             <p class="modaltitle">instruction outline</p>
-            <form method="post" action="./api">
+            <form method="post" action="{{$ServerName}}/api">
                 <input class="nonemodal" type="text" name="action" value="React" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="event/{{.Hash}}" readonly/>
                 <p class="modalinfo" id="reactionoutline"></p><br/>

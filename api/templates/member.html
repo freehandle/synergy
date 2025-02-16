@@ -7,11 +7,11 @@
                         <div class="memberdraft">
                                 {{range .Drafts}}
                                 <div class="item">
-                                        <a href="./draft/{{.Link}}" class="large hover">{{.Title}}</a>
+                                        <a href="{{$ServerName}}/draft/{{.Link}}" class="large hover">{{.Title}}</a>
                                         <ul class="listinfo"> 
                                                 {{range .CoAuthors}}
                                                 <li class="coauthor handle">
-                                                        <a href="./member/{{.Link}}" class="hover">{{.Caption}}</a>
+                                                        <a href="{{$ServerName}}/member/{{.Link}}" class="hover">{{.Caption}}</a>
                                                 </li>
                                                 {{end}}
                                         </ul>
@@ -30,16 +30,16 @@
 <div id="right">
         <p class="infotitle">collectives</p>
         {{range .Collectives}}
-                <div class="memberitem"> <a class="lighthover" href="./collective/{{.Link}}">{{.Caption}}</a> </div>
+                <div class="memberitem"> <a class="lighthover" href="{{$ServerName}}/collective/{{.Link}}">{{.Caption}}</a> </div>
         {{end}}
         <p class="infotitle">boards</p>
         {{range .Boards}}
                 <p class="memberitem"> 
-                        <a class="lighthover" href="./board/{{.Link}}">{{.Caption}}</a>
+                        <a class="lighthover" href="{{$ServerName}}/board/{{.Link}}">{{.Caption}}</a>
                 </p>
         {{end}}
         <p class="infotitle">events</p>
         {{range .Events}}
-                <p class="memberitem"> <a class="lighthover" href="./event/{{.Link}}">{{.Caption}}</a> </p>
+                <p class="memberitem"> <a class="lighthover" href="{{$ServerName}}/event/{{.Link}}">{{.Caption}}</a> </p>
         {{end}}
 {{template "TAIL"}}

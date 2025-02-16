@@ -1,7 +1,7 @@
 {{template "HEAD" .Head}}
 <div class="singular">
   <div class="center">
-    <form method="post" action="./api">
+    <form method="post" action="{{$ServerName}}/api">
       <h1 class="headerdetails">update board vote</h1>
       <p class="subheadersdraft">{{.Name}} by {{.Collective}} </p><br/>
       <input class="none" type="text" name="redirect" value="votes" readonly/>
