@@ -24,7 +24,7 @@
     </p>
     <div id="favorable" class="toggle">
       {{range .Approve}}
-        <p class="mgt mgb handle"> <a href="{{$ServerName}}/member/{{.Author.Link}}">{{.Author.Caption}}</a> </p> 
+        <p class="mgt mgb handle"> <a href="{{.ServerName}}/member/{{.Author.Link}}">{{.Author.Caption}}</a> </p> 
         {{if .Reasons}}
           <p class="light mgb"> {{.Reasons}} </p>
         {{end}}
@@ -32,7 +32,7 @@
     </div>
     <div id="against" class="toggle none">
       {{range .Reject}}
-        <p class="mgt mbg handle"> <a href="{{$ServerName}}/member/{{.Author.Link}}">{{.Author.Caption}}</a> </p> 
+        <p class="mgt mbg handle"> <a href="{{.ServerName}}/member/{{.Author.Link}}">{{.Author.Caption}}</a> </p> 
         {{if .Reasons}}
           <p class="light"> {{.Reasons}} </p>
         {{end}}
@@ -40,7 +40,7 @@
     </div>
     <div id="remaining" class="toggle none">
       {{range .NotVoted}}
-        <a class="handle" href="{{$ServerName}}/member/{{.Link}}">{{.Caption}}</a>
+        <a class="handle" href="{{.ServerName}}/member/{{.Link}}">{{.Caption}}</a>
       {{end}}
     </div>
   </div>

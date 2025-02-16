@@ -9,13 +9,13 @@
     <div id="mymediadrafts" class="">
         {{range .Drafts}}
             <div class="mediacard">
-                <p> <a class="bold hover" href="{{$ServerName}}/draft/{{.Hash}}"> {{.Title}} </a> {{.AuthorType}}</p>
+                <p> <a class="bold hover" href="{{.ServerName}}/draft/{{.Hash}}"> {{.Title}} </a> {{.AuthorType}}</p>
                 <div class="mediadetails">
                     <div>
                         {{if .Pinned}}
                             <p> <span class="bold"> pinned on </span> {{len .Pinned -}} board(s)</p>
                             {{range .Pinned}}
-                                <a class="object hover" href="{{$ServerName}}/board/{{.Link}}">{{.Caption}}</a>
+                                <a class="object hover" href="{{.ServerName}}/board/{{.Link}}">{{.Caption}}</a>
                             {{end}}        
                         {{ else }}
                             <p> <span>not pinned</span></p>
@@ -25,7 +25,7 @@
                         {{if .Edit}}
                             <p>{{len .Edit -}} edit(s) proposed</p>
                             {{range .Edit}}
-                                <a class="object hover" href="{{$ServerName}}/editview/{{.Link}}">{{.Caption}} {{.Time}} ago</a>
+                                <a class="object hover" href="{{.ServerName}}/editview/{{.Link}}">{{.Caption}} {{.Time}} ago</a>
                             {{end}}        
                         {{else}}
                         <p> <span> not edited</span></p>
@@ -35,7 +35,7 @@
                         {{if .Stamps}}
                             <p>{{len .Stamps -}} stamp(s) received</p>
                             {{range .Stamps}}
-                                <a class="object hover" href="{{$ServerName}}/collective/{{.Link}}">{{.Caption}}</a>
+                                <a class="object hover" href="{{.ServerName}}/collective/{{.Link}}">{{.Caption}}</a>
                             {{end}}
                         {{else}}
                         <p><span>not stamped</span></p>
@@ -51,8 +51,8 @@
     <div id="mymediaedits" class="none">
         {{range .Edits}}
                 <div class="mediacard">
-                    <p>proposed for <a href="{{$ServerName}}/draft/{{.DraftHash}}" class="bold hover"> {{.DraftTitle}} </a> {{.AuthorType}} </p>
-                    <a class="hover" href="{{$ServerName}}/editview/{{.Hash}}"><span>{{.PublishedAt}}</span></a>
+                    <p>proposed for <a href="{{.ServerName}}/draft/{{.DraftHash}}" class="bold hover"> {{.DraftTitle}} </a> {{.AuthorType}} </p>
+                    <a class="hover" href="{{.ServerName}}/editview/{{.Hash}}"><span>{{.PublishedAt}}</span></a>
                 </div>
             {{end}}
     </div>

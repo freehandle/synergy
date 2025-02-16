@@ -15,7 +15,7 @@
             </div>
             <p class="subheadersdraft">board by</p>
                 <div class="handletitle">
-                    <a href="{{$ServerName}}/collective/{{.CollectiveLink}}" class="hover">{{.Collective}}</a>
+                    <a href="{{.ServerName}}/collective/{{.CollectiveLink}}" class="hover">{{.Collective}}</a>
                 </div>
             <br/>
             <p class="description"> {{.Description}} </p><br/>
@@ -26,14 +26,14 @@
                         <div class="infos">
                             {{range .Drafts}}
                                 <div class="item">
-                                    <p><a href="{{$ServerName}}/draft/{{.Hash}}" class="nameitem">{{.Title}}</a></p>
+                                    <p><a href="{{.ServerName}}/draft/{{.Hash}}" class="nameitem">{{.Title}}</a></p>
                                     <p class="">{{.Description}}</p>
                                     <ul class="listing">
                                         {{range .Keywords}}
                                             <li class="keyword">{{.}}</li>
                                         {{end}}
                                     </ul>
-                                    <form method="post" action="{{$ServerName}}/api">
+                                    <form method="post" action="{{.ServerName}}/api">
                                         <input class="none" type="text" name="action" value="Pin" readonly/>
                                         <input class="none" type="text" name="draft" value="{{.Hash}}" readonly/>
                                         <input class="nonemodal" type="text" name="redirect" value="board/{{$BoardLink}}" readonly/>
@@ -50,7 +50,7 @@
                         <div class="infos">
                             {{range .Drafts}}
                                 <div class="item">
-                                    <p><a href="{{$ServerName}}/draft/{{.Hash}}" class="nameitem">{{.Title}}</a></p>
+                                    <p><a href="{{.ServerName}}/draft/{{.Hash}}" class="nameitem">{{.Title}}</a></p>
                                     <p class="">{{.Description}}</p>
                                     <ul class="listing">
                                         {{range .Keywords}}
@@ -81,13 +81,13 @@
         <p class="infotitle">editors</p>
         <ul class="listing">
          {{range .Editors}}   
-            <li><a class="linked" href="{{$ServerName}}/member/{{.Link}}">{{.Handle}}</a></li>
+            <li><a class="linked" href="{{.ServerName}}/member/{{.Link}}">{{.Handle}}</a></li>
          {{end}}
         </ul><br/>
 
         {{if .CollectiveMember}}
             <p class="infotitle pb">on behalf of <span>{{.Collective}}</span></p>
-            <a class="openform" href="{{$ServerName}}/updateboard/{{$BoardLink}}">update</a><br/>
+            <a class="openform" href="{{.ServerName}}/updateboard/{{$BoardLink}}">update</a><br/>
         {{end}}
 
         <div>
@@ -98,7 +98,7 @@
         <!-- react modal -->
         <dialog id="dialogreactel" class="modalshow">
             <p class="modaltitle">instruction outline</p>
-            <form method="post" action="{{$ServerName}}/api">
+            <form method="post" action="{{.ServerName}}/api">
                 <input class="nonemodal" type="text" name="action" value="React" readonly/>
                 <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="board/{{$BoardLink}}" readonly/>
@@ -123,7 +123,7 @@
             <!-- remove editor modal -->
             <dialog id="dialogremoveeditorel" class="modalshow">
                 <p class="modaltitle">instruction outline</p>
-                <form method="post" action="{{$ServerName}}/api">
+                <form method="post" action="{{.ServerName}}/api">
                     <input class="nonemodal" type="text" name="action" value="BoardEditor" readonly/>
                     <input class="nonemodal" type="text" name="board" value="{{$BoardName}}" readonly/>
                     <input class="nonemodal" type="text" name="insert" value="off" readonly/><br/>
@@ -148,7 +148,7 @@
             <!-- remove editor modal -->
             <dialog id="dialogapplyeditorel" class="modalshow">
                 <p class="modaltitle">instruction outline</p>
-                <form method="post" action="{{$ServerName}}/api">
+                <form method="post" action="{{.ServerName}}/api">
                     <input class="none" type="text" name="action" value="BoardEditor" readonly/>
                     <input class="none" type="text" name="board" value="{{$BoardName}}" readonly/>
                     <input class="nonemodal" type="text" name="redirect" value="board/{{$BoardLink}}" readonly/>

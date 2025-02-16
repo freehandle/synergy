@@ -1,18 +1,18 @@
 {{template "HEAD" .Head}}
 <div class="singular">
     <div class="center">
-        <form method="post" action="{{$ServerName}}/api">
+        <form method="post" action="{{.ServerName}}/api">
             <input class="none" type="text" name="redirect" value="votes" readonly/>
             <h1 class="headerdetails">update event vote</h1>
             <ul class="listing">
                 <li class="handletitle">
-                  <a href="{{$ServerName}}/event/{{.Hash}}">original event</a>
+                  <a href="{{.ServerName}}/event/{{.Hash}}">original event</a>
                 </li>
             </ul><br/>
             <p class="subheadersdraft">proposed by</p>
             <ul class="listing">
                 <li class="handletitle">
-                  <a href="{{$ServerName}}/collective/{{.Collective}}"> {{.Collective}}</a>
+                  <a href="{{.ServerName}}/collective/{{.Collective}}"> {{.Collective}}</a>
                 </li>
               </ul>
               <br/><br/>

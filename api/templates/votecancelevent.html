@@ -1,13 +1,13 @@
 {{template "HEAD" .Head}}
 <div class="singular">
   <div class="center">
-    <form method="post" action="{{$ServerName}}/api">
+    <form method="post" action="{{.ServerName}}/api">
       <input class="none" type="text" name="redirect" value="votes" readonly/>
       <h1 class="headerdetails"> cancel event vote</h1>
       <p class="subheadersdraft">on behalf of</p>
       <ul class="listing">
         <li class="handletitle">
-          <a href="{{$ServerName}}/collective/{{.Collective.Link}}"> {{.Collective.Name}}</a>
+          <a href="{{.ServerName}}/collective/{{.Collective.Link}}"> {{.Collective.Name}}</a>
         </li>
       </ul>
       <br/><br/>
@@ -30,7 +30,7 @@
       <p class="bold">managers</p>
       <ul>
         {{range .Managers}}   
-        <li> <a class="linked" href="{{$ServerName}}/member/{{.Link}}">{{.Handle}}</a></li>
+        <li> <a class="linked" href="{{.ServerName}}/member/{{.Link}}">{{.Handle}}</a></li>
         {{end}}    
       </ul>
       

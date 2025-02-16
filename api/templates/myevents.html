@@ -24,7 +24,7 @@
                 {{range .Events}}
                     <div class="eventcard">
                         <div class="firstrow">
-                            <p class="title"> <a class="hover" href="{{$ServerName}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> on behalf of <span class="collective"> {{.Collective}} </span></p>
+                            <p class="title"> <a class="hover" href="{{.ServerName}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> on behalf of <span class="collective"> {{.Collective}} </span></p>
                             <p class="openpublic">
                                 {{if .Open}}open{{else}}closed{{end}},
                                 {{if .Public}}public{{else}}private{{end}}
@@ -46,7 +46,7 @@
                                 <h1><span class="count"> attending </span></h1>
                                 <ul>
                                     {{range .Attendee}}
-                                        <li > <a class="hover" href="{{$ServerName}}/member/{{.Link}}"> {{.Caption}} </a> </li>
+                                        <li > <a class="hover" href="{{.ServerName}}/member/{{.Link}}"> {{.Caption}} </a> </li>
                                     {{end}}
                                 </ul>
                             </div>
@@ -60,7 +60,7 @@
                 {{range .Managed}}
                     <div class="eventcard">
                         <div class="firstrow">
-                            <p class="title">  <a class="hover" href="{{$ServerName}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> on behalf of <span class="collective"> {{.Collective}} </span></p>
+                            <p class="title">  <a class="hover" href="{{.ServerName}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> on behalf of <span class="collective"> {{.Collective}} </span></p>
                             <p class="openpublic"> {{if .Open}}open{{else}}closed{{end}},{{if .Public}}public{{else}}private{{end}}</p>
                         </div> 
                         <div class="secondrow">

@@ -1,12 +1,12 @@
 {{template "HEAD" .Head}}
 <div class="singular">
     <div class="center">
-        <form method="post" action="{{$ServerName}}/api">
+        <form method="post" action="{{.ServerName}}/api">
             <input class="none" type="text" name="redirect" value="votes" readonly/>
             <h1 class="headerdetails">update collective vote</h1>
             <ul class="listing">
                 <li class="handletitle">
-                  <a href="{{$ServerName}}/collective/{{.Name}}"> {{.Name}}</a>
+                  <a href="{{.ServerName}}/collective/{{.Name}}"> {{.Name}}</a>
                 </li>
               </ul><br/>
     
