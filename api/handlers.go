@@ -80,7 +80,7 @@ func (a *AttorneyGeneral) NewUserHandler(w http.ResponseWriter, r *http.Request)
 	}
 	email := r.FormValue("email")
 	handle := r.FormValue("handle")
-	fmt.Printf("%+v", a)
+	//fmt.Printf("%+v", a)
 	token := a.state.Axe.Token(handle)
 	view := ServerName{
 		ServerName: a.serverName,

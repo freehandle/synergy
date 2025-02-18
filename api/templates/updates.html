@@ -1,4 +1,5 @@
 {{template "HEAD" .Head}}
+{{ $servername := .ServerName }}
     <p class="headers x3large"> updates
         <span class="maintoggle xlarge light"> 
             <span class="tgmenu bold pointer" id="tg_actions" onclick="selectToggle('actions');">actions</span>
@@ -16,7 +17,7 @@
                         <div class="actioninfo">
                             <p class="description">{{.Description}}</p>
                             {{if .VoteHash}}
-                                <a class="vote" href="{{.ServerName}}/votes/{{.VoteHash}}">{{.VoteStatus}}</a>
+                                <a class="vote" href="{{$servername}}/votes/{{.VoteHash}}">{{.VoteStatus}}</a>
                             {{else}}
                                 <p class="vote">{{.VoteStatus}}</p>
                             {{end}}

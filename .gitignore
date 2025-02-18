@@ -1,6 +1,6 @@
-*.bin
-*.dat
+**/.bin
+**/.dat
 go.mod
 go.sum
 synergy
-/cmd/gateway/*.dat
+main.go

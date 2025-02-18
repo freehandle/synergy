@@ -1,4 +1,5 @@
 {{template "HEAD" .Head}}
+{{ $servername := .ServerName }}
 <div class="plurals">
     <h1 class="headers">events</h1>
     <div class="objectinfos">
@@ -18,8 +19,8 @@
                 {{else if .Live}}
                     <p class="eventfourth eventstatus">active</p>
                 {{end}}
-                <a class="eventfifth authorship" href="{{.ServerName}}/collective/{{.Collective.Link}}"> by {{.Collective.Name}} </a>
-                <p><a class="eventsixth details" href="{{.ServerName}}/event/{{.Hash}}"> details </a></p>
+                <a class="eventfifth authorship" href="{{$servername}}/collective/{{.Collective.Link}}"> by {{.Collective.Name}} </a>
+                <p><a class="eventsixth details" href="{{$servername}}/event/{{.Hash}}"> details </a></p>
             </div>
             {{end}}
     </div> 

@@ -3,7 +3,6 @@ package api
 import (
 	"crypto/rand"
 	"encoding/hex"
-	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -70,7 +69,7 @@ func (a *AttorneyGeneral) IncorporateRevokePower(handle string) {
 
 func (a *AttorneyGeneral) Incorporate(action []byte) {
 	if err := a.state.Action(action); err != nil {
-		fmt.Println("Error incorporating action:", err, action)
+		//fmt.Println("Error incorporating action:", err, action)
 	}
 
 }

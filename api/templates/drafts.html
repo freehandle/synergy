@@ -1,11 +1,12 @@
 {{template "HEAD" .Head}}
+{{ $servername := .ServerName }}
 <div class="plurals">
     <h1 class="headers">drafts</h1>
     <div id="drafts">
         {{range .Drafts}}
         <div class="box">
             <div class="head">
-                <a href="{{.ServerName}}/draft/{{.Hash}}" class="title">{{.Title}}</a>
+                <a href="{{$servername}}/draft/{{.Hash}}" class="title">{{.Title}}</a>
                 <ul class="keywords">
                     {{range .Keywords}}
                         <li class="keyword">{{.}}</li>
@@ -19,9 +20,9 @@
                 {{range .Authors}}
                     <li>
                         {{if .Collective}}
-                            <a class="author" href="{{.ServerName}}/collective/{{.Link}}">{{.Name}}</a>
+                            <a class="author" href="{{$servername}}/collective/{{.Link}}">{{.Name}}</a>
                         {{else}}
-                            <a class="author" href="{{.ServerName}}/member/{{.Link}}">{{.Name}}</a>
+                            <a class="author" href="{{$servername}}/member/{{.Link}}">{{.Name}}</a>
                         {{end}}
                     </li>
                 {{end}}

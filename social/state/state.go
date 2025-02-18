@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
@@ -103,7 +104,7 @@ func logAction(a actions.Action) {
 		des = "Greet Checkin Event"
 	}
 	text, _ := json.Marshal(a)
-	fmt.Printf("%v: %v\n\n", des, string(text))
+	log.Printf("%v: %v\n", des, string(text))
 }
 
 // funcao que esta sendo chamada no SelfGateway do genesis

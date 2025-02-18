@@ -1,10 +1,11 @@
 {{template "HEAD" .Head}}
+{{ $servername := .ServerName }}
 <div class="plurals">
     <h1 class="headers">members</h1>
     <div class="objectinfos">
         {{range .Members}}
         <div class="item">
-            <a href="{{.ServerName}}/member/{{.Link}}" class="memberfirst titlelink"> {{.Handle}} </a>
+            <a href="{{$servername}}/member/{{.Link}}" class="memberfirst titlelink"> {{.Handle}} </a>
         </div>
     {{end}}
     </div>
