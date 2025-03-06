@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{.ServerName}}/static/indexed.css">
     <link rel="stylesheet" href="{{.ServerName}}/static/singular.css">
     <link rel="stylesheet" href="{{.ServerName}}/static/modals.css">
-    <link rel="stylesheet" href="{{.ServerName}}/static/signin.css">    
+    <link rel="stylesheet" href="{{.ServerName}}/static/signin.css">
     <script src="{{.ServerName}}/static/functions.js"></script>
   </head>
 <body>
@@ -49,13 +49,13 @@
           {{if .UserHandle}}
             <div class="venture">
               <ul>
-                <li {{if eq  .Active "Connections"}} class="active"{{end}}><a href="{{.ServerName}}/connections"> connections</a></li>
+                <li {{if eq  .Active "Connections"}} class="active"{{end}}><a href="{{.ServerName}}/connections/"> connections</a></li>
                 <li {{if eq  .Active "Updates"}} class="active"{{end}}><a href="{{.ServerName}}/updates"> updates</a></li>
                 <li {{if eq  .Active "MyMedia"}} class="active"{{end}}><a href="{{.ServerName}}/mymedia"> my media </a></li>
                 <li {{if eq  .Active "MyEvents"}} class="active"{{end}}><a href="{{.ServerName}}/myevents"> my events </a></li>
-                <li {{if eq  .Active "Votes"}} class="active"{{end}}><a href="{{.ServerName}}/votes"> consensus votes </a></li>
+                <li {{if eq  .Active "Votes"}} class="active"{{end}}><a href="{{.ServerName}}/votes/"> consensus votes </a></li>
                 <li {{if eq  .Active "Pending"}} class="active"{{end}}><a href="{{.ServerName}}/pending"> pending actions </a></li>
-                <li {{if eq  .Active "CreateCollective"}} class="active"{{end}}><a href="{{.ServerName}}/createcollective"> create collective </a></li>
+                <li {{if eq  .Active "CreateCollective"}} class="active"{{end}}><a href="{{.ServerName}}/createcollective/"> create collective </a></li>
                 <li {{if eq  .Active "NewDraft"}} class="active"{{end}}><a href="{{.ServerName}}/newdraft"> new draft </a></li>
               </ul>
             </div>
@@ -77,7 +77,7 @@
 {{end}}
 {{template "HEAD" .Head}}
 {{template "TAIL"}}
-          
+
 
 
             <!-- <div class="huge">
