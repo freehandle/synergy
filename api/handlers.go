@@ -73,6 +73,30 @@ func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Requ
 	}
 }
 
+func (a *AttorneyGeneral) OnboardNewUserHandler(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	email := r.FormValue("email")
+	handle := r.FormValue("handle")
+	passwd := r.FormValue("password")
+	if !a.signin.OnboardSigner(handle, email, passwd) {
+		view := ServerName{
+			Head: HeaderInfo{
+				Error:      "perfil já existente",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+		}
+		if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	http.Redirect(w, r, fmt.Sprintf("%v/login", a.serverName), http.StatusSeeOther)
+}
+
 func (a *AttorneyGeneral) NewUserHandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
@@ -164,6 +188,19 @@ func (a *AttorneyGeneral) MainHandler(w http.ResponseWriter, r *http.Request) {
 		ServerName: a.serverName,
 	}
 	if err := a.templates.ExecuteTemplate(w, "main.html", view); err != nil {
+		log.Println(err)
+	}
+}
+
+func (a *AttorneyGeneral) OnboardingHandler(w http.ResponseWriter, r *http.Request) {
+	view := ServerName{
+		Head: HeaderInfo{
+			Path:       "",
+			ServerName: a.serverName,
+		},
+		ServerName: a.serverName,
+	}
+	if err := a.templates.ExecuteTemplate(w, "totalsignin.html", view); err != nil {
 		log.Println(err)
 	}
 }

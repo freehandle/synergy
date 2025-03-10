@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/safe"
 	"github.com/freehandle/synergy/social/actions"
 )
 
@@ -75,6 +76,7 @@ func NewSigninManager(passwords PasswordManager, emailsecret string, attorney *A
 		return nil
 	}
 	return &SigninManager{
+		safe:          attorney.safe,
 		pending:       make([]*Signerin, 0),
 		passwords:     passwords,
 		AttorneyToken: attorney.Token,
@@ -85,6 +87,7 @@ func NewSigninManager(passwords PasswordManager, emailsecret string, attorney *A
 }
 
 type SigninManager struct {
+	safe          *safe.Safe // for optional direct onboarding
 	pending       []*Signerin
 	passwords     PasswordManager
 	AttorneyToken crypto.Token
@@ -108,6 +111,30 @@ func (s *SigninManager) Set(user crypto.Token, password string, email string) {
 
 func (s *SigninManager) Has(token crypto.Token) bool {
 	return s.passwords.Has(token)
+}
+
+func (s *SigninManager) OnboardSigner(handle, email, passwd string) bool {
+	if s.safe == nil {
+		log.Println("PANIC BUG: OnboardSigner called with nil safe")
+		return false
+	}
+	ok, token := s.safe.SigninWithToken(handle, passwd, email)
+	if !ok {
+		return false
+	}
+	if err := s.safe.GrantPower(handle, s.AttorneyToken.Hex(), crypto.EncodeHash(crypto.HashToken(token))); err != nil {
+		log.Println("error granting power of attorney", err)
+		return false
+	}
+	s.Set(token, passwd, email)
+	signin := actions.Signin{
+		Epoch:   s.Attorney.state.Epoch,
+		Author:  token,
+		Reasons: "Synergy app sign in with approved power of attorney",
+	}
+	s.Attorney.Send([]actions.Action{&signin}, token)
+	s.Granted[handle] = token
+	return true
 }
 
 func (s *SigninManager) AddSigner(handle, email string, token *crypto.Token) {

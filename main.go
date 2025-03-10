@@ -59,21 +59,7 @@ func launchLocalChain(ctx context.Context, listeners []chan []byte, receiver cha
 	return <-chain.Start(ctx)
 }
 
-func launchSafeServer(ctx context.Context, cancel context.CancelFunc, pk crypto.PrivateKey, password string, gateway safe.Sender, receive chan []byte) {
-	cfg := safe.SafeConfig{
-		Credentials: pk,
-		HtmlPath:    "../safe/",
-		Path:        ".",
-		Port:        7000,
-		//ServerName:  "/safe",
-	}
-	errSignal := safe.NewLocalServer(ctx, cfg, password, gateway, receive)
-	err := <-errSignal
-	log.Printf("error creating safe server: %v", err)
-	cancel()
-}
-
-func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan []byte, pass string) {
+func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan []byte, pass string, safe *safe.Safe) {
 	indexer := index.NewIndex()
 	genesis := state.GenesisState(indexer)
 	indexer.SetState(genesis)
@@ -96,6 +82,7 @@ func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan
 		GenesisTime:   genesis.GenesisTime,
 		EmailPassword: pass,
 		Port:          3000,
+		Safe:          safe,
 		//ServerName:    "/synergy",
 	}
 	attorney, finalize := api.NewGeneralAttorneyServer(config)
@@ -136,8 +123,22 @@ func main() {
 
 	_, pk := crypto.RandomAsymetricKey()
 
-	go launchSafeServer(ctx, cancel, pk, emailPassword, ByArraySender(sender), safeListener)
-	go launchSynergyServer(pk, sender, synergyListener, emailPassword)
+	cfg := safe.SafeConfig{
+		Credentials: pk,
+		HtmlPath:    "../safe/",
+		Path:        ".",
+		Port:        7000,
+		//ServerName:  "/safe",
+	}
+	errSignal, safe := safe.NewLocalServer(ctx, cfg, emailPassword, ByArraySender(sender), safeListener)
+
+	go func() {
+		err := <-errSignal
+		log.Printf("error creating safe server: %v", err)
+		cancel()
+	}()
+
+	go launchSynergyServer(pk, sender, synergyListener, emailPassword, safe)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

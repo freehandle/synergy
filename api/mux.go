@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/safe"
 
 	"github.com/freehandle/synergy/config"
 	"github.com/freehandle/synergy/social/actions"
@@ -22,7 +23,7 @@ var templateFiles []string = []string{
 	"createboard", "votecreateboard", "updateboard", "voteupdateboard", "updateevent",
 	"updatecollective", "voteupdatecollective", "createevent", "voteupdateevent", "editview",
 	"createcollective", "connections", "updates", "news", "pending", "mymedia", "myevents",
-	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin",
+	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin", "totalsignin",
 }
 
 type ServerConfig struct {
@@ -40,6 +41,7 @@ type ServerConfig struct {
 	Port          int
 	Path          string
 	ServerName    string
+	Safe          *safe.Safe // optional link to safe for direct onbboarding
 }
 
 //type AuthorAction struct {
@@ -77,6 +79,7 @@ func NewGeneralAttorneyServer(cfg ServerConfig) (*AttorneyGeneral, chan error) {
 		ephemeralpub: cfg.Ephemeral,
 		ephemeralprv: ephemeralSecret,
 		serverName:   cfg.ServerName,
+		safe:         cfg.Safe,
 	}
 	if cfg.Path == "" {
 		cfg.Path = "./"
@@ -161,10 +164,12 @@ func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize 
 	mux.HandleFunc("/myevents", attorney.MyEventsHandler)
 	mux.HandleFunc("/detailedvote/", attorney.DetailedVoteHandler)
 	mux.HandleFunc("/login", attorney.LoginHandler)
-	mux.HandleFunc("/signin", attorney.SigninHandler)
+	//mux.HandleFunc("/signin", attorney.SigninHandler)
+	mux.HandleFunc("/signin", attorney.OnboardingHandler)
 	mux.HandleFunc("/signout", attorney.SignoutHandler)
 	mux.HandleFunc("/credentials", attorney.CredentialsHandler)
 	mux.HandleFunc("/newuser", attorney.NewUserHandler)
+	mux.HandleFunc("/onboarding", attorney.OnboardNewUserHandler)
 	// mux.HandleFunc("/member/votes", attorney.VotesHandler)
 
 	srv := &http.Server{

@@ -1,20 +1,22 @@
 {{template "HEAD" .Head}}        
 <div id="generalsignin">
-  <form method="post" action="{{.ServerName}}/newuser">
+  <form method="post" action="{{.ServerName}}/onboarding">
     <div>
-      <label for="handle">handle</label>
+      <label for="handle">perfil</label>
       <input class="text" name="handle" id="handle"/> 
     </div>
     <div>
-      <label for="password">password</label>
+      <label for="password">senha</label>
       <input class="text" type="password" name="password" id="password"/> 
     </div>
     <div>
-      <label for="email">email *optional</label>
+      <label for="email">email (opcional)</label>
       <input class="text" name="email" id="email"/> 
     </div>
     <div>
-      <p class="description"> By choosing to provide an email address you secure a recovery option in case you loose your password. If no email address is provided, there will be no way to recover account access once the password is lost. </p><br/>
+      <p class="description"> Ao fornecer um endereço de email você garante uma opção de recuperação
+        caso perca sua senha. Se nenhum endereço de email for fornecido, não haverá como recuperar o
+        acesso à conta uma vez que a senha seja perdida. </p><br/>
     </div>
     <input class="click" type="submit" value="send"/>
   </form>

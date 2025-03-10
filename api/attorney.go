@@ -11,6 +11,7 @@ import (
 
 	"github.com/freehandle/breeze/consensus/messages"
 	breeze "github.com/freehandle/breeze/protocol/actions"
+	"github.com/freehandle/safe"
 
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/breeze/util"
@@ -51,6 +52,7 @@ type AttorneyGeneral struct {
 	ephemeralprv  crypto.PrivateKey
 	ephemeralpub  crypto.Token
 	serverName    string
+	safe          *safe.Safe // optional link to safe for direct onbboarding
 }
 
 func (a *AttorneyGeneral) IncorporateGrantPower(handle string, grant *attorney.GrantPowerOfAttorney) {
