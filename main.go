@@ -2,8 +2,10 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
+	"os/signal"
 	"strings"
 	"time"
 
@@ -40,7 +42,11 @@ func launchLocalChain(ctx context.Context, listeners []chan []byte, receiver cha
 	if err != nil {
 		return err
 	}
-	defer IO.Close()
+	defer func() {
+		IO.Close()
+		log.Println("blockchain IO closed")
+	}()
+
 	chain := &social.LocalBlockChain[*attorney.Mutations, *attorney.MutatingState]{
 		Interval:  time.Second,
 		Listeners: listeners,
@@ -53,15 +59,18 @@ func launchLocalChain(ctx context.Context, listeners []chan []byte, receiver cha
 	return <-chain.Start(ctx)
 }
 
-func launchSafeServer(ctx context.Context, pk crypto.PrivateKey, password string, gateway safe.Sender, receive chan []byte) chan error {
+func launchSafeServer(ctx context.Context, cancel context.CancelFunc, pk crypto.PrivateKey, password string, gateway safe.Sender, receive chan []byte) {
 	cfg := safe.SafeConfig{
 		Credentials: pk,
 		HtmlPath:    "../safe/",
 		Path:        ".",
 		Port:        7000,
-		ServerName:  "/safe",
+		//ServerName:  "/safe",
 	}
-	return safe.NewLocalServer(ctx, cfg, password, gateway, receive)
+	errSignal := safe.NewLocalServer(ctx, cfg, password, gateway, receive)
+	err := <-errSignal
+	log.Printf("error creating safe server: %v", err)
+	cancel()
 }
 
 func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan []byte, pass string) {
@@ -87,7 +96,7 @@ func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan
 		GenesisTime:   genesis.GenesisTime,
 		EmailPassword: pass,
 		Port:          3000,
-		ServerName:    "/synergy",
+		//ServerName:    "/synergy",
 	}
 	attorney, finalize := api.NewGeneralAttorneyServer(config)
 	if attorney == nil {
@@ -120,16 +129,21 @@ func main() {
 	synergyListener := make(chan []byte)
 	sender := make(chan []byte)
 
-	ctx, cancel := context.WithCancel(context.Background())
+	ctxBack := context.Background()
+	ctx, cancel := context.WithCancel(ctxBack)
 
 	go launchLocalChain(ctx, []chan []byte{synergyListener, safeListener}, sender)
 
 	_, pk := crypto.RandomAsymetricKey()
 
-	errSafe := launchSafeServer(ctx, pk, emailPassword, ByArraySender(sender), safeListener)
+	go launchSafeServer(ctx, cancel, pk, emailPassword, ByArraySender(sender), safeListener)
 	go launchSynergyServer(pk, sender, synergyListener, emailPassword)
 
-	err := <-errSafe
-	log.Printf("error launching safe server: %v", err)
+	c := make(chan os.Signal, 1)
+	signal.Notify(c, os.Interrupt)
+
+	s := <-c
+	fmt.Println("Got signal:", s)
 	cancel()
+	time.Sleep(5 * time.Second)
 }
