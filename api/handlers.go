@@ -411,7 +411,7 @@ func (a *AttorneyGeneral) BoardHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AttorneyGeneral) CollectivesHandler(w http.ResponseWriter, r *http.Request) {
-	view := ColletivesFromState(a.state)
+	view := CollectivesFromState(a.state)
 	view.Head.UserHandle = a.Handle(r)
 	view.Head.ServerName = a.serverName
 	view.ServerName = a.serverName

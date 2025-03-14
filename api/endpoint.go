@@ -1092,7 +1092,7 @@ type CollectiveDetailView struct {
 	ServerName    string
 }
 
-func ColletivesFromState(s *state.State) CollectivesListView {
+func CollectivesFromState(s *state.State) CollectivesListView {
 	head := HeaderInfo{
 		Active:  "Collectives",
 		Path:    "explore / ",
@@ -1161,7 +1161,8 @@ func CollectiveDetailFromState(s *state.State, i *index.Index, name string, toke
 		if stamp.Release != nil && stamp.Release.Draft != nil {
 			draft := stamp.Release.Draft
 			stampView := StampView{
-				Draft:            CaptionLink{Caption: draft.Title, Link: fmt.Sprintf("/draft/%v", crypto.EncodeHash(draft.DraftHash))},
+				// Draft:            CaptionLink{Caption: draft.Title, Link: fmt.Sprintf("/draft/%v", crypto.EncodeHash(draft.DraftHash))},
+				Draft:            CaptionLink{Caption: draft.Title, Link: url.QueryEscape(draft.DraftHash.String())},
 				DraftAuthors:     make([]CaptionLink, 0),
 				DraftDescription: draft.Description,
 				DraftKeywords:    draft.Keywords,
@@ -1169,7 +1170,8 @@ func CollectiveDetailFromState(s *state.State, i *index.Index, name string, toke
 			for author, _ := range draft.Authors.ListOfMembers() {
 				handle, ok := s.Members[crypto.HashToken(author)]
 				if ok {
-					stampView.DraftAuthors = append(stampView.DraftAuthors, CaptionLink{Caption: handle, Link: fmt.Sprintf("/member/%v", handle)})
+					// stampView.DraftAuthors = append(stampView.DraftAuthors, CaptionLink{Caption: handle, Link: fmt.Sprintf("/member/%v", handle)})
+					stampView.DraftAuthors = append(stampView.DraftAuthors, CaptionLink{Caption: handle, Link: url.QueryEscape(handle)})
 				}
 			}
 			view.Stamps = append(view.Stamps, stampView)
@@ -1179,7 +1181,7 @@ func CollectiveDetailFromState(s *state.State, i *index.Index, name string, toke
 	boards := i.BoardsOnCollective(collective)
 	for _, board := range boards {
 		boardView := BoardOnCollectiveView{
-			Board:       CaptionLink{Caption: board.Name, Link: fmt.Sprintf("/board/%v", board.Name)},
+			Board:       CaptionLink{Caption: board.Name, Link: url.QueryEscape(board.Name)},
 			Description: board.Description,
 			Keywords:    board.Keyword,
 		}
@@ -1198,7 +1200,7 @@ func CollectiveDetailFromState(s *state.State, i *index.Index, name string, toke
 		for manager, _ := range event.Managers.ListOfMembers() {
 			handle, ok := s.Members[crypto.HashToken(manager)]
 			if ok {
-				eventView.Managers = append(eventView.Managers, CaptionLink{Caption: handle, Link: fmt.Sprintf("/member/%v", handle)})
+				eventView.Managers = append(eventView.Managers, CaptionLink{Caption: handle, Link: url.QueryEscape(handle)})
 			}
 		}
 		view.Events = append(view.Events, eventView)

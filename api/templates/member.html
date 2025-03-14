@@ -1,4 +1,5 @@
 {{template "HEAD" .Head}}
+{{ $servername := .ServerName }}
         <div class="singular">
                 <div class="center">
                         <h1 class="headerdetails">{{.Handle}}</h1>
@@ -7,11 +8,11 @@
                         <div class="memberdraft">
                                 {{range .Drafts}}
                                 <div class="item">
-                                        <a href="{{.ServerName}}/draft/{{.Link}}" class="large hover">{{.Title}}</a>
+                                        <a href="{{$servername}}/draft/{{.Link}}" class="large hover">{{.Title}}</a>
                                         <ul class="listinfo"> 
                                                 {{range .CoAuthors}}
                                                 <li class="coauthor handle">
-                                                        <a href="{{.ServerName}}/member/{{.Link}}" class="hover">{{.Caption}}</a>
+                                                        <a href="{{$servername}}/member/{{.Link}}" class="hover">{{.Caption}}</a>
                                                 </li>
                                                 {{end}}
                                         </ul>
@@ -30,16 +31,16 @@
 <div id="right">
         <p class="infotitle">collectives</p>
         {{range .Collectives}}
-                <div class="memberitem"> <a class="lighthover" href="{{.ServerName}}/collective/{{.Link}}">{{.Caption}}</a> </div>
+                <div class="memberitem"> <a class="lighthover" href="{{$servername}}/collective/{{.Link}}">{{.Caption}}</a> </div>
         {{end}}
         <p class="infotitle">boards</p>
         {{range .Boards}}
                 <p class="memberitem"> 
-                        <a class="lighthover" href="{{.ServerName}}/board/{{.Link}}">{{.Caption}}</a>
+                        <a class="lighthover" href="{{$servername}}/board/{{.Link}}">{{.Caption}}</a>
                 </p>
         {{end}}
         <p class="infotitle">events</p>
         {{range .Events}}
-                <p class="memberitem"> <a class="lighthover" href="{{.ServerName}}/event/{{.Link}}">{{.Caption}}</a> </p>
+                <p class="memberitem"> <a class="lighthover" href="{{$servername}}/event/{{.Link}}">{{.Caption}}</a> </p>
         {{end}}
 {{template "TAIL"}}

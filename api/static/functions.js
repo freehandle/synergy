@@ -184,7 +184,7 @@ function dialogrelease() {
   let releasepar = document.getElementById("releaseoutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  releasepar.innerHTML = "apply for editorship of " + pagename + " board";
+  releasepar.innerHTML = "apply for release of " + pagename + " draft";
 }
 
 
