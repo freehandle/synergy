@@ -245,7 +245,7 @@ func (a *AttorneyGeneral) CreateCollectiveHandler(w http.ResponseWriter, r *http
 			Path:       "venture >",
 			EndPath:    "create collective",
 			Section:    "venture",
-			UserName:   a.Handle(r),
+			UserHandle: a.Handle(r),
 			ServerName: a.serverName,
 		},
 		ServerName: a.serverName,

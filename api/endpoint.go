@@ -490,12 +490,12 @@ func VotesFromState(s *state.State, i *index.Index, token crypto.Token) VotesLis
 			handle, ok := s.Members[crypto.Hasher(prop.Request.Author[:])]
 			if ok {
 				itemView.ObjectCaption = handle
-				itemView.ObjectLink = fmt.Sprintf("/member/%v", url.QueryEscape(handle))
+				itemView.ObjectLink = fmt.Sprintf("member/%v", url.QueryEscape(handle))
 				itemView.ObjectType = ""
 			}
 			itemView.ComplementType = "collective"
 			itemView.ComplementCaption = prop.Collective.Name
-			itemView.ComplementLink = fmt.Sprintf("/collective/%v", url.QueryEscape(prop.Collective.Name))
+			itemView.ComplementLink = fmt.Sprintf("collective/%v", url.QueryEscape(prop.Collective.Name))
 		case state.DraftProposal:
 			itemView.Handler = "draft"
 		case state.PinProposal:
@@ -523,7 +523,7 @@ func VotesFromState(s *state.State, i *index.Index, token crypto.Token) VotesLis
 			handle, ok := s.Members[crypto.Hasher(prop.Remove.Member[:])]
 			if ok {
 				itemView.ObjectCaption = handle
-				itemView.ObjectLink = fmt.Sprintf("/member/%v", url.QueryEscape(handle))
+				itemView.ObjectLink = fmt.Sprintf("member/%v", url.QueryEscape(handle))
 				itemView.ObjectType = ""
 			}
 		case state.EditProposal:
@@ -537,7 +537,7 @@ func VotesFromState(s *state.State, i *index.Index, token crypto.Token) VotesLis
 			editor, ok := s.Members[crypto.Hasher(prop.Editor[:])]
 			if ok {
 				itemView.ObjectCaption = editor
-				itemView.ObjectLink = fmt.Sprintf("/member/%v", url.QueryEscape(editor))
+				itemView.ObjectLink = fmt.Sprintf("member/%v", url.QueryEscape(editor))
 				if prop.Insert {
 					itemView.ObjectType = "include"
 				} else {
@@ -547,7 +547,7 @@ func VotesFromState(s *state.State, i *index.Index, token crypto.Token) VotesLis
 			itemView.Scope = ""
 			itemView.ComplementCaption = prop.Board.Name
 			itemView.ComplementType = "board"
-			itemView.ComplementLink = fmt.Sprintf("/board/%v", url.QueryEscape(prop.Board.Name))
+			itemView.ComplementLink = fmt.Sprintf("board/%v", url.QueryEscape(prop.Board.Name))
 		case state.ReactProposal:
 		case state.CreateEventProposal:
 			itemView.Handler = "votecreateevent"
