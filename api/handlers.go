@@ -759,7 +759,7 @@ func (a *AttorneyGeneral) UpdateBoardHandler(w http.ResponseWriter, r *http.Requ
 	}
 	mainview := ServerName{
 		Head: HeaderInfo{
-			Error:      "board to de updated not found",
+			Error:      "board to be updated not found",
 			UserHandle: a.Handle(r),
 			ServerName: a.serverName,
 		},

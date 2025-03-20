@@ -73,6 +73,7 @@ func FormToTokenArray(r *http.Request, field string, handles map[string]crypto.T
 	h := strings.Split(r.FormValue(field), ",")
 	tokens := make([]crypto.Token, 0)
 	for _, handle := range h {
+		handle = strings.TrimSpace(handle)
 		if token, ok := handles[handle]; ok {
 			tokens = append(tokens, token)
 		}
@@ -102,7 +103,13 @@ func FormToStringArray(r *http.Request, field string) []string {
 		return nil
 	}
 	words := strings.Split(r.FormValue(field), ",")
-	return words
+	wordst := make([]string, 0)
+	for _, w := range words {
+		if strings.TrimSpace(w) != "" {
+			wordst = append(wordst, w)
+		}
+	}
+	return wordst
 }
 
 func FormToBool(r *http.Request, field string) bool {
@@ -454,7 +461,7 @@ func UpdateBoardForm(r *http.Request) UpdateBoard {
 		action.Keywords = &keywords
 	}
 	if s := r.FormValue("pinMajority"); s != "" {
-		majority := byte(FormToI(r, "pinMajorty"))
+		majority := FormToB(r, "pinMajority")
 		action.PinMajority = &majority
 	}
 	text, _ := json.Marshal(action)
@@ -518,13 +525,15 @@ func UpdateEventForm(r *http.Request, handles map[string]crypto.Token) UpdateEve
 		action.Public = &public
 	}
 	if s := r.FormValue("managerMajority"); s != "" {
-		majority := FormToI(r, "managerMajority")
+		majority := FormToB(r, "managerMajority")
 		action.ManagerMajority = &majority
 	}
 	if s := r.FormValue("managers"); s != "" {
 		managers := FormToTokenArray(r, "managers", handles)
 		action.Managers = &managers
 	}
+	text, _ := json.Marshal(action)
+	log.Println(string(text))
 	return action
 }
 
