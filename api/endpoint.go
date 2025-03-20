@@ -761,6 +761,7 @@ type BoardUpdateView struct {
 	Head              HeaderInfo
 	Voting            DetailedVoteView
 	ServerName        string
+	Editorship        bool
 }
 
 func BoardToUpdateFromState(s *state.State, name string) *BoardUpdateView {
@@ -789,7 +790,7 @@ func BoardToUpdateFromState(s *state.State, name string) *BoardUpdateView {
 	return update
 }
 
-func BoardUpdateFromState(s *state.State, hash crypto.Hash) *BoardUpdateView {
+func BoardUpdateFromState(s *state.State, hash crypto.Hash, token crypto.Token) *BoardUpdateView {
 	pending, ok := s.Proposals.UpdateBoard[hash]
 	if !ok {
 		return nil
@@ -824,6 +825,9 @@ func BoardUpdateFromState(s *state.State, hash crypto.Hash) *BoardUpdateView {
 	}
 	if pending.Keywords != nil {
 		update.KeywordsString = strings.Join(*pending.Keywords, ",")
+	}
+	if live.Editors.IsMember(token) {
+		update.Editorship = true
 	}
 	return update
 }

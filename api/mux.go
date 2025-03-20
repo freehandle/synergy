@@ -147,7 +147,7 @@ func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize 
 	mux.HandleFunc("/createboard", attorney.CreateBoardHandler)
 	mux.HandleFunc("/votecreateboard/", attorney.VoteCreateBoardHandler)
 	mux.HandleFunc("/updateboard/", attorney.UpdateBoardHandler)
-	mux.HandleFunc("/voteupdateboard/", attorney.UpdateBoardHandler)
+	mux.HandleFunc("/voteupdateboard/", attorney.VoteUpdateBoardHandler)
 	mux.HandleFunc("/updatecollective/", attorney.UpdateCollectiveHandler)
 	mux.HandleFunc("/voteupdatecollective/", attorney.VoteUpdateCollectiveHandler)
 	mux.HandleFunc("/updateevent/", attorney.UpdateEventHandler)
