@@ -872,7 +872,10 @@ func NewDetailedVoteView(votes []actions.Vote, consensus state.Consensual, s *st
 		NotCast:  make([]VoteDetails, 0),
 		Majority: majority,
 	}
-	allVoters := consensus.ListOfMembers()
+	allVoters := make(map[crypto.Token]struct{})
+	for keyvoter, valuevoter := range consensus.ListOfMembers() {
+		allVoters[keyvoter] = valuevoter
+	}
 	for _, vote := range votes {
 		if !consensus.IsMember(vote.Author) {
 			continue
@@ -969,7 +972,7 @@ func PendingBoardFromState(s *state.State, hash crypto.Hash) *BoardDetailView {
 		CollectiveLink: url.QueryEscape(board.Collective.Name),
 		Keywords:       board.Keyword,
 		PinMajority:    board.Editors.Majority,
-		Editors:        make([]MemberDetailView, 0),
+		Editors:        make([]MemberDetailView, 0), // isso aqui estaria errado, nao? acho que teria que ter o propositor como editor ja
 		Drafts:         make([]DraftsView, 0),
 		Reasons:        pending.Origin.Reasons,
 		Hash:           crypto.EncodeHash(hash),
