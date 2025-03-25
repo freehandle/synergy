@@ -26,6 +26,10 @@ func (f *filePasswordManager) Check(user crypto.Token, password crypto.Hash) boo
 	return false
 }
 
+func (f *filePasswordManager) Close() {
+	f.file.Close()
+}
+
 func (f *filePasswordManager) Has(user crypto.Token) bool {
 	_, ok := f.passwords[user]
 	return ok
@@ -92,4 +96,5 @@ type PasswordManager interface {
 	Check(user crypto.Token, password crypto.Hash) bool
 	Set(user crypto.Token, password crypto.Hash, email string) bool
 	Has(user crypto.Token) bool
+	Close()
 }

@@ -59,15 +59,12 @@ func launchLocalChain(ctx context.Context, listeners []chan []byte, receiver cha
 	return <-chain.Start(ctx)
 }
 
-func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan []byte, pass string, safe *safe.Safe) {
+func launchSynergyServer(gateway chan []byte, receive chan []byte, synergyPass, emailPass string, vault *config.SecretsVault, safe *safe.Safe) {
 	indexer := index.NewIndex()
 	genesis := state.GenesisState(indexer)
 	indexer.SetState(genesis)
-	attorneySecret := pk
-	vault := &config.SecretsVault{
-		Secrets: make(map[crypto.Token]crypto.PrivateKey),
-	}
-	vault.Secrets[attorneySecret.PublicKey()] = attorneySecret
+
+	attorneySecret := vault.PK
 	cookieStore := api.OpenCokieStore("cookies.dat", genesis)
 	passwordManager := api.NewFilePasswordManager("passwords.dat")
 	config := api.ServerConfig{
@@ -80,7 +77,7 @@ func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan
 		Gateway:       gateway,
 		State:         genesis,
 		GenesisTime:   genesis.GenesisTime,
-		EmailPassword: pass,
+		EmailPassword: emailPass,
 		Port:          3000,
 		Safe:          safe,
 		//ServerName:    "/synergy",
@@ -88,7 +85,7 @@ func launchSynergyServer(pk crypto.PrivateKey, gateway chan []byte, receive chan
 	attorney, finalize := api.NewGeneralAttorneyServer(config)
 	if attorney == nil {
 		err := <-finalize
-		log.Printf("error creating attorney: %v", err)
+		log.Fatalf("error creating attorney: %v\n", err)
 		return
 	}
 	handles := &network.HandlesDB{
@@ -106,10 +103,14 @@ func main() {
 
 	envs := os.Environ()
 	var emailPassword string
+	var synergyPassword string
 	for _, env := range envs {
 		if strings.HasPrefix(env, "FREEHANDLE_SECRET=") {
 			emailPassword, _ = strings.CutPrefix(env, "FREEHANDLE_SECRET=")
+		} else if strings.HasPrefix(env, "SYNERGY_SECRET=") {
+			synergyPassword, _ = strings.CutPrefix(env, "SYNERGY_SECRET=")
 		}
+
 	}
 
 	safeListener := make(chan []byte)
@@ -121,16 +122,21 @@ func main() {
 
 	go launchLocalChain(ctx, []chan []byte{synergyListener, safeListener}, sender)
 
-	_, pk := crypto.RandomAsymetricKey()
+	vault, err := config.OpenVaultFromPassword([]byte(synergyPassword), "synergyvault.dat")
+	if err != nil {
+		log.Fatalf("error opening vault: %v\n", err)
+		return
+	}
+	vault.Secrets[vault.PK.PublicKey()] = vault.PK
 
 	cfg := safe.SafeConfig{
-		Credentials: pk,
+		Credentials: vault.PK,
 		HtmlPath:    "../safe/",
 		Path:        ".",
 		Port:        7000,
 		//ServerName:  "/safe",
 	}
-	errSignal, safe := safe.NewLocalServer(ctx, cfg, emailPassword, ByArraySender(sender), safeListener)
+	errSignal, safe := safe.NewLocalServer(ctx, cfg, synergyPassword, ByArraySender(sender), safeListener)
 
 	go func() {
 		err := <-errSignal
@@ -138,7 +144,7 @@ func main() {
 		cancel()
 	}()
 
-	go launchSynergyServer(pk, sender, synergyListener, emailPassword, safe)
+	go launchSynergyServer(sender, synergyListener, synergyPassword, emailPassword, vault, safe)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)

@@ -3,6 +3,7 @@ package api
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"fmt"
 	"log"
 	"net/http"
 	"net/url"
@@ -120,6 +121,7 @@ func (a *AttorneyGeneral) Handle(r *http.Request) string {
 func (a *AttorneyGeneral) Send(all []actions.Action, author crypto.Token) {
 	for _, action := range all {
 		dressed := a.DressAction(action, author)
+		fmt.Println("Dressed action:", dressed)
 		a.gateway <- append([]byte{messages.MsgAction}, dressed...)
 		//a.gateway.Action(dressed)
 	}
