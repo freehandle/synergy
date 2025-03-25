@@ -761,6 +761,7 @@ type BoardUpdateView struct {
 	Head              HeaderInfo
 	Voting            DetailedVoteView
 	ServerName        string
+	Editorship        bool
 }
 
 func BoardToUpdateFromState(s *state.State, name string) *BoardUpdateView {
@@ -789,7 +790,7 @@ func BoardToUpdateFromState(s *state.State, name string) *BoardUpdateView {
 	return update
 }
 
-func BoardUpdateFromState(s *state.State, hash crypto.Hash) *BoardUpdateView {
+func BoardUpdateFromState(s *state.State, hash crypto.Hash, token crypto.Token) *BoardUpdateView {
 	pending, ok := s.Proposals.UpdateBoard[hash]
 	if !ok {
 		return nil
@@ -824,6 +825,9 @@ func BoardUpdateFromState(s *state.State, hash crypto.Hash) *BoardUpdateView {
 	}
 	if pending.Keywords != nil {
 		update.KeywordsString = strings.Join(*pending.Keywords, ",")
+	}
+	if live.Editors.IsMember(token) {
+		update.Editorship = true
 	}
 	return update
 }
@@ -868,7 +872,10 @@ func NewDetailedVoteView(votes []actions.Vote, consensus state.Consensual, s *st
 		NotCast:  make([]VoteDetails, 0),
 		Majority: majority,
 	}
-	allVoters := consensus.ListOfMembers()
+	allVoters := make(map[crypto.Token]struct{})
+	for keyvoter, valuevoter := range consensus.ListOfMembers() {
+		allVoters[keyvoter] = valuevoter
+	}
 	for _, vote := range votes {
 		if !consensus.IsMember(vote.Author) {
 			continue
@@ -965,7 +972,7 @@ func PendingBoardFromState(s *state.State, hash crypto.Hash) *BoardDetailView {
 		CollectiveLink: url.QueryEscape(board.Collective.Name),
 		Keywords:       board.Keyword,
 		PinMajority:    board.Editors.Majority,
-		Editors:        make([]MemberDetailView, 0),
+		Editors:        make([]MemberDetailView, 0), // isso aqui estaria errado, nao? acho que teria que ter o propositor como editor ja
 		Drafts:         make([]DraftsView, 0),
 		Reasons:        pending.Origin.Reasons,
 		Hash:           crypto.EncodeHash(hash),

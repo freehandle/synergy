@@ -372,6 +372,14 @@ type Pool struct {
 	Votes    []actions.Vote
 }
 
+func DeepCopyMembers(m map[crypto.Token]struct{}) map[crypto.Token]struct{} {
+	copiedmap := make(map[crypto.Token]struct{})
+	for keyvoter, valuevoter := range m {
+		copiedmap[keyvoter] = valuevoter
+	}
+	return copiedmap
+}
+
 func (p *Proposals) Pooling(hash crypto.Hash) *Pool {
 	kind, ok := p.all[hash]
 	if !ok {
@@ -381,21 +389,21 @@ func (p *Proposals) Pooling(hash crypto.Hash) *Pool {
 	case RequestMembershipProposal:
 		proposal := p.RequestMembership[hash]
 		return &Pool{
-			Voters:   proposal.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Collective.ListOfMembers()),
 			Majority: proposal.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
 	case UpdateCollectiveProposal:
 		proposal := p.UpdateCollective[hash]
 		return &Pool{
-			Voters:   proposal.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Collective.ListOfMembers()),
 			Majority: proposal.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
 	case RemoveMemberProposal:
 		proposal := p.RemoveMember[hash]
 		return &Pool{
-			Voters:   proposal.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Collective.ListOfMembers()),
 			Majority: proposal.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
@@ -403,7 +411,7 @@ func (p *Proposals) Pooling(hash crypto.Hash) *Pool {
 		proposal := p.Draft[hash]
 		majority, _ := proposal.Authors.GetPolicy()
 		return &Pool{
-			Voters:   proposal.Authors.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Authors.ListOfMembers()),
 			Majority: majority,
 			Votes:    proposal.Votes,
 		}
@@ -411,35 +419,35 @@ func (p *Proposals) Pooling(hash crypto.Hash) *Pool {
 		proposal := p.Edit[hash]
 		majority, _ := proposal.Authors.GetPolicy()
 		return &Pool{
-			Voters:   proposal.Authors.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Authors.ListOfMembers()),
 			Majority: majority,
 			Votes:    proposal.Votes,
 		}
 	case CreateBoardProposal:
 		proposal := p.CreateBoard[hash]
 		return &Pool{
-			Voters:   proposal.Board.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Board.Collective.ListOfMembers()),
 			Majority: proposal.Board.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
 	case UpdateBoardProposal:
 		proposal := p.UpdateBoard[hash]
 		return &Pool{
-			Voters:   proposal.Board.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Board.Collective.ListOfMembers()),
 			Majority: proposal.Board.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
 	case PinProposal:
 		proposal := p.Pin[hash]
 		return &Pool{
-			Voters:   proposal.Board.Editors.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Board.Editors.ListOfMembers()),
 			Majority: proposal.Board.Editors.Majority,
 			Votes:    proposal.Votes,
 		}
 	case BoardEditorProposal:
 		proposal := p.BoardEditor[hash]
 		return &Pool{
-			Voters:   proposal.Board.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Board.Collective.ListOfMembers()),
 			Majority: proposal.Board.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
@@ -447,14 +455,14 @@ func (p *Proposals) Pooling(hash crypto.Hash) *Pool {
 		proposal := p.ReleaseDraft[hash]
 		majority, _ := proposal.Draft.Authors.GetPolicy()
 		return &Pool{
-			Voters:   proposal.Draft.Authors.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Draft.Authors.ListOfMembers()),
 			Majority: majority,
 			Votes:    proposal.Votes,
 		}
 	case ImprintStampProposal:
 		proposal := p.ImprintStamp[hash]
 		return &Pool{
-			Voters:   proposal.Reputation.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Reputation.ListOfMembers()),
 			Majority: proposal.Reputation.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
@@ -463,21 +471,21 @@ func (p *Proposals) Pooling(hash crypto.Hash) *Pool {
 	case CreateEventProposal:
 		proposal := p.CreateEvent[hash]
 		return &Pool{
-			Voters:   proposal.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Collective.ListOfMembers()),
 			Majority: proposal.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
 	case CancelEventProposal:
 		proposal := p.CancelEvent[hash]
 		return &Pool{
-			Voters:   proposal.Event.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Event.Collective.ListOfMembers()),
 			Majority: proposal.Event.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}
 	case UpdateEventProposal:
 		proposal := p.UpdateEvent[hash]
 		return &Pool{
-			Voters:   proposal.Event.Collective.ListOfMembers(),
+			Voters:   DeepCopyMembers(proposal.Event.Collective.ListOfMembers()),
 			Majority: proposal.Event.Collective.Policy.Majority,
 			Votes:    proposal.Votes,
 		}

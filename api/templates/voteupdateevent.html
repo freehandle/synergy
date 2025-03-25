@@ -65,10 +65,10 @@
     </div>
     <div class="right">
         <p class="infotitle">consensus status</p>
-        <p class="info"> {{.Votes.Voted}} have already voted</p>
-        <p class="info"> {{len .Votes.Approve}} favorable </p>
-        <p class="info"> {{len .Votes.Reject }} against </p>
-        <p class="info"> {{len .Votes.NotCast }} not cast </p>    <br/>
+        <p class="info"> {{.Voting.Voted}} have already voted</p>
+        <p class="info"> {{len .Voting.Approve}} favorable </p>
+        <p class="info"> {{len .Voting.Reject }} against </p>
+        <p class="info"> {{len .Voting.NotCast }} not cast </p>    <br/>
       </div>
 </div>
 {{template "TAIL"}}

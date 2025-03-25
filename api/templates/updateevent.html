@@ -5,7 +5,7 @@
 
                 <h1 class="headers"> update event </h1>
                 
-                <label class="onbof" for="onBehalfOf">on behalf of {{.Collective}}</label>
+                <label class="onbof" for="onBehalfOf">on behalf of {{.Collective.Name}}</label>
                 <input class="none" type="text" name="onBehalfOf" value="{{.Collective}}" readonly/><br/>
                 <input class="none" type="text" name="action" value="UpdateEvent" readonly/>
                 <input class="none" type="text" name="eventHash" value="{{.Hash}}" readonly/>

@@ -464,23 +464,24 @@ type UpdateEvent struct {
 	Venue           *string         `json:"venue,omitempty"`
 	Open            *bool           `json:"open,omitempty"`
 	Public          *bool           `json:"public,omitempty"`
-	ManagerMajority *int            `json:"managerMajority,omitempty"`
+	ManagerMajority *byte           `json:"managerMajority,omitempty"`
 	Managers        *[]crypto.Token `json:"managers,omitempty"`
 }
 
 func (a UpdateEvent) ToAction() ([]actions.Action, error) {
-	var byteMajority *byte
-	if a.ManagerMajority != nil {
-		*byteMajority = byte(*a.ManagerMajority)
-	}
+	// var byteMajority *byte
+	// if a.ManagerMajority != nil {
+	// 	*byteMajority = byte(*a.ManagerMajority)
+	// }
 	action := actions.UpdateEvent{
-		Reasons:         a.Reasons,
-		EventHash:       a.EventHash,
-		Description:     a.Description,
-		Venue:           a.Venue,
-		Open:            a.Open,
-		Public:          a.Public,
-		ManagerMajority: byteMajority,
+		Reasons:     a.Reasons,
+		EventHash:   a.EventHash,
+		Description: a.Description,
+		Venue:       a.Venue,
+		Open:        a.Open,
+		Public:      a.Public,
+		// ManagerMajority: byteMajority,
+		ManagerMajority: a.ManagerMajority,
 		Managers:        a.Managers,
 	}
 	return []actions.Action{&action}, nil

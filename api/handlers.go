@@ -759,7 +759,7 @@ func (a *AttorneyGeneral) UpdateBoardHandler(w http.ResponseWriter, r *http.Requ
 	}
 	mainview := ServerName{
 		Head: HeaderInfo{
-			Error:      "board to de updated not found",
+			Error:      "board to be updated not found",
 			UserHandle: a.Handle(r),
 			ServerName: a.serverName,
 		},
@@ -771,13 +771,14 @@ func (a *AttorneyGeneral) UpdateBoardHandler(w http.ResponseWriter, r *http.Requ
 }
 
 func (a *AttorneyGeneral) VoteUpdateBoardHandler(w http.ResponseWriter, r *http.Request) {
-	hash := getHash(r.URL.Path, "/votecreateboard/")
-	view := BoardUpdateFromState(a.state, hash)
+	author := a.Author(r)
+	hash := getHash(r.URL.Path, "/voteupdateboard/")
+	view := BoardUpdateFromState(a.state, hash, author)
 	if view != nil {
 		view.Head.UserHandle = a.Handle(r)
 		view.Head.ServerName = a.serverName
 		view.ServerName = a.serverName
-		if err := a.templates.ExecuteTemplate(w, "votecreateboard.html", view); err != nil {
+		if err := a.templates.ExecuteTemplate(w, "voteupdateboard.html", view); err != nil {
 			log.Println(err)
 		} else {
 			return
