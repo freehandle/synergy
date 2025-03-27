@@ -178,7 +178,7 @@ func (s *SigninManager) Set(user crypto.Token, password string, email string) {
 	s.passwords.Set(user, hashed, email)
 }
 
-func (s *SigninManager) Reset(user crypto.Token, newpassword string) bool {
+func (s *SigninManager) DirectReset(user crypto.Token, newpassword string) bool {
 	newhashed := crypto.Hasher(append(user[:], []byte(newpassword)...))
 	return s.passwords.Reset(user, newhashed)
 }

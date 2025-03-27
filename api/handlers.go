@@ -97,7 +97,7 @@ func (a *AttorneyGeneral) CredentialsResetHandler(w http.ResponseWriter, r *http
 		return
 	}
 	if newpassword == repeatnewpassword {
-		if !a.signin.Reset(token, newpassword) {
+		if !a.signin.DirectReset(token, newpassword) {
 			view := ServerName{
 				Head: HeaderInfo{
 					Error:      "não foi possível atualizar a senha",

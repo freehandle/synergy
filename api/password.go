@@ -166,28 +166,12 @@ func (f *filePasswordManager) Set(user crypto.Token, password crypto.Hash, email
 
 func (f *filePasswordManager) Reset(user crypto.Token, newpassword crypto.Hash) bool {
 	f.mu.Lock()
-	defer f.mu.Unlock()
-	newdata := append(user[:], newpassword[:]...)
 	n, ok := f.passwords[user]
-	if ok {
-		if n > len(f.hashes) {
-			log.Printf("unexpected error in file password manager")
-			return false
-		}
-		if n, err := f.file.WriteAt(newdata, int64(n)*2*crypto.Size); n != 64 || err != nil {
-			log.Printf("unexpected error in file password manager: %v", err)
-			return false
-		}
-		f.hashes[n] = newpassword
-	}
-	f.file.Seek(0, 2)
-	if n, err := f.file.Write(newdata); n != 64 || err != nil {
-		log.Printf("unexpected error in file password manager: %v", err)
+	f.mu.Unlock()
+	if !ok || n > len(f.hashes) {
 		return false
 	}
-	f.hashes = append(f.hashes, newpassword)
-	f.passwords[user] = len(f.hashes) - 1
-	return true
+	return f.Set(user, newpassword, f.hashes[n].email)
 }
 
 func NewFilePasswordManager(filename string) PasswordManager {
