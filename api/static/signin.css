@@ -39,13 +39,13 @@
 }
 
 #generalsignin a.reset{
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: #988500;
     background-color: #FFF8CC;
-    padding: 0.5rem;
-    margin-top: 3rem;
+    padding: 0.3rem;
+    margin: 2rem 1rem 0rem 0rem;
     border: none;
     box-shadow: #988500 0.125rem 0.125rem 0.125rem;
     cursor: pointer;
-
+    display: inline-block;
 }

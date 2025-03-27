@@ -24,7 +24,7 @@ var templateFiles []string = []string{
 	"updatecollective", "voteupdatecollective", "createevent", "voteupdateevent", "editview",
 	"createcollective", "connections", "updates", "news", "pending", "mymedia", "myevents",
 	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin", "totalsignin",
-	"forgot", "reset",
+	"forgot", "reset", "resetpassword",
 }
 
 type ServerConfig struct {

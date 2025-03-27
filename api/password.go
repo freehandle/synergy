@@ -220,6 +220,7 @@ func NewFilePasswordManager(filename string) PasswordManager {
 			copy(hash[:], bytes[crypto.Size+1:2*crypto.Size+1])
 			email := string(bytes[2*crypto.Size+1:])
 			manager.passwords[token] = len(manager.hashes)
+			// fmt.Println("em password", token, hash.String())
 			manager.hashes = append(manager.hashes, hashmail{hash: hash, email: email})
 		}
 		if pos == len(data) {

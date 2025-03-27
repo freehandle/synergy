@@ -1,10 +1,10 @@
 {{template "HEAD" .Head}}        
-<div id="generalreset">
+<div id="generalsignin">
   <form method="post" action="{{.ServerName}}/reset">
     <div>
       <input type="hidden" name="url" value="{{.URL}}"/>
       <input type="hidden" name="handle" value="{{.Handle}}"/>
-      <label for="password">new password for {{.Handle}}</label>
+      <label for="password">nova senha para {{.Handle}}</label>
       <input class="text" type="password" name="password" id="password"/> 
     </div>
     <input class="click" type="submit" value="send"/>
