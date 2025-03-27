@@ -24,6 +24,7 @@ var templateFiles []string = []string{
 	"updatecollective", "voteupdatecollective", "createevent", "voteupdateevent", "editview",
 	"createcollective", "connections", "updates", "news", "pending", "mymedia", "myevents",
 	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin", "totalsignin",
+	"forgot", "reset",
 }
 
 type ServerConfig struct {
@@ -33,15 +34,16 @@ type ServerConfig struct {
 	Passwords   PasswordManager
 	CookieStore *CookieStore
 	//Gateway       social.Gatewayer
-	Indexer       *index.Index
-	Gateway       chan []byte
-	State         *state.State
-	GenesisTime   time.Time
-	EmailPassword string
-	Port          int
-	Path          string
-	ServerName    string
-	Safe          *safe.Safe // optional link to safe for direct onbboarding
+	Indexer     *index.Index
+	Gateway     chan []byte
+	State       *state.State
+	GenesisTime time.Time
+	Mail        Mailer
+	Port        int
+	Path        string
+	ServerName  string
+	Hostname    string
+	Safe        *safe.Safe // optional link to safe for direct onbboarding
 }
 
 //type AuthorAction struct {
@@ -65,27 +67,28 @@ func NewGeneralAttorneyServer(cfg ServerConfig) (*AttorneyGeneral, chan error) {
 
 	attorney := AttorneyGeneral{
 		//epoch:       config.State.Epoch, TODO: epoch get out of struct
-		pk:            attorneySecret,
-		Token:         cfg.Attorney,
-		wallet:        attorneySecret,
-		pending:       make(map[crypto.Hash]actions.Action),
-		gateway:       cfg.Gateway,
-		state:         cfg.State,
-		indexer:       cfg.Indexer,
-		session:       cfg.CookieStore,
-		emailPassword: cfg.EmailPassword,
+		pk:      attorneySecret,
+		Token:   cfg.Attorney,
+		wallet:  attorneySecret,
+		pending: make(map[crypto.Hash]actions.Action),
+		gateway: cfg.Gateway,
+		state:   cfg.State,
+		indexer: cfg.Indexer,
+		session: cfg.CookieStore,
+		//Mail:    cfg.Mail,
 		//sessionend:   make(map[uint64][]string),
 		genesisTime:  cfg.GenesisTime,
 		ephemeralpub: cfg.Ephemeral,
 		ephemeralprv: ephemeralSecret,
 		serverName:   cfg.ServerName,
+		hostname:     cfg.Hostname,
 		safe:         cfg.Safe,
 	}
 	if cfg.Path == "" {
 		cfg.Path = "./"
 	}
 	templatesPath := fmt.Sprintf("%v/api/templates", cfg.Path)
-	attorney.signin = NewSigninManager(cfg.Passwords, cfg.EmailPassword, &attorney)
+	attorney.signin = NewSigninManager(cfg.Passwords, cfg.Mail, &attorney)
 	attorney.templates = template.New("root")
 	files := make([]string, len(templateFiles))
 
@@ -167,6 +170,10 @@ func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize 
 	//mux.HandleFunc("/signin", attorney.SigninHandler)
 	mux.HandleFunc("/signin", attorney.OnboardingHandler)
 	mux.HandleFunc("/signout", attorney.SignoutHandler)
+	mux.HandleFunc("/forgot", attorney.ForgotHandler)
+	mux.HandleFunc("/passwordreset", attorney.ResetRequestHandler)
+	mux.HandleFunc("/r/", attorney.ResetFromURLHandler)
+	mux.HandleFunc("/reset", attorney.ResetHandler)
 	mux.HandleFunc("/credentials", attorney.CredentialsHandler)
 	mux.HandleFunc("/newuser", attorney.NewUserHandler)
 	mux.HandleFunc("/onboarding", attorney.OnboardNewUserHandler)

@@ -97,6 +97,79 @@ func (a *AttorneyGeneral) OnboardNewUserHandler(w http.ResponseWriter, r *http.R
 	http.Redirect(w, r, fmt.Sprintf("%v/login", a.serverName), http.StatusSeeOther)
 }
 
+type PasswordResetView struct {
+	Head       HeaderInfo
+	ServerName string
+	URL        string
+	Handle     string
+}
+
+func (a *AttorneyGeneral) ResetFromURLHandler(w http.ResponseWriter, r *http.Request) {
+	url := r.URL.Path
+	url = strings.TrimPrefix(url, "/r/")
+	ok, token, _ := a.signin.passwords.HasReset(url)
+	handle := a.state.Axe.Handle(token)
+	if !ok || handle == nil {
+		view := ServerName{
+			Head: HeaderInfo{
+				Error:      "invalid reset link",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+		}
+		if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	view := PasswordResetView{
+		Head: HeaderInfo{
+			Error:      "",
+			ServerName: a.serverName,
+		},
+		ServerName: a.serverName,
+		URL:        r.URL.Path,
+		Handle:     handle.Handle,
+	}
+	if err := a.templates.ExecuteTemplate(w, "reset.html", view); err != nil {
+		log.Println(err)
+	}
+}
+
+func (a *AttorneyGeneral) ResetHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		http.Redirect(w, r, fmt.Sprintf("%v/login", a.serverName), http.StatusSeeOther)
+	}()
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	url := r.FormValue("url")
+	url = strings.TrimPrefix(url, "/r/")
+	password := r.FormValue("password")
+	handle := r.FormValue("handle")
+	token := a.state.Axe.Token(handle)
+	if token != nil && a.signin.Reset(*token, url, password) {
+		return
+	}
+}
+
+func (a *AttorneyGeneral) ResetRequestHandler(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		http.Redirect(w, r, fmt.Sprintf("%v/login", a.serverName), http.StatusSeeOther)
+	}()
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	email := r.FormValue("email")
+	handle := r.FormValue("handle")
+	token := a.state.Axe.Token(handle)
+	if token != nil && a.signin.RequestReset(*token, email, fmt.Sprintf("%s%s", a.hostname, a.serverName)) {
+		return
+	}
+}
+
 func (a *AttorneyGeneral) NewUserHandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
@@ -227,6 +300,19 @@ func (a *AttorneyGeneral) SigninHandler(w http.ResponseWriter, r *http.Request) 
 		ServerName: a.serverName,
 	}
 	if err := a.templates.ExecuteTemplate(w, "signin.html", view); err != nil {
+		log.Println(err)
+	}
+}
+
+func (a *AttorneyGeneral) ForgotHandler(w http.ResponseWriter, r *http.Request) {
+	view := ServerName{
+		Head: HeaderInfo{
+			Path:       "",
+			ServerName: a.serverName,
+		},
+		ServerName: a.serverName,
+	}
+	if err := a.templates.ExecuteTemplate(w, "forgot.html", view); err != nil {
 		log.Println(err)
 	}
 }

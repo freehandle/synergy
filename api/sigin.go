@@ -13,6 +13,38 @@ import (
 	"github.com/freehandle/synergy/social/actions"
 )
 
+const wellcomeBody = `
+Your email address has been recently assigned to a synergy account for the handle %s. 
+
+If you did not persue this action, it is safe to just ignore this message. 
+
+Otherwise, we are happy to welcome you to Synergy, the flagship of the FreeHandle project! 
+
+https://github.com/freehandle/synergy is designed for collaboration and collective construction. It runs on top of the breeze network and on top of handles social protocol, both also part of the FreeHandle project.
+
+By providing this email address upon signing into synergy, the following actions were triggered and performed on your behalf:
+
+- A safe wallet account was assigned to the handle %s. Through this wallet you can manage which applications will be authorized to sign instructions on your behalf, much like granting a power of attorney.
+
+- The synergy app was granted this power of attorney to sign instructions on your behalf (i.e. on behalf of the handle %s). You are free to revoke this power of attorney at any time with no harm to your account, data or wallet. Should you choose to do that, you are also free to grant it back to synergy (or any other application, for that matter) at any time in the future.
+
+- Your synergy account was created and associated to the handle %s and you may now freely use and collaborate on the synergy app. It is important to know that any instructions performed on the app will be processed on the breeze network, and cannot be futurally erased, as they will be permanently incorporated into the breeze blockchain.
+
+- By choosing to provide an email address you secured the possibility of password recovery. This email address will be used for that purpose if by any chance you loose access to %s's Synergy account. 
+
+Thank you for joining Synergy! 
+
+#FreeOurHandles`
+
+const resetBody = `
+
+Your password reset request for synergy was received. To reset your password please follow the link below
+
+https://%v
+
+Thanks for #FreeingOurHandles!
+`
+
 var emailSigninMessage = "To: %v\r\n" + "Subject: Synergy Protocol Sigin\r\n" + "\r\n" + "%v\r\n"
 
 const signinWithoutHandleBody = `Your email was associated to a Synergy account for the handle %v.
@@ -62,6 +94,26 @@ const passwordMessage = `Your new password for the Synergy App account for the h
 Thank you for using Synergy App! #FreeOurHandles
 `
 
+type SMTPGmail struct {
+	Password string
+	From     string
+}
+
+func (s *SMTPGmail) Send(to, subject, body string) bool {
+	auth := smtp.PlainAuth("", s.From, s.Password, "smtp.gmail.com")
+	emailMsg := fmt.Sprintf("To: %s\r\n"+"Subject: %s\r\n"+"\r\n"+"%s\r\n", to, subject, body)
+	err := smtp.SendMail("smtp.gmail.com:587", auth, s.From, []string{to}, []byte(emailMsg))
+	if err != nil {
+		log.Printf("email sending error: %v", err)
+		return false
+	}
+	return true
+}
+
+type Mailer interface {
+	Send(to, subject, body string) bool
+}
+
 type Signerin struct {
 	Handle string
 	//Token       crypto.Token
@@ -70,7 +122,7 @@ type Signerin struct {
 	FingerPrint string
 }
 
-func NewSigninManager(passwords PasswordManager, emailsecret string, attorney *AttorneyGeneral) *SigninManager {
+func NewSigninManager(passwords PasswordManager, mail Mailer, attorney *AttorneyGeneral) *SigninManager {
 	if attorney == nil {
 		log.Print("PANIC BUG: NewSigninManager called with nil attorney ")
 		return nil
@@ -81,7 +133,7 @@ func NewSigninManager(passwords PasswordManager, emailsecret string, attorney *A
 		passwords:     passwords,
 		AttorneyToken: attorney.Token,
 		Attorney:      attorney,
-		Password:      emailsecret,
+		mail:          mail,
 		Granted:       make(map[string]crypto.Token),
 	}
 }
@@ -91,9 +143,26 @@ type SigninManager struct {
 	pending       []*Signerin
 	passwords     PasswordManager
 	AttorneyToken crypto.Token
-	Password      string
+	mail          Mailer
 	Attorney      *AttorneyGeneral
 	Granted       map[string]crypto.Token
+}
+
+func (s *SigninManager) RequestReset(user crypto.Token, email, domain string) bool {
+	if !s.passwords.HasWithEmail(user, email) {
+		return false
+	}
+	reset := s.passwords.AddReset(user, email)
+	url := fmt.Sprintf("%s/r/%s", domain, reset)
+	if reset == "" {
+		return false
+	}
+	go s.mail.Send(email, "Synergy password reset", fmt.Sprintf(resetBody, url))
+	return true
+}
+
+func (s *SigninManager) Reset(user crypto.Token, url, password string) bool {
+	return s.passwords.DropReset(user, url, password)
 }
 
 func (s *SigninManager) Check(user crypto.Token, password string) bool {
@@ -134,6 +203,7 @@ func (s *SigninManager) OnboardSigner(handle, email, passwd string) bool {
 	}
 	s.Attorney.Send([]actions.Action{&signin}, token)
 	s.Granted[handle] = token
+	go s.mail.Send(email, "Synergy Protocol Welcome", fmt.Sprintf(wellcomeBody, handle, handle, handle, handle, handle))
 	return true
 }
 
@@ -187,25 +257,29 @@ func (s *SigninManager) GrantAttorney(token crypto.Token, handle, fingerprint st
 }
 
 func (s *SigninManager) sendSigninEmail(msg, handle, email, fingerprint string) {
-	auth := smtp.PlainAuth("", "freemyhandle@gmail.com", s.Password, "smtp.gmail.com")
+	/*auth := smtp.PlainAuth("", "freemyhandle@gmail.com", s.Password, "smtp.gmail.com")
 	to := []string{email}
 	body := fmt.Sprintf(msg, handle, s.AttorneyToken, fingerprint)
 	emailMsg := fmt.Sprintf(emailSigninMessage, email, body)
 	err := smtp.SendMail("smtp.gmail.com:587", auth, "freemyhandle@gmail.com", to, []byte(emailMsg))
 	if err != nil {
 		log.Printf("email sending error: %v", err)
-	}
+	}*/
+	body := fmt.Sprintf(msg, handle, s.AttorneyToken, fingerprint)
+	s.mail.Send(email, "Synergy Protocol Signin", body)
 	//fmt.Println(emailMsg)
 }
 
 func (s *SigninManager) sendPasswordEmail(handle, email, password string) {
-	auth := smtp.PlainAuth("", "freemyhandle@gmail.com", s.Password, "smtp.gmail.com")
+	/*auth := smtp.PlainAuth("", "freemyhandle@gmail.com", s.Password, "smtp.gmail.com")
 	to := []string{email}
 	body := fmt.Sprintf(passwordMessage, handle, password)
 	emailMsg := fmt.Sprintf(emailPasswordMessage, email, body)
 	err := smtp.SendMail("smtp.gmail.com:587", auth, "freemyhandle@gmail.com", to, []byte(emailMsg))
 	if err != nil {
 		log.Printf("email sending error: %v", err)
-	}
+	}*/
+	body := fmt.Sprintf(passwordMessage, handle, password)
+	s.mail.Send(email, "Synergy Protocol Password", body)
 	//fmt.Println(emailMsg)
 }

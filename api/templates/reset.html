@@ -1,0 +1,13 @@
+{{template "HEAD" .Head}}        
+<div id="generalreset">
+  <form method="post" action="{{.ServerName}}/reset">
+    <div>
+      <input type="hidden" name="url" value="{{.URL}}"/>
+      <input type="hidden" name="handle" value="{{.Handle}}"/>
+      <label for="password">new password for {{.Handle}}</label>
+      <input class="text" type="password" name="password" id="password"/> 
+    </div>
+    <input class="click" type="submit" value="send"/>
+  </form>
+</div>
+{{template "TAIL"}}

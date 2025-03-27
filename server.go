@@ -44,17 +44,17 @@ func server4(pass string) {
 	passwordManager := api.NewFilePasswordManager("passwords.dat")
 
 	config := api.ServerConfig{
-		Vault:         vault,
-		Attorney:      attorneySecret.PublicKey(),
-		Ephemeral:     attorneySecret.PublicKey(),
-		Passwords:     passwordManager,
-		CookieStore:   cookieStore,
-		Indexer:       indexer,
-		Gateway:       gateway,
-		State:         genesis,
-		GenesisTime:   genesis.GenesisTime,
-		EmailPassword: pass,
-		Port:          3000,
+		Vault:       vault,
+		Attorney:    attorneySecret.PublicKey(),
+		Ephemeral:   attorneySecret.PublicKey(),
+		Passwords:   passwordManager,
+		CookieStore: cookieStore,
+		Indexer:     indexer,
+		Gateway:     gateway,
+		State:       genesis,
+		GenesisTime: genesis.GenesisTime,
+		//EmailPassword: pass,
+		Port: 3000,
 	}
 	attorney, finalize := api.NewGeneralAttorneyServer(config)
 	if attorney == nil {

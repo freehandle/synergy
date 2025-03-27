@@ -53,6 +53,7 @@ type AttorneyGeneral struct {
 	ephemeralprv  crypto.PrivateKey
 	ephemeralpub  crypto.Token
 	serverName    string
+	hostname      string
 	safe          *safe.Safe // optional link to safe for direct onbboarding
 }
 
