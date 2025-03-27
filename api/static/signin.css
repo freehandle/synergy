@@ -37,3 +37,15 @@
     cursor: pointer;
 
 }
+
+#generalsignin a.reset{
+    font-size: 1.2rem;
+    color: #988500;
+    background-color: #FFF8CC;
+    padding: 0.5rem;
+    margin-top: 3rem;
+    border: none;
+    box-shadow: #988500 0.125rem 0.125rem 0.125rem;
+    cursor: pointer;
+
+}

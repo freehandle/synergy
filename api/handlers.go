@@ -73,6 +73,59 @@ func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Requ
 	}
 }
 
+func (a *AttorneyGeneral) CredentialsResetHandler(w http.ResponseWriter, r *http.Request) {
+	if err := r.ParseForm(); err != nil {
+		fmt.Fprintf(w, "ParseForm() err: %v", err)
+		return
+	}
+	handle := r.FormValue("handle")
+	password := r.FormValue("oldpassword")
+	newpassword := r.FormValue("newpassword")
+	repeatnewpassword := r.FormValue("repeatnewpassword")
+	token, ok := a.state.MembersIndex[handle]
+	if !ok || !a.signin.Check(token, password) {
+		view := ServerName{
+			Head: HeaderInfo{
+				Error:      "credenciais incorretas",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+		}
+		if err := a.templates.ExecuteTemplate(w, "resetpassword.html", view); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	if newpassword == repeatnewpassword {
+		if !a.signin.Reset(token, newpassword) {
+			view := ServerName{
+				Head: HeaderInfo{
+					Error:      "não foi possível atualizar a senha",
+					ServerName: a.serverName,
+				},
+				ServerName: a.serverName,
+			}
+			if err := a.templates.ExecuteTemplate(w, "resetpassword.html", view); err != nil {
+				log.Println(err)
+			}
+			return
+		}
+		http.Redirect(w, r, fmt.Sprintf("%v/login", a.serverName), http.StatusSeeOther)
+	} else {
+		view := ServerName{
+			Head: HeaderInfo{
+				Error:      "o campo das senhas novas não bate",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+		}
+		if err := a.templates.ExecuteTemplate(w, "resetpassword.html", view); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+}
+
 func (a *AttorneyGeneral) OnboardNewUserHandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
@@ -214,6 +267,19 @@ func (a *AttorneyGeneral) LoginHandler(w http.ResponseWriter, r *http.Request) {
 		ServerName: a.serverName,
 	}
 	if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+		log.Println(err)
+	}
+}
+
+func (a *AttorneyGeneral) ResetPasswordHandler(w http.ResponseWriter, r *http.Request) {
+	view := ServerName{
+		Head: HeaderInfo{
+			Path:       "",
+			ServerName: a.serverName,
+		},
+		ServerName: a.serverName,
+	}
+	if err := a.templates.ExecuteTemplate(w, "resetpassword.html", view); err != nil {
 		log.Println(err)
 	}
 }
