@@ -24,7 +24,11 @@ var templateFiles []string = []string{
 	"updatecollective", "voteupdatecollective", "createevent", "voteupdateevent", "editview",
 	"createcollective", "connections", "updates", "news", "pending", "mymedia", "myevents",
 	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin", "totalsignin",
+<<<<<<< HEAD
 	"forgot", "reset",
+=======
+	"resetpassword",
+>>>>>>> ace47771aaa07167791a54a15967380bd764dd1b
 }
 
 type ServerConfig struct {
@@ -178,6 +182,8 @@ func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize 
 	mux.HandleFunc("/newuser", attorney.NewUserHandler)
 	mux.HandleFunc("/onboarding", attorney.OnboardNewUserHandler)
 	// mux.HandleFunc("/member/votes", attorney.VotesHandler)
+	mux.HandleFunc("/resetpassword", attorney.ResetPasswordHandler)
+	mux.HandleFunc("/credentialsreset", attorney.CredentialsResetHandler)
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%v", port),
