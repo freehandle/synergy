@@ -697,7 +697,7 @@ func CollectiveToUpdateFromState(s *state.State, name string) *CollectiveUpdateV
 		Section: "venture",
 	}
 	update := &CollectiveUpdateView{
-		Name:             name,
+		Name:             collectiveName,
 		Link:             url.QueryEscape(name),
 		OldDescription:   col.Description,
 		OldMajority:      col.Policy.Majority,

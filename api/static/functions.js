@@ -149,7 +149,7 @@ function dialogpintoboard() {
   let pinpar = document.getElementById("pinboardoutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  pinpar.innerHTML = "pin draft " + pagename + " on " + pinpar.value + " board";
+  pinpar.innerHTML = "pin draft " + pagename + " on " + board.value + " board";
 }
 
 // propose stamp
