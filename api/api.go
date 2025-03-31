@@ -274,8 +274,6 @@ func DraftForm(r *http.Request, handles map[string]crypto.Token, file []byte, ex
 		Action:        "Draft",
 		ID:            FormToI(r, "id"),
 		Reasons:       r.FormValue("reasons"),
-		OnBehalfOf:    r.FormValue("onBehalfOf"),
-		CoAuthors:     FormToTokenArray(r, "coAuthors", handles),
 		Title:         r.FormValue("title"),
 		Description:   r.FormValue("description"),
 		Keywords:      FormToStringArray(r, "keywords"),
@@ -283,6 +281,14 @@ func DraftForm(r *http.Request, handles map[string]crypto.Token, file []byte, ex
 		File:          file,
 		PreviousDraft: FormToHash(r, "PreviousDraft"),
 		References:    FormToHashArray(r, "references"),
+	}
+	if r.FormValue("onBehalfOf") != "" {
+		action.OnBehalfOf = r.FormValue("onBehalfOf")
+		return action
+
+	} else if r.FormValue("coAuthors") != "" {
+		action.CoAuthors = FormToTokenArray(r, "coAuthors", handles)
+		return action
 	}
 	return action
 }
@@ -304,11 +310,17 @@ func EditForm(r *http.Request, handles map[string]crypto.Token, file []byte, ext
 		Action:      "Edit",
 		ID:          FormToI(r, "id"),
 		Reasons:     r.FormValue("reasons"),
-		OnBehalfOf:  r.FormValue("onBehalfOf"),
-		CoAuthors:   FormToTokenArray(r, "coAuthors", handles),
 		EditedDraft: FormToHash(r, "editedDraft"),
 		ContentType: FileType(r.FormValue("fileName")),
 		File:        file,
+	}
+	if r.FormValue("onBehalfOf") != "" {
+		action.OnBehalfOf = r.FormValue("onBehalfOf")
+		return action
+
+	} else if r.FormValue("coAuthors") != "" {
+		action.CoAuthors = FormToTokenArray(r, "coAuthors", handles)
+		return action
 	}
 	return action
 }
