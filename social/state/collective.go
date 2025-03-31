@@ -261,6 +261,9 @@ func (p *PendingRemoveMember) IncorporateVote(vote actions.Vote, state *State) e
 	}
 	state.IndexConsensus(vote.Hash, consensus == Favorable)
 	state.Proposals.Delete(p.Hash)
+	if consensus == Against {
+		return nil
+	}
 	collective, ok := state.Collective(p.Collective.Name)
 	if !ok {
 		return errors.New("collective not found")
