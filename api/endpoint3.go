@@ -624,6 +624,7 @@ func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, gen
 	}
 	detailed.Needed = pool.Majority * len(pool.Voters) / 100
 	description, epoch, reasons := i.ActionToStringWithLinks(action, false)
+	description = strings.Replace(description, "./", "../", -1)
 	detailed.Description = description
 	detailed.Reasons = reasons
 	old := time.Since(genesisTime.Add(time.Duration(epoch) * time.Second))

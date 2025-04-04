@@ -187,6 +187,27 @@ function dialogrelease() {
   releasepar.innerHTML = "apply for release of " + pagename + " draft";
 }
 
+// votes 
+
+function dialogvote() {
+  // shows dialog element
+  let el = document.getElementById("dialogvoteel");
+  el.showModal();
+
+  // gets outline paragraph to be shown in modal
+  let votepar = document.getElementById("voteoutline");
+
+  // creates paragraph 
+  let votename = document.getElementById("modaloutlinename").innerHTML;
+  const itens = ["modaloutlinevoteobj", "modaloutlinevotescope", "modaloutlinevotecompl"];
+  let par = "vote " + votename + " ";
+  for (let i in itens) {
+    if (document.getElementById(itens[i]) != null) {
+      par += document.getElementById(itens[i]).innerHTML + " ";
+    }
+  }
+  votepar.innerHTML = par;
+}
 
 function selectGrammar(view) {
   let actions = document.getElementById("actionsview");

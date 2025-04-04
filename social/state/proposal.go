@@ -499,6 +499,9 @@ func (p *Proposals) Votes(hash crypto.Hash) []actions.Vote {
 		return nil
 	}
 	switch kind {
+	case RequestMembershipProposal:
+		proposal := p.RequestMembership[hash]
+		return proposal.Votes
 	case UpdateCollectiveProposal:
 		proposal := p.UpdateCollective[hash]
 		return proposal.Votes

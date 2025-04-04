@@ -222,11 +222,11 @@ type PendingRequestMembership struct {
 }
 
 func (p *PendingRequestMembership) IncorporateVote(vote actions.Vote, state *State) error {
-	if err := isValidVote(p.Hash, vote, p.Votes); err != nil {
-		return err
-	}
-	// if err := IsNewValidVote(vote, p.Votes, p.Hash); err != nil {
+	// if err := isValidVote(p.Hash, vote, p.Votes); err != nil {
+	// 	return err
 	// }
+	if err := IsNewValidVote(vote, p.Votes, p.Hash); err != nil {
+	}
 	p.Votes = append(p.Votes, vote)
 	consensus := p.Collective.Consensus(vote.Hash, p.Votes)
 	if consensus == Undecided {
