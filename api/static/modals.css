@@ -58,6 +58,7 @@ dialog::backdrop {
   font-weight: 500;
   color:#012169;
   margin-bottom: 0.313rem;
+  margin-left: 0.313rem;
 }
 
 .modalinfo.span {

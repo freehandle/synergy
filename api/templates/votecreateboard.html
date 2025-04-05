@@ -3,8 +3,8 @@
   <div class="center">
     <form method="post" action="{{.ServerName}}/api">
       <input class="none" type="text" name="redirect" value="votes" readonly/>
-      <h1 class="headerdetails">create board vote</h1>
-      <p class="subheadersdraft">on behalf of</p>
+      <h1 class="headerdetails">create board vote</h1><br/>
+      <p class="subheadersdraft">board <b>{{.Name}}</b> on behalf of</p>
       <ul class="listing">
         <li class="handletitle">
           <a href="{{.ServerName}}/collective/{{.CollectiveLink}}"> {{.Collective}}</a>

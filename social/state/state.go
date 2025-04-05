@@ -488,31 +488,16 @@ func (s *State) UpdateEvent(update *actions.UpdateEvent) error {
 		Hash:         hash,
 		Votes:        []actions.Vote{},
 	}
-	// if event.Managers.Consensus(hash, pending.Votes) {
-	// 	if update.StartAt != nil {
-	// 		event.StartAt = *update.StartAt
-	// 	}
-	// 	if update.EstimatedEnd != nil {
-	// 		event.EstimatedEnd = *update.EstimatedEnd
-	// 	}
-	// 	if update.Description != nil {
-	// 		event.Description = *update.Description
-	// 	}
-	// 	if update.Venue != nil {
-	// 		event.Venue = *update.Venue
-	// 	}
-	// 	if update.Open != nil {
-	// 		event.Open = *update.Open
-	// 	}
-	// 	if update.Public != nil {
-	// 		event.Public = *update.Public
-	// 	}
-	// 	if update.ManagerMajority != nil {
-	// 		event.Managers.Majority = int(*update.ManagerMajority)
-	// 	}
-	// } else {
-	//
-	// }
+	if len(*update.Managers) > 0 {
+		managers := make(map[crypto.Token]struct{})
+		for _, manager := range *update.Managers {
+			managers[manager] = struct{}{}
+		}
+		pending.Managers = &UnamedCollective{
+			Members:  managers,
+			Majority: int(*update.ManagerMajority),
+		}
+	}
 	s.Proposals.AddEventUpdate(&pending, update)
 	return pending.IncorporateVote(selfVote, s)
 }

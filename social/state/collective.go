@@ -48,6 +48,7 @@ func (c *Collective) Photo() *Collective {
 			Majority:      c.Policy.Majority,
 			SuperMajority: c.Policy.SuperMajority,
 		},
+		Description: c.Description,
 	}
 	for member, _ := range c.Members {
 		cloned.Members[member] = struct{}{}

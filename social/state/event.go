@@ -61,18 +61,18 @@ func (p *Event) IncorporateVote(vote actions.Vote, state *State) error {
 }
 
 type EventUpdate struct {
-	Event           *Event
-	StartAt         *time.Time
-	EstimatedEnd    *time.Time
-	Description     *string
-	Venue           *string
-	Open            *bool
-	Public          *bool
-	ManagerMajority *byte
-	Votes           []actions.Vote
-	Hash            crypto.Hash
-	Updated         bool
-	Reasons         string
+	Event        *Event
+	StartAt      *time.Time
+	EstimatedEnd *time.Time
+	Description  *string
+	Venue        *string
+	Open         *bool
+	Public       *bool
+	Managers     *UnamedCollective
+	Votes        []actions.Vote
+	Hash         crypto.Hash
+	Updated      bool
+	Reasons      string
 }
 
 func (p *EventUpdate) IncorporateVote(vote actions.Vote, state *State) error {
@@ -90,7 +90,7 @@ func (p *EventUpdate) IncorporateVote(vote actions.Vote, state *State) error {
 	// new consensus, update event details
 	state.IndexConsensus(vote.Hash, consensus == Favorable)
 	state.Proposals.Delete(p.Hash)
-	if consensus != Favorable {
+	if consensus == Against {
 		return nil
 	}
 	p.Updated = true
@@ -113,8 +113,8 @@ func (p *EventUpdate) IncorporateVote(vote actions.Vote, state *State) error {
 		if p.Public != nil {
 			event.Public = *p.Public
 		}
-		if p.ManagerMajority != nil {
-			p.Event.Managers.Majority = int(*p.ManagerMajority)
+		if p.Managers != nil {
+			event.Managers = p.Managers
 		}
 		return nil
 	}

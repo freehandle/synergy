@@ -41,13 +41,14 @@
                         </p>
                     </div>
                 </div>
-                
+                <br/>
                 <label class="formtitle" for="managers">managers</label>
                 <ul class="listing">
                     {{range .Managers}} 
                     <li><a class="linked" href="{{.ServerName}}/member/{{ .Link }}"> {{ .Handle }} </a></li>
                     {{end}}
                 </ul>
+                <br/>
                 <input class="formentry detailed" type="text" name="managers" placeholder="new managers list" id="newmanagerevent"/><br/>
                 <br/>
 
