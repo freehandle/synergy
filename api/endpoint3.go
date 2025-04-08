@@ -602,7 +602,7 @@ type DetailedPool struct {
 	ServerName  string
 }
 
-func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, genesisTime time.Time) *DetailedPool {
+func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, genesisTime time.Time, urlpath string) *DetailedPool {
 	detailed := DetailedPool{
 		Approve:  make([]DetailedVote, 0),
 		Reject:   make([]DetailedVote, 0),
@@ -623,8 +623,9 @@ func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, gen
 		return &detailed
 	}
 	detailed.Needed = pool.Majority * len(pool.Voters) / 100
+	pathstart := strings.Split(urlpath, "detailedvote/")
 	description, epoch, reasons := i.ActionToStringWithLinks(action, false)
-	description = strings.Replace(description, "./", "../", -1)
+	description = strings.Replace(description, "./", pathstart[0], -1)
 	detailed.Description = description
 	detailed.Reasons = reasons
 	old := time.Since(genesisTime.Add(time.Duration(epoch) * time.Second))

@@ -177,17 +177,22 @@ func (p *PendingUpdate) IncorporateVote(vote actions.Vote, state *State) error {
 	}
 	p.Votes = append(p.Votes, vote)
 	if p.ChangePolicy {
-		if p.Collective.SuperConsensus(p.Hash, p.Votes) != Favorable {
+		if p.Collective.SuperConsensus(p.Hash, p.Votes) == Undecided {
 			return nil
-		}
-	} else {
-		if p.Collective.Consensus(p.Hash, p.Votes) != Favorable {
+		} else if p.Collective.SuperConsensus(p.Hash, p.Votes) == Against {
+			state.Proposals.Delete(p.Hash)
 			return nil
 		}
 	}
+	if p.Collective.Consensus(p.Hash, p.Votes) == Undecided {
+		return nil
+	}
 	// exclude pending update from live proposals because of consensus
 	state.Proposals.Delete(p.Hash)
-	// update collective
+	if p.Collective.Consensus(p.Hash, p.Votes) == Against {
+		return nil
+	}
+	// consensus is favorable, update collective
 
 	// p.Collective is a photo, we need the original to update
 	collective, ok := state.Collective(p.Collective.Name)

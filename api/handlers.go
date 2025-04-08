@@ -1170,8 +1170,9 @@ func (a *AttorneyGeneral) NewsHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AttorneyGeneral) DetailedVoteHandler(w http.ResponseWriter, r *http.Request) {
-	hash := getHash(r.URL.Path, "/detailedvote/")
-	view := DetailedVoteFromState(a.state, a.indexer, hash, a.genesisTime)
+	urlpath := r.URL.Path
+	hash := getHash(urlpath, "/detailedvote/")
+	view := DetailedVoteFromState(a.state, a.indexer, hash, a.genesisTime, urlpath)
 	if view != nil {
 		view.Head.UserHandle = a.Handle(r)
 		view.Head.ServerName = a.serverName

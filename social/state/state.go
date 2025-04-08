@@ -488,15 +488,21 @@ func (s *State) UpdateEvent(update *actions.UpdateEvent) error {
 		Hash:         hash,
 		Votes:        []actions.Vote{},
 	}
-	if len(*update.Managers) > 0 {
-		managers := make(map[crypto.Token]struct{})
+	managers := make(map[crypto.Token]struct{})
+	if update.Managers != nil {
 		for _, manager := range *update.Managers {
 			managers[manager] = struct{}{}
 		}
-		pending.Managers = &UnamedCollective{
-			Members:  managers,
-			Majority: int(*update.ManagerMajority),
-		}
+	} else {
+		managers = event.Managers.Members
+	}
+	pending.Managers = &UnamedCollective{
+		Members: managers,
+	}
+	if update.ManagerMajority != nil {
+		pending.Managers.Majority = int(*update.ManagerMajority)
+	} else {
+		pending.Managers.Majority = event.Managers.Majority
 	}
 	s.Proposals.AddEventUpdate(&pending, update)
 	return pending.IncorporateVote(selfVote, s)
