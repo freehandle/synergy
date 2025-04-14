@@ -86,12 +86,16 @@ func actionsToActionUpdateView(actions []index.ActionDetails, genesisTime time.T
 				LastUpdatedInterval: PrettyDuration(time.Since(actionTime)),
 			}
 
-			if action.VoteStatus {
+			if action.VoteStatus == state.Favorable {
 				actionUpdateView.VoteStatus = "approved"
-			} else {
+			}
+			if action.VoteStatus == state.Undecided {
 				actionUpdateView.VoteStatus = "pending vote"
 			}
-			if len(action.Votes) > 0 && (!action.VoteStatus) {
+			if action.VoteStatus == state.Against {
+				actionUpdateView.VoteStatus = "denied"
+			}
+			if len(action.Votes) > 0 && (action.VoteStatus == state.Undecided) {
 				hasCast := false
 				for _, vote := range action.Votes {
 					if vote.Author.Equal(token) {
@@ -428,7 +432,7 @@ func NewActionsFromState(s *state.State, i *index.Index, genesisTime time.Time) 
 	lastDurationAction := ""
 	lastDurationReaction := ""
 	for _, action := range i.RecentActions {
-		if action.Approved == 1 {
+		if action.Status == state.Favorable {
 			des, category, epoch := i.ActionToFormatedString(action.Action)
 			if len(des) > 0 {
 				actionTime := genesisTime.Add(time.Second * time.Duration(epoch))
@@ -624,7 +628,7 @@ func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, gen
 	}
 	detailed.Needed = pool.Majority * len(pool.Voters) / 100
 	pathstart := strings.Split(urlpath, "detailedvote/")
-	description, epoch, reasons := i.ActionToStringWithLinks(action, false)
+	description, epoch, reasons := i.ActionToStringWithLinks(action, state.Undecided)
 	description = strings.Replace(description, "./", pathstart[0], -1)
 	detailed.Description = description
 	detailed.Reasons = reasons

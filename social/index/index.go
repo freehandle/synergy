@@ -17,9 +17,9 @@ type LastAction struct {
 }
 
 type IndexedAction struct {
-	Action   actions.Action
-	Hash     crypto.Hash
-	Approved byte
+	Action actions.Action
+	Hash   crypto.Hash
+	Status state.ConsensusState
 }
 
 const ActionsCacheCount = 10
@@ -29,7 +29,7 @@ type ActionDetails struct {
 	ObjectHash  string
 	Author      crypto.Token
 	Votes       []actions.Vote
-	VoteStatus  bool
+	VoteStatus  state.ConsensusState
 	Epoch       uint64
 	IsReaction  bool
 	Reaction    string
@@ -69,6 +69,7 @@ type Index struct {
 
 	indexVotes          map[crypto.Token]*SetOfHashes
 	indexCompletedVotes map[crypto.Hash][]actions.Vote
+	indexActionStatus   map[crypto.Hash]state.ConsensusState
 
 	// central connections member connections
 	memberToCollective map[crypto.Token][]string
@@ -278,6 +279,7 @@ func NewIndex() *Index {
 
 		indexVotes:          make(map[crypto.Token]*SetOfHashes),
 		indexCompletedVotes: make(map[crypto.Hash][]actions.Vote),
+		indexActionStatus:   make(map[crypto.Hash]state.ConsensusState),
 
 		objectHashToActionHash: make(map[crypto.Hash]*RecentActions),
 
@@ -290,12 +292,17 @@ func (i *Index) SetState(s *state.State) {
 	i.stateProposals = s.Proposals
 }
 
-func (i *Index) ActionStatus(action actions.Action) ([]actions.Vote, bool) {
+func (i *Index) IndexActionStatus(actionHash crypto.Hash, status state.ConsensusState) {
+	i.indexActionStatus[actionHash] = status
+	return
+}
+
+func (i *Index) ActionStatus(action actions.Action) ([]actions.Vote, state.ConsensusState) {
 	hash := action.Hashed()
 	if votes, ok := i.indexCompletedVotes[hash]; ok {
-		return votes, true
+		return votes, i.indexActionStatus[hash]
 	}
-	return i.stateProposals.Votes(hash), false
+	return i.stateProposals.Votes(hash), i.indexActionStatus[hash]
 }
 
 // Objects related to a given collective
@@ -335,8 +342,8 @@ func (i Index) GetLastAction(objectHash crypto.Hash) *ActionDetails {
 	if recent == nil || len(recent.actions) == 0 {
 		return nil
 	}
-	// TODO: check consensus status
-	des, hash, author, epoch, _ := i.ActionToString(recent.actions[len(recent.actions)-1], true)
+	status := i.indexActionStatus[recent.actions[len(recent.actions)-1].Hashed()]
+	des, hash, author, epoch, _ := i.ActionToString(recent.actions[len(recent.actions)-1], status)
 	return &ActionDetails{
 		Description: des,
 		Author:      author,
@@ -352,8 +359,8 @@ func (i Index) GetRecentActions(objectHash crypto.Hash) []ActionDetails {
 	}
 	details := make([]ActionDetails, len(recent.actions))
 	for n, r := range recent.actions {
-		// TODO: check consensus status
-		status := true
+		status := i.indexActionStatus[recent.actions[len(recent.actions)-1].Hashed()]
+		// status := state.Undecided
 		des, _, _, epoch, _ := i.ActionToString(r, status)
 		votes, status := i.ActionStatus(r)
 		details[n] = ActionDetails{
@@ -373,7 +380,7 @@ func (i Index) GetRecentActionsWithLinks(objectHash crypto.Hash) []ActionDetails
 	}
 	actionDetails := make([]ActionDetails, len(recent.actions))
 	for n, r := range recent.actions {
-		// TODO: check consensus status
+		status := i.indexActionStatus[recent.actions[len(recent.actions)-1].Hashed()]
 		votes, status := i.ActionStatus(r)
 		des, epoch, reasons := i.ActionToStringWithLinks(r, status)
 		details := ActionDetails{
@@ -405,30 +412,30 @@ func (i *Index) IndexAction(action actions.Action) {
 	}
 	//hash := action.Hashed()
 	newAction := IndexedAction{
-		Action:   action,
-		Hash:     action.Hashed(),
-		Approved: 0,
+		Action: action,
+		Hash:   action.Hashed(),
+		Status: state.Undecided,
 	}
 	if _, ok := i.indexedMembers[author]; ok {
 		switch v := action.(type) {
 		case *actions.GreetCheckinEvent:
-			newAction.Approved = 1
+			newAction.Status = state.Favorable
 		case *actions.CheckinEvent:
-			newAction.Approved = 1
+			newAction.Status = state.Favorable
 		case *actions.React:
-			newAction.Approved = 1
+			newAction.Status = state.Favorable
 		case *actions.Signin:
-			newAction.Approved = 1
+			newAction.Status = state.Favorable
 		case *actions.Vote:
-			newAction.Approved = 1
+			newAction.Status = state.Favorable
 		case *actions.RequestMembership:
 			if !v.Include {
 				i.IndexConsensusAction(action)
-				newAction.Approved = 1
+				newAction.Status = state.Favorable
 			}
 		case *actions.CreateCollective:
 			i.IndexConsensusAction(action)
-			newAction.Approved = 1
+			newAction.Status = state.Favorable
 			if person := i.Personal(v.Author); person != nil {
 				person.AddCollective(v.Name)
 			}
@@ -438,7 +445,7 @@ func (i *Index) IndexAction(action actions.Action) {
 		} else {
 			i.memberToAction[author] = []*IndexedAction{&newAction}
 		}
-		if newAction.Approved == 0 {
+		if newAction.Status == state.Undecided {
 			hash := action.Hashed()
 			i.pendingIndexActions[hash] = author
 		}
@@ -524,8 +531,8 @@ func (i *Index) IndexConsensusAction(action actions.Action) {
 	}
 }
 
-func (i *Index) IndexConsensus(hash crypto.Hash, approved bool) {
-	if approved {
+func (i *Index) IndexConsensus(hash crypto.Hash, status state.ConsensusState) {
+	if status == state.Favorable || status == state.Against {
 		i.IndexActionToPerson(hash)
 	}
 	author, ok := i.pendingIndexActions[hash]
@@ -539,12 +546,8 @@ func (i *Index) IndexConsensus(hash crypto.Hash, approved bool) {
 	}
 	for _, action := range indexActions {
 		if action.Hash.Equal(hash) {
-			if approved {
-				i.IndexConsensusAction(action.Action)
-				action.Approved = 1
-			} else {
-				action.Approved = 2
-			}
+			i.IndexConsensusAction(action.Action)
+			action.Status = status
 		}
 	}
 }
@@ -622,8 +625,8 @@ func (i *Index) GetPendingActions(token crypto.Token) []PendingAction {
 		return pendingActions
 	}
 	for _, action := range actions {
-		if action.Approved == 0 {
-			description, _, _, epoch, _ := i.ActionToString(action.Action, false)
+		if action.Status == state.Undecided {
+			description, _, _, epoch, _ := i.ActionToString(action.Action, state.Undecided)
 			votes := i.state.Proposals.Votes(action.Hash)
 			pending := PendingAction{
 				Description: description,
@@ -643,9 +646,8 @@ func (i *Index) GetPendingActionsDetailed(token crypto.Token) []PendingActionDet
 		return pendingActions
 	}
 	for _, action := range actions {
-		if action.Approved == 0 {
-			//description, _, _, epoch, _ := i.ActionToString(action.Action, false)
-			description, epoch, _ := i.ActionToStringWithLinks(action.Action, false)
+		if action.Status == state.Undecided {
+			description, epoch, _ := i.ActionToStringWithLinks(action.Action, state.Undecided)
 			if pool := i.state.Proposals.Pooling(action.Hash); pool != nil {
 				pending := PendingActionDetailed{
 					Description: description,

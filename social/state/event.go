@@ -39,11 +39,12 @@ func (p *Event) IncorporateVote(vote actions.Vote, state *State) error {
 		return nil
 	}
 	consensus := p.Collective.Consensus(p.Hash, p.Votes)
+	state.index.IndexActionStatus(p.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
 	// new consensus
-	state.IndexConsensus(p.Hash, consensus == Favorable)
+	state.IndexConsensus(p.Hash, consensus)
 	state.Proposals.Delete(p.Hash)
 	if consensus == Favorable {
 		p.Live = true
@@ -84,11 +85,12 @@ func (p *EventUpdate) IncorporateVote(vote actions.Vote, state *State) error {
 		return nil
 	}
 	consensus := p.Event.Managers.Consensus(p.Hash, p.Votes)
+	state.index.IndexActionStatus(p.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
 	// new consensus, update event details
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(p.Hash)
 	if consensus == Against {
 		return nil
@@ -137,11 +139,12 @@ func (p *CancelEvent) IncorporateVote(vote actions.Vote, state *State) error {
 		return nil
 	}
 	consensus := p.Event.Managers.Consensus(p.Hash, p.Votes)
+	state.index.IndexActionStatus(p.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
 	// new consensus, update event details
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	if consensus == Favorable {
 		p.Event.Live = false
 		if state.index != nil {

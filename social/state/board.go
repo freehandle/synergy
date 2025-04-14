@@ -69,10 +69,11 @@ func (b *PendingUpdateBoard) IncorporateVote(vote actions.Vote, state *State) er
 	IsNewValidVote(vote, b.Votes, b.Hash)
 	b.Votes = append(b.Votes, vote)
 	consensus := b.Board.Collective.Consensus(vote.Hash, b.Votes)
+	state.index.IndexActionStatus(b.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(b.Hash)
 	if consensus == Against {
 		return nil
@@ -101,10 +102,11 @@ func (b *PendingBoard) IncorporateVote(vote actions.Vote, state *State) error {
 	}
 	b.Votes = append(b.Votes, vote)
 	consensus := b.Board.Collective.Consensus(vote.Hash, b.Votes)
+	state.index.IndexActionStatus(b.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(b.Hash)
 	if consensus == Against {
 		return nil
@@ -135,10 +137,11 @@ func (p *Pin) IncorporateVote(vote actions.Vote, state *State) error {
 	}
 	p.Votes = append(p.Votes, vote)
 	consensus := p.Board.Editors.Consensus(vote.Hash, p.Votes)
+	state.index.IndexActionStatus(p.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(p.Hash)
 	if consensus == Against {
 		return nil
@@ -176,10 +179,11 @@ func (e *BoardEditor) IncorporateVote(vote actions.Vote, state *State) error {
 	IsNewValidVote(vote, e.Votes, e.Hash)
 	e.Votes = append(e.Votes, vote)
 	consensus := e.Board.Collective.Consensus(vote.Hash, e.Votes)
+	state.index.IndexActionStatus(e.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(vote.Hash)
 	if consensus == Against {
 		return nil

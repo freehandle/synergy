@@ -95,6 +95,7 @@ func (d *Draft) IncorporateVote(vote actions.Vote, state *State) error {
 		return nil
 	}
 	consensus := d.Consensus()
+	state.index.IndexActionStatus(d.DraftHash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
@@ -103,6 +104,6 @@ func (d *Draft) IncorporateVote(vote actions.Vote, state *State) error {
 		state.Drafts[d.DraftHash] = d
 	}
 	state.Proposals.Delete(d.DraftHash)
-	state.IndexConsensus(d.DraftHash, consensus == Favorable)
+	state.IndexConsensus(d.DraftHash, consensus)
 	return nil
 }

@@ -176,20 +176,19 @@ func (p *PendingUpdate) IncorporateVote(vote actions.Vote, state *State) error {
 		return err
 	}
 	p.Votes = append(p.Votes, vote)
+	consensus := Undecided
 	if p.ChangePolicy {
-		if p.Collective.SuperConsensus(p.Hash, p.Votes) == Undecided {
-			return nil
-		} else if p.Collective.SuperConsensus(p.Hash, p.Votes) == Against {
-			state.Proposals.Delete(p.Hash)
-			return nil
-		}
+		consensus = p.Collective.SuperConsensus(p.Hash, p.Votes)
+	} else {
+		consensus = p.Collective.Consensus(p.Hash, p.Votes)
 	}
-	if p.Collective.Consensus(p.Hash, p.Votes) == Undecided {
+	state.index.IndexActionStatus(p.Hash, consensus)
+	if consensus == Undecided {
 		return nil
 	}
-	// exclude pending update from live proposals because of consensus
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(p.Hash)
-	if p.Collective.Consensus(p.Hash, p.Votes) == Against {
+	if consensus == Against {
 		return nil
 	}
 	// consensus is favorable, update collective
@@ -235,10 +234,11 @@ func (p *PendingRequestMembership) IncorporateVote(vote actions.Vote, state *Sta
 	}
 	p.Votes = append(p.Votes, vote)
 	consensus := p.Collective.Consensus(vote.Hash, p.Votes)
+	state.index.IndexActionStatus(p.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(p.Hash)
 	if consensus == Against {
 		return nil
@@ -264,10 +264,11 @@ func (p *PendingRemoveMember) IncorporateVote(vote actions.Vote, state *State) e
 	}
 	p.Votes = append(p.Votes, vote)
 	consensus := p.Collective.Consensus(p.Hash, p.Votes)
+	state.index.IndexActionStatus(p.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(p.Hash)
 	if consensus == Against {
 		return nil

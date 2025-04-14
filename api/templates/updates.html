@@ -17,7 +17,7 @@
                         <div class="actioninfo">
                             <p class="description">{{.Description}}</p>
                             {{if .VoteHash}}
-                                <a class="vote" href="{{$servername}}/votes/{{.VoteHash}}">{{.VoteStatus}}</a>
+                                <a class="vote" href="{{$servername}}/detailedvote/{{.VoteHash}}">{{.VoteStatus}}</a>
                             {{else}}
                                 <p class="vote">{{.VoteStatus}}</p>
                             {{end}}

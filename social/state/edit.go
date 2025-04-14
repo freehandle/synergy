@@ -21,6 +21,7 @@ func (e *Edit) IncorporateVote(vote actions.Vote, state *State) error {
 	}
 	e.Votes = append(e.Votes, vote)
 	consensus := e.Authors.Consensus(e.Edit, e.Votes)
+	state.index.IndexActionStatus(e.Edit, consensus)
 	if consensus == Undecided {
 		return nil
 	}
@@ -30,7 +31,7 @@ func (e *Edit) IncorporateVote(vote actions.Vote, state *State) error {
 	}
 	state.Edits[e.Edit] = e
 	state.Proposals.Delete(e.Edit)
-	state.IndexConsensus(e.Edit, consensus == Favorable)
+	state.IndexConsensus(e.Edit, consensus)
 	// to do where to put edits?
 	return nil
 }

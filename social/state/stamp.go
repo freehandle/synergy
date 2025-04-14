@@ -27,11 +27,12 @@ func (p *Stamp) IncorporateVote(vote actions.Vote, state *State) error {
 		return nil
 	}
 	consensus := p.Reputation.Consensus(vote.Hash, p.Votes)
+	state.index.IndexActionStatus(p.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
 	// new consensus
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	if consensus == Favorable {
 		p.Imprinted = true
 		if state.index != nil {
@@ -65,11 +66,12 @@ func (p *Release) IncorporateVote(vote actions.Vote, state *State) error {
 		return nil
 	}
 	consensus := p.Draft.Authors.Consensus(p.Hash, p.Votes)
+	state.index.IndexActionStatus(p.Hash, consensus)
 	if consensus == Undecided {
 		return nil
 	}
 	// new consensus
-	state.IndexConsensus(vote.Hash, consensus == Favorable)
+	state.IndexConsensus(vote.Hash, consensus)
 	state.Proposals.Delete(p.Hash)
 	if consensus == Favorable {
 		p.Released = true

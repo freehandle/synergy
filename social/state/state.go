@@ -51,11 +51,11 @@ func (s *State) TimeOfEpoch(epoch uint64) time.Time {
 	return s.GenesisTime.Add(time.Duration(epoch) * time.Second)
 }
 
-func (s *State) IndexConsensus(hash crypto.Hash, approve bool) {
+func (s *State) IndexConsensus(hash crypto.Hash, status ConsensusState) {
 	if s.index == nil {
 		return
 	}
-	s.index.IndexConsensus(hash, approve)
+	s.index.IndexConsensus(hash, status)
 }
 
 // printa o que ta rolando no terminal
@@ -890,7 +890,7 @@ func (s *State) RemoveMember(remove *actions.RemoveMember) error {
 	if remove.Author.Equal(remove.Member) {
 		delete(collective.Members, remove.Author)
 		if s.index != nil {
-			s.index.IndexConsensus(remove.Hashed(), true)
+			s.index.IndexConsensus(remove.Hashed(), Undecided)
 		}
 		return nil
 	}
