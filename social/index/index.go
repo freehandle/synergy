@@ -532,7 +532,8 @@ func (i *Index) IndexConsensusAction(action actions.Action) {
 }
 
 func (i *Index) IndexConsensus(hash crypto.Hash, status state.ConsensusState) {
-	if status == state.Favorable || status == state.Against {
+	// if status == state.Favorable || status == state.Against {
+	if status == state.Favorable {
 		i.IndexActionToPerson(hash)
 	}
 	author, ok := i.pendingIndexActions[hash]
@@ -545,7 +546,7 @@ func (i *Index) IndexConsensus(hash crypto.Hash, status state.ConsensusState) {
 		return
 	}
 	for _, action := range indexActions {
-		if action.Hash.Equal(hash) {
+		if action.Hash.Equal(hash) && status == state.Favorable {
 			i.IndexConsensusAction(action.Action)
 			action.Status = status
 		}

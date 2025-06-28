@@ -30,7 +30,7 @@
                         <p class="who">last action </p>
                         <p class="time">{{.LastAny.TimeOfInstr}} ago</p>
                     </div>
-                    <p class="description">{{.LastAny.Type}} by {{.LastAny.Handle}}</p>
+                    <p class="description">{{.LastAny.Type}} - action author: {{.LastAny.Handle}}</p>
                     {{else}}
                     <p class="who">there is no activity</p>
                     {{end}}
@@ -66,7 +66,7 @@
                         <p class="who">last action </p>
                         <p class="time">{{.LastAny.TimeOfInstr}} ago</p>
                     </div>
-                    <p class="description">{{.LastAny.Type}} by {{.LastAny.Handle}}</p>
+                    <p class="description">{{.LastAny.Type}} - action author: {{.LastAny.Handle}}</p>
                     {{else}}
                         <p class="who">there is no activity</p>
                     {{end}}
