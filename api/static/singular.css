@@ -1297,6 +1297,16 @@ a.backgroundhover:hover {
 .memberdraft ul {
     list-style-type: none;
     padding: 0.6em 0 0.3em 0em;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.memberdraft .coauthors {
+    list-style-type: none;
+    max-height: 2em;
+    margin: 0.3em 0.4em 0.3em 0;
+    background-color: #d7e3ff;
+    display: inline-block;
 }
 
 .pb {

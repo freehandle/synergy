@@ -9,9 +9,10 @@
                                 {{range .Drafts}}
                                 <div class="item">
                                         <a href="{{$servername}}/draft/{{.Link}}" class="large hover">{{.Title}}</a>
-                                        <ul class="listinfo"> 
+                                        <p></p>
+                                        <ul> 
                                                 {{range .CoAuthors}}
-                                                <li class="coauthor handle">
+                                                <li class="coauthors">
                                                         <a href="{{$servername}}/member/{{.Link}}" class="hover">{{.Caption}}</a>
                                                 </li>
                                                 {{end}}

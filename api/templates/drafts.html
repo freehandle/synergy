@@ -16,9 +16,9 @@
                     <p class="boarddescr elipsis">{{.Description}}</p>
                 </div>
             </div>
-            <ul class="foot listing">
+            <ul class="foot">
                 {{range .Authors}}
-                    <li>
+                    <li class="listing">
                         {{if .Collective}}
                             <a class="author" href="{{$servername}}/collective/{{.Link}}">{{.Name}}</a>
                         {{else}}

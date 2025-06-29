@@ -421,6 +421,14 @@ então flex dentro do main view eh em coluna */
     max-height: 2em;
     margin: 0.3em 0.4em 0.3em 0;
     display: inline-block;
+    white-space: nowrap;
+}
+
+#drafts .box .foot .listing{
+    list-style-type: none;
+    max-height: 2em;
+    margin: 0.3em 0.4em 0.3em 0;
+    display: inline-block;
 }
 
 #drafts .box .foot .author{
