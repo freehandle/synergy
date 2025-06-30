@@ -511,7 +511,7 @@ func (i *Index) ActionToString(action actions.Action, status state.ConsensusStat
 					return fmt.Sprintf("%v requested membership to %v", handle, collective.Name), crypto.EncodeHash(collectivehash), v.Author, v.Epoch, "request membership"
 				}
 				if status == state.Against {
-					return fmt.Sprintf("%v membershio of %v was denied", handle, collective.Name), crypto.EncodeHash(collectivehash), v.Author, v.Epoch, "request membership"
+					return fmt.Sprintf("%v's membership of %v was denied", handle, collective.Name), crypto.EncodeHash(collectivehash), v.Author, v.Epoch, "request membership"
 				}
 			}
 			if status == state.Favorable {

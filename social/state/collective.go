@@ -231,6 +231,7 @@ func (p *PendingRequestMembership) IncorporateVote(vote actions.Vote, state *Sta
 	// 	return err
 	// }
 	if err := IsNewValidVote(vote, p.Votes, p.Hash); err != nil {
+		return err
 	}
 	p.Votes = append(p.Votes, vote)
 	consensus := p.Collective.Consensus(vote.Hash, p.Votes)

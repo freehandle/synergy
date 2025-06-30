@@ -294,7 +294,7 @@ func (i *Index) SetState(s *state.State) {
 
 func (i *Index) IndexActionStatus(actionHash crypto.Hash, status state.ConsensusState) {
 	i.indexActionStatus[actionHash] = status
-	return
+	// return
 }
 
 func (i *Index) ActionStatus(action actions.Action) ([]actions.Vote, state.ConsensusState) {
@@ -380,7 +380,7 @@ func (i Index) GetRecentActionsWithLinks(objectHash crypto.Hash) []ActionDetails
 	}
 	actionDetails := make([]ActionDetails, len(recent.actions))
 	for n, r := range recent.actions {
-		status := i.indexActionStatus[recent.actions[len(recent.actions)-1].Hashed()]
+		// istatus := i.indexActionStatus[recent.actions[len(recent.actions)-1].Hashed()]
 		votes, status := i.ActionStatus(r)
 		des, epoch, reasons := i.ActionToStringWithLinks(r, status)
 		details := ActionDetails{
@@ -420,22 +420,29 @@ func (i *Index) IndexAction(action actions.Action) {
 		switch v := action.(type) {
 		case *actions.GreetCheckinEvent:
 			newAction.Status = state.Favorable
+			i.indexActionStatus[newAction.Hash] = state.Favorable
 		case *actions.CheckinEvent:
 			newAction.Status = state.Favorable
+			i.indexActionStatus[newAction.Hash] = state.Favorable
 		case *actions.React:
 			newAction.Status = state.Favorable
+			i.indexActionStatus[newAction.Hash] = state.Favorable
 		case *actions.Signin:
 			newAction.Status = state.Favorable
+			i.indexActionStatus[newAction.Hash] = state.Favorable
 		case *actions.Vote:
 			newAction.Status = state.Favorable
+			i.indexActionStatus[newAction.Hash] = state.Favorable
 		case *actions.RequestMembership:
 			if !v.Include {
 				i.IndexConsensusAction(action)
 				newAction.Status = state.Favorable
+				i.indexActionStatus[newAction.Hash] = state.Favorable
 			}
 		case *actions.CreateCollective:
 			i.IndexConsensusAction(action)
 			newAction.Status = state.Favorable
+			i.indexActionStatus[newAction.Hash] = state.Favorable
 			if person := i.Personal(v.Author); person != nil {
 				person.AddCollective(v.Name)
 			}
