@@ -145,7 +145,8 @@
             <p class="modaltitle">instruction outline</p>
             <form method="post" action="{{$servername}}/api">
                 <input class="nonemodal" type="text" name="action" value="React" readonly/>
-                <input class="nonemodal" type="text" name="redirect" value="{{$servername}}/event/{{.Hash}}" readonly/>
+                <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
+                <input class="nonemodal" type="text" name="redirect" value="event/{{.Hash}}" readonly/>
                 <p class="modalinfo" id="reactionoutline"></p><br/>
                 <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
                 <div class="modalbuttons">

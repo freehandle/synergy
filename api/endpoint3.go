@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"net/url"
+	"slices"
 	"sort"
 	"strings"
 	"time"
@@ -493,6 +494,8 @@ type MyEventView struct {
 	GreetingPendingCount int
 	Hash                 string
 	ServerName           string
+	Managing             bool
+	OriginalHash         crypto.Hash
 }
 
 type MyEventsView struct {
@@ -548,18 +551,23 @@ func MyEventsFromState(s *state.State, i *index.Index, token crypto.Token) *MyEv
 			Open:          event.Open,
 			Public:        event.Public,
 			Hash:          crypto.EncodeHash(event.Hash),
+			OriginalHash:  event.Hash,
 			AttendeeCount: len(event.Checkin),
 		}
+		eventView.Managing = slices.Contains(managed, event.Hash)
 		if greeting, ok := event.Checkin[token]; ok {
 			if greeting.Action != nil {
 				eventView.Greeting = true
 			}
-			eventView.GreetingCount += 1
 		}
-		for _, checkin := range event.Checkin {
+		for attoken, checkin := range event.Checkin {
+			if greeting, ok := event.Checkin[attoken]; ok {
+				if greeting.Action != nil {
+					eventView.GreetingCount += 1
+				}
+			}
 			if checkin != nil && checkin.Action != nil {
-				token := checkin.Action.Author
-				if handle, ok := s.Members[crypto.HashToken(token)]; ok {
+				if handle, ok := s.Members[crypto.HashToken(attoken)]; ok {
 					eventView.Attendee = append(eventView.Attendee, CaptionLink{
 						Caption: handle,
 						Link:    url.QueryEscape(handle),
@@ -571,17 +579,10 @@ func MyEventsFromState(s *state.State, i *index.Index, token crypto.Token) *MyEv
 		view.Events = append(view.Events, eventView)
 	}
 	for _, hash := range managed {
-		if event, ok := s.Events[hash]; ok {
-			eventView := MyEventView{
-				Collective:  event.Collective.Name,
-				StartAt:     event.StartAt.Format(time.RFC822),
-				Description: event.Description,
-				Venue:       event.Venue,
-				Open:        event.Open,
-				Public:      event.Public,
-				Hash:        crypto.EncodeHash(event.Hash),
+		for _, readyview := range view.Events {
+			if readyview.OriginalHash == hash {
+				view.Managed = append(view.Managed, readyview)
 			}
-			view.Managed = append(view.Managed, eventView)
 		}
 	}
 	return &view

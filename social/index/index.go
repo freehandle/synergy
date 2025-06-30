@@ -506,7 +506,13 @@ func (i *Index) IndexConsensusAction(action actions.Action) {
 	case *actions.CreateEvent:
 		if i.isIndexedMember(v.Author) {
 			hash := crypto.Hasher(v.Serialize())
-			i.memberToEvent[v.Author] = appendOrCreate[crypto.Hash](i.memberToEvent[v.Author], hash)
+			if v.Managers != nil {
+				for _, manager := range v.Managers {
+					i.memberToEvent[manager] = appendOrCreate[crypto.Hash](i.memberToEvent[manager], hash)
+				}
+			} else {
+				i.memberToEvent[v.Author] = appendOrCreate[crypto.Hash](i.memberToEvent[v.Author], hash)
+			}
 		}
 	case *actions.UpdateEvent:
 		if v.Managers != nil {

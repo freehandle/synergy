@@ -33,10 +33,14 @@
                         </div> 
                         <div class="secondrow">
                             <div>
-                                {{if .Greeting}}
-                                    <h1>greeted</h1>
+                                {{if .Managing}}
+                                    <h1>as manager</h1>
                                 {{else}}
-                                    <p> not greeted</p>
+                                    {{if .Greeting}}
+                                        <h1>greeted</h1>
+                                    {{else}}
+                                        <p> not greeted</p>
+                                    {{end}}
                                 {{end}}
                             </div>
                             <div>
@@ -62,7 +66,7 @@
                     <div class="eventcard">
                         <div class="firstrow">
                             <p class="title">  <a class="hover" href="{{$servername}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> on behalf of <span class="collective"> {{.Collective}} </span></p>
-                            <p class="openpublic"> {{if .Open}}open{{else}}closed{{end}},{{if .Public}}public{{else}}private{{end}}</p>
+                            <p class="openpublic"> {{if .Open}}open{{else}}closed{{end}}, {{if .Public}}public{{else}}private{{end}}</p>
                         </div> 
                         <div class="secondrow">
                             <div>
