@@ -29,7 +29,6 @@
             <div><a href="{{.ServerName}}/signout">sign out</a></div>
           {{else}}
             <div><a href="{{.ServerName}}/login">log in</a></div>
-            <div><a href="{{.ServerName}}/signin">sign in</a></div>
           {{end}}
         </div>
       </div>
@@ -56,6 +55,7 @@
                 <li {{if eq  .Active "Pending"}} class="active"{{end}}><a href="{{.ServerName}}/pending"> pending actions </a></li>
                 <li {{if eq  .Active "CreateCollective"}} class="active"{{end}}><a href="{{.ServerName}}/createcollective/"> create collective </a></li>
                 <li {{if eq  .Active "NewDraft"}} class="active"{{end}}><a href="{{.ServerName}}/newdraft"> new draft </a></li>
+                <li {{if eq  .Active "Invite"}} class="active"{{end}}><a href="{{.ServerName}}/invitenewuser"> invite </a></li>
               </ul>
             </div>
           {{end}}

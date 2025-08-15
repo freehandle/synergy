@@ -54,7 +54,8 @@ type AttorneyGeneral struct {
 	ephemeralpub  crypto.Token
 	serverName    string
 	hostname      string
-	safe          *safe.Safe // optional link to safe for direct onbboarding
+	safe          *safe.Safe               // optional link to safe for direct onbboarding
+	inviteUser    map[crypto.Hash]struct{} // map of invite user hash to token
 }
 
 func (a *AttorneyGeneral) IncorporateGrantPower(handle string, grant *attorney.GrantPowerOfAttorney) {

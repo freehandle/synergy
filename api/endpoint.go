@@ -71,6 +71,12 @@ type NameLink struct {
 	Link string
 }
 
+type InviteView struct {
+	Head       HeaderInfo
+	ServerName string
+	Seed       string
+}
+
 func NameLinker(name string) NameLink {
 	return NameLink{
 		Name: name,
