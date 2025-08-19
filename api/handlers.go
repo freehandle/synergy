@@ -24,6 +24,40 @@ func getHash(path string, root string) crypto.Hash {
 	return hash
 }
 
+func (a *AttorneyGeneral) InviteNewUserHandler(w http.ResponseWriter, r *http.Request) {
+	author := a.Author(r)
+	if author != crypto.ZeroToken {
+		pk, _ := crypto.RandomAsymetricKey()
+		hash := crypto.HashToken(pk)
+		a.inviteUser[hash] = struct{}{}
+		seed := crypto.EncodeHash(hash)
+		view := InviteView{
+			Head: HeaderInfo{
+				Error:      "Invitation sent successfully",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+			Seed:       seed,
+		}
+		if err := a.templates.ExecuteTemplate(w, "invite.html", view); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	view := ServerName{
+		Head: HeaderInfo{
+			Error:      "You must be logged in to invite new users",
+			ServerName: a.serverName,
+		},
+		ServerName: a.serverName,
+	}
+	if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+		log.Println(err)
+	}
+	return
+
+}
+
 func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprintf(w, "ParseForm() err: %v", err)
@@ -134,6 +168,8 @@ func (a *AttorneyGeneral) OnboardNewUserHandler(w http.ResponseWriter, r *http.R
 	email := r.FormValue("email")
 	handle := r.FormValue("handle")
 	passwd := r.FormValue("password")
+	seed := r.FormValue("seed")
+	hash := crypto.DecodeHash(seed)
 	if !a.signin.OnboardSigner(handle, email, passwd) {
 		view := ServerName{
 			Head: HeaderInfo{
@@ -147,6 +183,7 @@ func (a *AttorneyGeneral) OnboardNewUserHandler(w http.ResponseWriter, r *http.R
 		}
 		return
 	}
+	delete(a.inviteUser, hash)
 	http.Redirect(w, r, fmt.Sprintf("%v/login", a.serverName), http.StatusSeeOther)
 }
 
@@ -319,15 +356,32 @@ func (a *AttorneyGeneral) MainHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AttorneyGeneral) OnboardingHandler(w http.ResponseWriter, r *http.Request) {
-	view := ServerName{
-		Head: HeaderInfo{
-			Path:       "",
+	hashEncoded := r.URL.Path
+	hashEncoded = strings.Replace(hashEncoded, "/signin/", "", 1)
+	hash := crypto.DecodeHash(hashEncoded)
+	if _, ok := a.inviteUser[hash]; ok || len(a.inviteUser) == 0 {
+		view := InviteView{
+			Head: HeaderInfo{
+				Path:       "",
+				ServerName: a.serverName,
+			},
 			ServerName: a.serverName,
-		},
-		ServerName: a.serverName,
-	}
-	if err := a.templates.ExecuteTemplate(w, "totalsignin.html", view); err != nil {
-		log.Println(err)
+			Seed:       hashEncoded,
+		}
+		if err := a.templates.ExecuteTemplate(w, "totalsignin.html", view); err != nil {
+			log.Println(err)
+		}
+	} else {
+		view := ServerName{
+			Head: HeaderInfo{
+				Error:      "invalid invitation",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+		}
+		if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+			log.Println(err)
+		}
 	}
 }
 

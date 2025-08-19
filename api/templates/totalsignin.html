@@ -1,6 +1,8 @@
 {{template "HEAD" .Head}}        
 <div id="generalsignin">
   <form method="post" action="{{.ServerName}}/onboarding">
+    <input type="hidden" name="seed" value="{{.Seed}}"/>
+     
     <div>
       <label for="handle">perfil</label>
       <input class="text" name="handle" id="handle"/> 

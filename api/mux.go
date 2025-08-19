@@ -24,7 +24,7 @@ var templateFiles []string = []string{
 	"updatecollective", "voteupdatecollective", "createevent", "voteupdateevent", "editview",
 	"createcollective", "connections", "updates", "news", "pending", "mymedia", "myevents",
 	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin", "totalsignin",
-	"forgot", "reset", "resetpassword",
+	"forgot", "reset", "resetpassword", "invite",
 }
 
 type ServerConfig struct {
@@ -83,6 +83,7 @@ func NewGeneralAttorneyServer(cfg ServerConfig) (*AttorneyGeneral, chan error) {
 		serverName:   cfg.ServerName,
 		hostname:     cfg.Hostname,
 		safe:         cfg.Safe,
+		inviteUser:   make(map[crypto.Hash]struct{}),
 	}
 	if cfg.Path == "" {
 		cfg.Path = "./"
@@ -169,7 +170,7 @@ func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize 
 	mux.HandleFunc("/detailedvote/", attorney.DetailedVoteHandler)
 	mux.HandleFunc("/login", attorney.LoginHandler)
 	//mux.HandleFunc("/signin", attorney.SigninHandler)
-	mux.HandleFunc("/signin", attorney.OnboardingHandler)
+	mux.HandleFunc("/signin/", attorney.OnboardingHandler)
 	mux.HandleFunc("/signout", attorney.SignoutHandler)
 	mux.HandleFunc("/forgot", attorney.ForgotHandler)
 	mux.HandleFunc("/passwordreset", attorney.ResetRequestHandler)
@@ -181,6 +182,7 @@ func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize 
 	// mux.HandleFunc("/member/votes", attorney.VotesHandler)
 	mux.HandleFunc("/resetpassword", attorney.ResetPasswordHandler)
 	mux.HandleFunc("/credentialsreset", attorney.CredentialsResetHandler)
+	mux.HandleFunc("/invitenewuser", attorney.InviteNewUserHandler)
 
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%v", port),
