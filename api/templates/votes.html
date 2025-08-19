@@ -1,7 +1,7 @@
 {{template "HEAD" .Head}}
 {{ $servername := .ServerName }}
 <div class="plurals">
-    <h1 class="headers">votes</h1>
+    <h1 class="headers">para votar</h1>
     <div class="objectinfos">
         {{range .Votes}}
             <div class="item">
@@ -12,7 +12,7 @@
                         {{if .Scope}} 
                             <ul class="listing">
                                 <div class="backgroundhover">        
-                                by
+                                por
                                 <a class="votelink bold backgroundhover" href="{{$servername}}/collective/{{.ScopeLink}}"> {{.Scope}} </a><br/>
                                 </div>
                             </ul>
@@ -26,7 +26,7 @@
                         <div class="backgroundhover"> {{.ObjectType}} <a class="votelink bold backgroundhover" href="{{$servername}}/{{.ObjectLink}}" id="modaloutlinevoteobj">{{.ObjectCaption}}</a></div>
                     {{end}}
                     {{if .Scope}} 
-                        <div class="backgroundhover"> on behalf of  <a class="votelink bold backgroundhover" href="{{$servername}}/collective/{{.ScopeLink}}"  id="modaloutlinevotescope"> {{.Scope}} </a> </div>
+                        <div class="backgroundhover"> em nome de  <a class="votelink bold backgroundhover" href="{{$servername}}/collective/{{.ScopeLink}}"  id="modaloutlinevotescope"> {{.Scope}} </a> </div>
                     {{end}}
                     {{if .ComplementType}} 
                         <div class="backgroundhover"> {{.ComplementType}}  <a class="votelink bold backgroundhover" href="{{$servername}}/{{.ComplementLink}}"  id ="modaloutlinevotecompl"> {{.ComplementCaption}} </a> </div>
@@ -36,20 +36,20 @@
                 </div>
                 <div class="secondrow"> <button class="submit" onclick="dialogvote()" value="send">vote</button> </div>
                 <dialog id="dialogvoteel" class="modalshow">
-                    <p class="modaltitle">instruction outline</p>
+                    <p class="modaltitle">resumo da instrução</p>
                     <form method="post" action="{{$servername}}/api">
                         <input class="nonemodal" type="text" name="action" value="Vote" readonly/>
                         <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
                         <p class="modalinfo" id="voteoutline"></p><br/>
                         <input type="radio" id="approve" name="approve" value="on" checked>
-                        <label for="approve">favorable</label>
+                        <label for="approve">a favor</label>
                         <input type="radio" id="against" name="approve" value="off">
-                        <label for="against">against</label>
+                        <label for="against">contra</label>
 
-                        <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                        <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                         <div class="modalbuttons">
-                            <button class="modalsubmit" type="reset" onclick="closedialog('dialogvoteel');">cancel</button>
-                            <input class="modalsubmit" type="submit" value="send"/>
+                            <button class="modalsubmit" type="reset" onclick="closedialog('dialogvoteel');">cancelar</button>
+                            <input class="modalsubmit" type="submit" value="enviar"/>
                         </div>
                     </form>
                 </dialog>

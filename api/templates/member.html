@@ -3,8 +3,8 @@
         <div class="singular">
                 <div class="center">
                         <h1 class="headerdetails">{{.Handle}}</h1>
-                        <p class="subheaders">member</p>
-                        <p class="description"> about do membro</p><br/>        
+                        <p class="subheaders">membro</p>
+                        <p class="description"> detalhes do membro</p><br/>        
                         <div class="memberdraft">
                                 {{range .Drafts}}
                                 <div class="item">
@@ -30,17 +30,17 @@
         </div>
 </div>
 <div id="right">
-        <p class="infotitle">collectives</p>
+        <p class="infotitle">coletivos</p>
         {{range .Collectives}}
                 <div class="memberitem"> <a class="lighthover" href="{{$servername}}/collective/{{.Link}}">{{.Caption}}</a> </div>
         {{end}}
-        <p class="infotitle">boards</p>
+        <p class="infotitle">murais</p>
         {{range .Boards}}
                 <p class="memberitem"> 
                         <a class="lighthover" href="{{$servername}}/board/{{.Link}}">{{.Caption}}</a>
                 </p>
         {{end}}
-        <p class="infotitle">events</p>
+        <p class="infotitle">eventos</p>
         {{range .Events}}
                 <p class="memberitem"> <a class="lighthover" href="{{$servername}}/event/{{.Link}}">{{.Caption}}</a> </p>
         {{end}}

@@ -1,11 +1,11 @@
 {{template "HEAD" .Head}}
 {{ $servername := .ServerName }}
 <div class="plurals">    
-    <h1 class="headers"> edits for <a class="headers" href="{{$servername}}/draft/{{ .DraftHash }}"> {{.DraftTitle}} </a></h1> 
+    <h1 class="headers"> edições para <a class="headers" href="{{$servername}}/draft/{{ .DraftHash }}"> {{.DraftTitle}} </a></h1> 
     <div class="infos">
         {{range .Edits}}
         <div class="item">
-            <p class="listinfotitle"> authors </p>
+            <p class="listinfotitle"> autores </p>
             <ul class="listing">
                 {{range .Authors}}
                 <li>
@@ -17,10 +17,10 @@
                 </li>
             {{end}}
             </ul><br/>
-            <p class="listinfotitle">reasons</p>
+            <p class="listinfotitle">razões</p>
             <p class="description"> {{.Reasons}} </p>
             <br/>
-            <a class="details" href="{{$servername}}/editview/{{.Hash}}">check edit</a>
+            <a class="details" href="{{$servername}}/editview/{{.Hash}}">verificar edição</a>
         </div>
         {{end}}
     </div>

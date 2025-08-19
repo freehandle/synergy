@@ -1,19 +1,19 @@
 {{template "HEAD" .Head}}
     <div class="indexed">
-        <p class="headers"> <span class="x3large"> news </span> <span class="maintoggle x2large  light"> <span class="tgmenu bold pointer" id="tg_actions" onclick="selectToggle('actions');">actions</span>|<span class="tgmenu pointer" id="tg_reactions" onclick="selectToggle('reactions');">reactions</span>  </span></p> 
+        <p class="headers"> <span class="x3large"> novidades </span> <span class="maintoggle x2large  light"> <span class="tgmenu bold pointer" id="tg_actions" onclick="selectToggle('actions');">ações</span>|<span class="tgmenu pointer" id="tg_reactions" onclick="selectToggle('reactions');">reações</span>  </span></p> 
         <div class="toggle" id="actions">
             <div class="actionpanel">
                 <div class="left">
                     <div class="selectmenu">
-                        <span id="nounview" class="selected pointer" onclick="selectGrammar('noun');"> noun </span> |
-                        <span id="verbview" class="pointer" onclick="selectGrammar('verb');"> verb </span>
+                        <span id="nounview" class="selected pointer" onclick="selectGrammar('noun');"> substantivo </span> |
+                        <span id="verbview" class="pointer" onclick="selectGrammar('verb');"> verbo </span>
                     </div>
                     <div id="actionsview" class="screen">
                         {{range .Actions}}
                         <div class="item {{.Category}}">
                             <div class="duration">
                                 {{if .NotRepeated}} 
-                                    {{.Duration}} ago
+                                    {{.Duration}} atrás
                                 {{end}}
                             </div>
                             <div class="description noun">
@@ -25,10 +25,10 @@
                 </div>
                 <div id="selectmenu" class="right light">
                     <span id="select_all" class="bold first xlarge pointer" onclick="selectActionKind('all');"> {{len .Actions}} total </span> 
-                    <span id="select_new_stuff" class="notfirst large pointer" onclick="selectActionKind('new_stuff');"> {{.NewStuff}} new stuff</span> 
-                    <span id="select_update" class="notfirst large pointer" onclick="selectActionKind('update');"> {{.Updates}} updates </span> 
-                    <span id="select_awareness" class="notfirst large pointer" onclick="selectActionKind('awareness');">  {{.Awareness}} awareness </span> 
-                    <span id="select_people" class="notfirst large pointer" onclick="selectActionKind('people');">  {{.People}} people</span>   
+                    <span id="select_new_stuff" class="notfirst large pointer" onclick="selectActionKind('new_stuff');"> {{.NewStuff}} coisas novas</span> 
+                    <span id="select_update" class="notfirst large pointer" onclick="selectActionKind('update');"> {{.Updates}} atualizações </span> 
+                    <span id="select_awareness" class="notfirst large pointer" onclick="selectActionKind('awareness');">  {{.Awareness}} confirmações </span> 
+                    <span id="select_people" class="notfirst large pointer" onclick="selectActionKind('people');">  {{.People}} pessoas</span>
                 </div>                
             </div>
         </div>
@@ -40,7 +40,7 @@
                         <div class="item {{.Category}}">
                             <div class="duration">
                                 {{if .NotRepeated}} 
-                                    {{.Duration}} ago
+                                    {{.Duration}} atrás
                                 {{end}}
                             </div>
                             <div class="description noun">
@@ -52,11 +52,11 @@
                 </div>
                 <div id="selectmenu" class="right light">
                     <span id="select_all" class="bold first xlarge pointer" onclick="selectActionKinds('all');"> {{len .ReActions}} total </span> 
-                    <span id="select_new_stuff" class="notfirst large pointer" onclick="selectActionKinds('new_stuff');"> {{.Collective}} collectives</span> 
-                    <span id="select_update" class="notfirst large pointer" onclick="selectActionKinds('update');"> {{.Board}} boards </span> 
-                    <span id="select_awareness" class="notfirst large pointer" onclick="selectActionKinds('awareness');">  {{.Event}} events </span> 
-                    <span id="select_people" class="notfirst large pointer" onclick="selectActionKinds('people');">  {{.Draft}} drafts</span>   
-                    <span id="select_people" class="notfirst large pointer" onclick="selectActionKinds('people');">  {{.Edit}} edits</span>   
+                    <span id="select_new_stuff" class="notfirst large pointer" onclick="selectActionKinds('new_stuff');"> {{.Collective}} coletovps</span> 
+                    <span id="select_update" class="notfirst large pointer" onclick="selectActionKinds('update');"> {{.Board}} murais </span> 
+                    <span id="select_awareness" class="notfirst large pointer" onclick="selectActionKinds('awareness');">  {{.Event}} eventos </span> 
+                    <span id="select_people" class="notfirst large pointer" onclick="selectActionKinds('people');">  {{.Draft}} esboços</span>   
+                    <span id="select_people" class="notfirst large pointer" onclick="selectActionKinds('people');">  {{.Edit}} edições</span>   
                 </div>                
             </div>
         </div>

@@ -1,26 +1,26 @@
 {{template "HEAD" .Head}}
 {{ $servername := .ServerName }}
 <div class="plurals">
-    <h1 class="headers">events</h1>
+    <h1 class="headers">eventos</h1>
     <div class="objectinfos">
         {{range .Events}}
             <div class="item">
                 <div class="eventfirst">
                     <p class=" eventdescr elipsis">{{.Description}}</p>
                 </div>
-                <p class="eventsecond eventstatus">starts {{.StartAt}}</p>
+                <p class="eventsecond eventstatus">início em {{.StartAt}}</p>
                 {{if .Public}}
-                    <p class="eventthird eventstatus">public</p> 
+                    <p class="eventthird eventstatus">público</p> 
                 {{else}}
-                    <p class="eventthird eventstatus">private</p>
+                    <p class="eventthird eventstatus">privado</p>
                 {{end}}
                 {{if not .Live}}
-                    <p class="eventfourth eventstatus">cancelled</p>
+                    <p class="eventfourth eventstatus">cancelado</p>
                 {{else if .Live}}
-                    <p class="eventfourth eventstatus">active</p>
+                    <p class="eventfourth eventstatus">ativo</p>
                 {{end}}
-                <a class="eventfifth authorship" href="{{$servername}}/collective/{{.Collective.Link}}"> by {{.Collective.Name}} </a>
-                <p><a class="eventsixth details" href="{{$servername}}/event/{{.Hash}}"> details </a></p>
+                <a class="eventfifth authorship" href="{{$servername}}/collective/{{.Collective.Link}}"> por {{.Collective.Name}} </a>
+                <p><a class="eventsixth details" href="{{$servername}}/event/{{.Hash}}"> detalhes </a></p>
             </div>
             {{end}}
     </div> 

@@ -1,8 +1,8 @@
 {{template "HEAD" .Head}}
     <div id="pendingactions">
         <div class="headerline">
-            <p class="title x3large bold"> pending actions </p>
-            <p> <span class="stats xlarge "> {{len .Pending}} </span> <span class="">pendencies</span></p>
+            <p class="title x3large bold"> ações pendentes </p>
+            <p> <span class="stats xlarge "> {{len .Pending}} </span> <span class="">pendências</span></p>
         </div>
         <div class="centralcard">
         {{range .Pending}}
@@ -12,13 +12,13 @@
                         <p> {{.Description}} </p>
                     </div>
                     <div class="right">
-                        <p class="small light"> {{.VotesApprove}} favorable</p>
-                        <p class="small light"> {{.VotesReject}} against</p>
-                        <p class="needed"> <span class="light">{{.VotesNeeded}}</span> <a href="{{.ServerName}}/detailedvote/{{.VoteHash}}"> needed </a></p>
+                        <p class="small light"> {{.VotesApprove}} a favor</p>
+                        <p class="small light"> {{.VotesReject}} contra</p>
+                        <p class="needed"> <span class="light">{{.VotesNeeded}}</span> <a href="{{.ServerName}}/detailedvote/{{.VoteHash}}"> faltando </a></p>
                     </div>
                 </div>
                 <div class="foot">
-                    <p class="tiny light"> proposed {{.ProposedAt}} ago </p>
+                    <p class="tiny light"> proposto {{.ProposedAt}} atrás </p>
                 </div>
             </div>
         {{end}}

@@ -2,49 +2,49 @@
 <div class="singular">
   <div class="center">
     <form method="post" action="{{.ServerName}}/api">
-      <h1 class="headerdetails">update board vote</h1>
-      <p class="subheadersdraft">{{.Name}} by {{.Collective}} </p><br/>
+      <h1 class="headerdetails">votação para atualizar mural</h1>
+      <p class="subheadersdraft">{{.Name}} por {{.Collective}} </p><br/>
       <input class="none" type="text" name="redirect" value="votes" readonly/>
         
       <p class="formoldinfo">{{.OldDescription}}</p>
-      <p class="infotitle">becomes - {{.Description}}</p>
+      <p class="infotitle">vira - {{.Description}}</p>
       <br/>
         
       <p class="formoldinfo">{{.OldKeywordsString}}</p>
-      <p class="infotitle">becomes - {{.KeywordsString}}</p>
+      <p class="infotitle">vira - {{.KeywordsString}}</p>
       <br/>
   
-      <p class="formoldinfo">pin majority {{.OldPinMajority}}</p>
-      <p class="infotitle">becomes - {{.PinMajority}}</p>
+      <p class="formoldinfo">maioria para afixar {{.OldPinMajority}}</p>
+      <p class="infotitle">vira - {{.PinMajority}}</p>
       <br/>
   
       {{if .Reasons}}
-        <p class="bold">reasons</p>
+        <p class="bold">razões</p>
         <p class="description">{{.Reasons}}</p><br/>
       {{end}}
   
       {{if .Editorship}}
-          <p class="infotitle">vote</h2>
+          <p class="infotitle">votar</h2>
           <input class="none" type="text" name="action" value="Vote" readonly/>
           <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
           <div class="large">
             <input type="radio" id="approve" name="approve" value="on" checked>
-            <label class="voteradio" for="approve">favorable</label>
+            <label class="voteradio" for="approve">a favor</label>
             <input type="radio" id="against" name="approve" value="off">
-            <label class="voteradio" for="against">against</label> 
+            <label class="voteradio" for="against">contra</label> 
           </div>
-          <textarea class="votereasons" type="textarea" name="reasons" rows="4" id="reasonsfield" placeholder="optional vote reasoning"></textarea>
+          <textarea class="votereasons" type="textarea" name="reasons" rows="4" id="reasonsfield" placeholder="campo opcional para razões do voto"></textarea>
       
-          <input class="submit" type="submit" value="send"/><br/>
+          <input class="submit" type="submit" value="enviar"/><br/>
       {{end}}
     </form>
   </div>
   <div class="right">
-    <p class="infotitle">consensus status</p>
-    <p class="info"> {{.Voting.Voted}} have already voted</p>
-    <p class="info"> {{len .Voting.Approve}} favorable </p>
-    <p class="info"> {{len .Voting.Reject }} against </p>
-    <p class="info"> {{len .Voting.NotCast }} not cast </p>    <br/>
+    <p class="infotitle">status do consenso</p>
+    <p class="info"> {{.Voting.Voted}} já votaram</p>
+    <p class="info"> {{len .Voting.Approve}} a favor </p>
+    <p class="info"> {{len .Voting.Reject }} contra </p>
+    <p class="info"> {{len .Voting.NotCast }} faltando </p>    <br/>
   </div>
 </div>
 {{template "TAIL"}}

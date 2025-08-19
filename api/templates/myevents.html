@@ -2,20 +2,20 @@
 {{ $servername := .ServerName }}
     <div id="myevents">
         <div class="eventheader">
-            <p class="headers"> my events </p> 
+            <p class="headers"> meus eventos </p> 
             <div class="toggle">
-                <span id="attendingView" class="selected pointer" onclick="selectEventView('attending')">attending</span> | <span id="managingView" class="pointer" onclick="selectEventView('managing')">managing</span>
+                <span id="attendingView" class="selected pointer" onclick="selectEventView('attending')">participando</span> | <span id="managingView" class="pointer" onclick="selectEventView('managing')">organizando</span>
             </div>        
             <div class="stats">
                 <div id="statsattending">
                     {{if .TodayCount}}
-                    <span class="count"> {{.TodayCount}}  </span> <span class="period"> today </span>
+                    <span class="count"> {{.TodayCount}}  </span> <span class="period"> hoje </span>
                     {{end}}
                     {{if .NextWeekCount}}
-                        <span class="count"> {{.NextWeekCount }} </span><span class="period"> next week </span>
+                        <span class="count"> {{.NextWeekCount }} </span><span class="period"> próxima semana </span>
                     {{end}}
                     {{if .FurtherCount}}
-                        <span class="count"> {{.FurtherCount}}  </span><span class="period"> further ahead </span>
+                        <span class="count"> {{.FurtherCount}}  </span><span class="period"> mais adiante </span>
                     {{end}}
                 </div>
             </div>
@@ -25,30 +25,30 @@
                 {{range .Events}}
                     <div class="eventcard">
                         <div class="firstrow">
-                            <p class="title"> <a class="hover" href="{{$servername}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> on behalf of <span class="collective"> {{.Collective}} </span></p>
+                            <p class="title"> <a class="hover" href="{{$servername}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> em nome de <span class="collective"> {{.Collective}} </span></p>
                             <p class="openpublic">
-                                {{if .Open}}open{{else}}closed{{end}},
-                                {{if .Public}}public{{else}}private{{end}}
+                                {{if .Open}}aberto{{else}}fechado{{end}},
+                                {{if .Public}}público{{else}}privado{{end}}
                             </p>
                         </div> 
                         <div class="secondrow">
                             <div>
                                 {{if .Managing}}
-                                    <h1>as manager</h1>
+                                    <h1>como organizador</h1>
                                 {{else}}
                                     {{if .Greeting}}
-                                        <h1>greeted</h1>
+                                        <h1>recebeu boas-vindas</h1>
                                     {{else}}
-                                        <p> not greeted</p>
+                                        <p> não recebeu boas-vindas</p>
                                     {{end}}
                                 {{end}}
                             </div>
                             <div>
-                                <h1>venue</h1>
+                                <h1>local</h1>
                                 <p> {{.Venue}} </p>
                             </div>
                             <div>
-                                <h1><span class="count"> attending </span></h1>
+                                <h1><span class="count"> participando </span></h1>
                                 <ul>
                                     {{range .Attendee}}
                                         <li > <a class="hover" href="{{$servername}}/member/{{.Link}}"> {{.Caption}} </a> </li>
@@ -65,18 +65,18 @@
                 {{range .Managed}}
                     <div class="eventcard">
                         <div class="firstrow">
-                            <p class="title">  <a class="hover" href="{{$servername}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> on behalf of <span class="collective"> {{.Collective}} </span></p>
-                            <p class="openpublic"> {{if .Open}}open{{else}}closed{{end}}, {{if .Public}}public{{else}}private{{end}}</p>
+                            <p class="title">  <a class="hover" href="{{$servername}}/event/{{.Hash}}" class="timedate"> {{.StartAt}} </a> em nome de <span class="collective"> {{.Collective}} </span></p>
+                            <p class="openpublic"> {{if .Open}}aberto{{else}}fechado{{end}}, {{if .Public}}público{{else}}privado{{end}}</p>
                         </div> 
                         <div class="secondrow">
                             <div>
-                                <h1> {{len .Attendee}} attendees</h1>
+                                <h1> {{len .Attendee}} participantes</h1>
                             </div>
                             <div>
-                                <h1> {{.GreetingCount}} greeted </h1>
+                                <h1> {{.GreetingCount}} recebidos </h1>
                             </div>
                             <div>
-                                <h1> {{.GreetingPendingCount}} pending greeting </h1>
+                                <h1> {{.GreetingPendingCount}} pendendo boas-vindas </h1>
                             </div>
                         </div>
                     </div>

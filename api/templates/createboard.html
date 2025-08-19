@@ -2,38 +2,38 @@
   <div class="singular">
     <div class="center">
       <form method="post" action="{{.ServerName}}/api">
-        <h1 class="headers"> create board </h1>
+        <h1 class="headers"> criar mural </h1>
     
         <input class="none" type="text" name="action" value="CreateBoard" readonly/>
         {{if .CollectiveName}}
-          <label  class="onbof" for="onBehalfOf">on behalf of {{.CollectiveName}}</label>
+          <label  class="onbof" for="onBehalfOf">em nome de {{.CollectiveName}}</label>
           <input class="none" type="text" name="onBehalfOf" value="{{.CollectiveName}}" readonly/><br/>
         {{else}}
-          <label  class="formtitle" for="onBehalfOf">on behalf of</label>
+          <label  class="formtitle" for="onBehalfOf">em nome de </label>
           <input  class="formentry" type="text" name="onBehalfOf" required/><br/>
         {{end}}     
     
-        <label  class="formtitle" for="name">name</label>
+        <label  class="formtitle" for="name">nome</label>
         <input  class="formentry detailed" type="text" name="name" id="nameboard" required/><br/>
     
-        <label  class="formtitle" for="description">description</label>
+        <label  class="formtitle" for="description">descrição</label>
         <textarea  class="formentry detailed"  type="textarea" name="description" rows="4" id="descriptionboard" required></textarea><br/>
     
-        <label  class="formtitle" for="keywords">keywords</label>
+        <label  class="formtitle" for="keywords">palavras-chave</label>
         <input  class="formentry detailed"  type="text" name="keywords" id="keywordsboard" required/><br/>
     
         <div class="policyentry">
           <div class="policy">
-            <label  class="formtitle" for="pinMajority">pin majority policy</label>
+            <label  class="formtitle" for="pinMajority">política de maioria para afixar</label>
             <input  class="formentry detailed" type="number" min="0" max="100" name="pinMajority" id="pinpolicyboard" required/><br/>
           </div>
         </div>
 
-        <label  class="formtitle" for="reasons">reasons <span>*optional</span></label>
+        <label  class="formtitle" for="reasons">razões <span>*opcional</span></label>
         <textarea class="formentry detailed" type="textarea" name="reasons" rows="4" id="reasonsfield"></textarea>
         
         <div class="submitbox">
-          <input class="submit" type="submit" value="send"/>
+          <input class="submit" type="submit" value="enviar"/>
         </div>
       </form>
     </div>
@@ -41,41 +41,41 @@
 </div>
 <div id="right">
     <div class="fieldinfohide" id="nameboardinfo">
-      <p><span>name field</span></p><br/>
-      <p class="fieldinfosub">mandatory</p>
-      <p class="fieldinfosub">alphanumeric</p>
-      <p class="fieldinfosub">min 1 char max x char</p><br/>
-      <p>board names must be unique within the network, and preferably reflect its purpose</p>
+      <p><span>campo nome</span></p><br/>
+      <p class="fieldinfosub">obrigatório</p>
+      <p class="fieldinfosub">alfanumérico</p>
+      <p class="fieldinfosub">mín 1 caractere máx x caracteres</p><br/>
+      <p>os nomes de mural são únicos dentro da rede, preferencialmente refletindo seu propósito</p>
     </div>
     <div class="fieldinfohide" id="descriptionboardinfo">
-      <p><span>description field</span></p><br/>
-      <p class="fieldinfosub">mandatory</p>
-      <p class="fieldinfosub">alphanumeric</p>
-      <p class="fieldinfosub">min 1 char max x char</p><br/>
-      <p>provide relevant information as to board's focus and goals, information regarding editorship enrollments, draft pin criteria, etc</p>
+      <p><span>campo descrição</span></p><br/>
+      <p class="fieldinfosub">obrigatório</p>
+      <p class="fieldinfosub">alfanumérico</p>
+      <p class="fieldinfosub">mín 1 caractere máx x caracteres</p><br/>
+      <p>informações relevantes em relação ao foco e objetivos do mural, informações sobre como candidatar-se a participar da edição, critérios para afixar esboços, etc</p>
     </div>
     <div class="fieldinfohide" id="keywordsboardinfo">
-      <p><span>keywords field</span></p><br/>
-      <p class="fieldinfosub">mandatory</p>
-      <p class="fieldinfosub">comma-separated alphanumeric expressions</p>
-      <p class="fieldinfosub">min 1 char max x char for keyword</p><br/>
-      <p>comma-sepparated words that will help index and identify board's main objectives</p><br/>
-      <p>keywords make it easy for boards to be found and preferably match keywords from the drafts pinned</p><br/>
+      <p><span>campo palavras-chave</span></p><br/>
+      <p class="fieldinfosub">obrigatório</p>
+      <p class="fieldinfosub">comma-separated alfanumérico expressions</p>
+      <p class="fieldinfosub">mín 1 caractere máx x caracteres for keyword</p><br/>
+      <p>palavras-chave, ou conjuntos curtos de palavras, separados por vírgula, que ajudam a identificar os objetivos do mural</p><br/>
+      <p>palavras-chave ajudam a facilitar a indexação e busca de murais, e preferencialmente devem coincidir com palavras-chave apontadas pelos esboços afixados</p><br/>
     </div>
     <div class="fieldinfohide" id="pinpolicyboardinfo">
-      <p><span>pin majority</span></p><br/>
-      <p class="fieldinfosub">mandatory</p>
-      <p class="fieldinfosub">integer number</p>
-      <p class="fieldinfosub">ranging from 0 to 100 (default)</p><br/>
-      <p>the number chosen will define majority minimum to be accepted as consensus for drafts to be pinned on and unpinned from the board</p><br/>
-      <p>board creation depends on collective consensus approval, but the pinning of drafts will be perfomed upon consensus of board editors</p><br/>
-      <p>upon creation board's default editor is instruction's author </p><br/>
+      <p><span>maioria para afixar</span></p><br/>
+      <p class="fieldinfosub">obrigatório</p>
+      <p class="fieldinfosub">número inteiro</p>
+      <p class="fieldinfosub">de 0 a 100 (padrão)</p><br/>
+      <p>o número escolhido define a maioria mínima a ser aceita como consenso para que esboços sejam afixados ou desafixados do mural</p><br/>
+      <p>a criação do mural depende de aprovação de consenso de acordo com a política do coletivo, mas a fixação de esboços será feita a partir do consenso dos editores do mural</p><br/>
+      <p>o autor da instrução de criação do mural é, por padrão, incluído como editor </p><br/>
     </div>
     <div class="fieldinfohide" id="reasonsfieldinfo">
-      <p><span>reasons field</span></p><br/>
-      <p class="fieldinfosub">optional</p>
-      <p class="fieldinfosub">alphanumeric</p>
-      <p class="fieldinfosub">max x char</p><br/>
-      <p>instruction author may provide some information as to the reasons for the instruction being proposed</p><br/>
+      <p><span>campo razões</span></p><br/>
+      <p class="fieldinfosub">opcional</p>
+      <p class="fieldinfosub">alfanumérico</p>
+      <p class="fieldinfosub">máximo x caracteres</p><br/>
+      <p>autor da instrução pode prover informações	sobre as razões pelas quais a instrução está sendo proposta</p><br/>
     </div>
 {{template "TAIL"}}

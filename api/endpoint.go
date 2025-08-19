@@ -598,6 +598,8 @@ type EditVersion struct {
 	DraftHash  string
 	Head       HeaderInfo
 	ServerName string
+	OnBehalfOf string
+	Policy     Policy
 }
 
 func NewEdit(s *state.State, hash crypto.Hash) *EditVersion {
@@ -606,8 +608,8 @@ func NewEdit(s *state.State, hash crypto.Hash) *EditVersion {
 		return nil
 	}
 	head := HeaderInfo{
-		Active:  "Draft",
-		Path:    "venture / drafts / " + LimitStringSize(draft.Title, maxStringSize) + " / venture / ",
+		Active:  "Edit",
+		Path:    "venture / drafts / " + LimitStringSize(draft.Title, maxStringSize) + " / ",
 		EndPath: "edit",
 		Section: "venture",
 	}

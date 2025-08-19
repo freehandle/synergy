@@ -3,11 +3,11 @@
     <div class="singular">
         <div class="center">
             <h1 class="headerdetails" id="modaloutlinename">{{.Name}}</h1>
-            <p class="subheaders">collective</p>
+            <p class="subheaders">coletivo</p>
             <p class="description">{{.Description}}</p><br/>
             <div class="infos">
                 <div class="item">
-                    <p class="title">stamps</p>
+                    <p class="title">selos</p>
                     <div class="boxes">    
                     {{range .Stamps}}
                         <div class="item">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <div class="item">
-                    <p class="title">boards</p>
+                    <p class="title">murais</p>
                     <div class="boxes">
                     {{range .Boards}}
                         <div class="item">
@@ -39,14 +39,14 @@
                     </div>
                 </div>
                 <div class="item">
-                    <p class="title">events</p>
+                    <p class="title">eventos</p>
                     <div class="boxes">
                     {{range .Events}}    
                         <div class="item">
                             <a href="{{$servername}}/event/{{.Hash}}" class="boxitemtitle hover">{{.StartAt}}</a>
                             <p class="minidescr">{{.Description}}</p>
                             <ul class="listing">
-                                <li class="label">managers</li>
+                                <li class="label">organizadores</li>
                                 {{range .Managers}}
                                 <li><a class="linked" href="{{$servername}}/member/{{.Link}}">{{.Caption}}</a></li>
                                 {{end}}
@@ -60,29 +60,29 @@
     </div>
 </div>
 <div id="right">
-    <p class="infotitle">majority</p>
+    <p class="infotitle">maioria</p>
     <p class="info">{{.Majority}}</p>
     <br/>
-    <p class="infotitle">super majority</p>
+    <p class="infotitle">super maioria</p>
     <p class="info">{{.SuperMajority}}</p>
     <br/>
     <div>
-        <p class="infotitle">react to <span>{{.Name}}</span></p>
-        <button class="submit" onclick="dialogreact()" value="send">send</button>
+        <p class="infotitle">reagir a <span>{{.Name}}</span></p>
+        <button class="submit" onclick="dialogreact()" value="send">enviar</button>
     </div>
             
     <!-- react modal -->
     <dialog id="dialogreactel" class="modalshow">
-        <p class="modaltitle">instruction outline</p>
+        <p class="modaltitle">resumo da instrução</p>
         <form method="post" action="{{$servername}}/api">
             <input class="nonemodal" type="text" name="action" value="React" readonly/>
             <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
             <input class="nonemodal" type="text" name="redirect" value="collective/{{.Link}}" readonly/>
             <p class="modalinfo" id="reactionoutline"></p><br/>
-            <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+            <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
             <div class="modalbuttons">
-                <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancel</button>
-                <input class="modalsubmit" type="submit" value="send"/>
+                <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancelar</button>
+                <input class="modalsubmit" type="submit" value="enviar"/>
             </div>
         </form>
     </dialog>
@@ -90,34 +90,34 @@
       
     <br/><br/>
     {{if .Membership}}
-        <p class="infotitle pb">on behalf of <span>{{.Name}}</span></p>
+        <p class="infotitle pb">em nome de <span>{{.Name}}</span></p>
         <form method="post" action="{{$servername}}/createboard">
-            <input class="openform" type="submit" value="create board"/>
+            <input class="openform" type="submit" value="criar mural"/>
             <input class="none" type="text" name="collective" value="{{.Name}}" readonly/>
         </form>
         <form method="post" action="{{$servername}}/createevent">
-            <input class="openform" type="submit" value="create event"/>
+            <input class="openform" type="submit" value="criar evento"/>
             <input class="none" type="text" name="collective" value="{{.Name}}" readonly/>
         </form>
-        <a class="openform" href="{{$servername}}/updatecollective/{{.Link}}">update</a>        
+        <a class="openform" href="{{$servername}}/updatecollective/{{.Link}}">atualizar</a>        
         <br/>
         <div>
-            <p class="infotitle">leave <span>{{.Name}}</span></p>
-            <button class="submit" onclick="dialogleavecollective()" value="send">send</button>
+            <p class="infotitle">sair <span>{{.Name}}</span></p>
+            <button class="submit" onclick="dialogleavecollective()" value="send">enviar</button>
         </div>
 
         <!-- leave collective modal -->
         <dialog id="dialogleavecollectiveel" class="modalshow">
-            <p class="modaltitle">instruction outline</p>
+            <p class="modaltitle">resumo da instrução</p>
             <form method="post" action="{{$servername}}/api">
                 <input class="nonemodal" type="text" name="action" value="RequestMembership" readonly/>
                 <input class="nonemodal" type="text" name="collective" value="{{.Name}}" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="collective/{{.Link}}" readonly/>
                 <input class="nonemodal" type="text" name="include" value="off" readonly/><br/>
                 <p class="modalinfo" id="leaveoutline"></p><br/>
-                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                 <div class="modalbuttons">
-                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogleavecollectiveel');">cancel</button>
+                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogleavecollectiveel');">cancelar</button>
                     <input class="modalsubmit" type="submit" value="send"/>
                 </div>
             </form>
@@ -127,13 +127,13 @@
         <br/>
     {{else}}
         <div>
-            <p class="infotitle">join <span>{{.Name}}</span></p>
+            <p class="infotitle">entrar <span>{{.Name}}</span></p>
             <button class="submit" onclick="dialogjoincollective()" value="send">send</button>
         </div>
         
         <!-- join collective modal -->
         <dialog id="dialogjoincollectiveel" class="modalshow">
-            <p class="modaltitle">instruction outline</p>
+            <p class="modaltitle">resumo da instrução</p>
             <form method="post" action="{{$servername}}/api">
                 <input class="none" type="text" name="action" value="RequestMembership" readonly/>
                 <input class="none" type="text" name="collective" value="{{.Name}}" readonly/>
@@ -141,9 +141,9 @@
                 <input class="none" type="text" name="include" value="on" readonly/><br/>
                 
                 <p class="modalinfo" id="joinoutline"></p><br/>
-                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                 <div class="modalbuttons">
-                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogjoincollectiveel');">cancel</button>
+                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogjoincollectiveel');">cancelar</button>
                     <input class="modalsubmit" type="submit" value="send"/>
                 </div>
             </form>
@@ -151,7 +151,7 @@
         <!-- end of modal -->
         <br/>    
     {{end}}
-    <p class="infotitle"> <span>no</span> members</p>
+    <p class="infotitle"> <span>total</span> de membros</p>
     <ul class="listing">
     {{range .Members}} 
     <li><a class="linked" href="{{$servername}}/member/{{.Link}}">{{ .Handle }}</a></li>

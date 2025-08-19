@@ -1,12 +1,12 @@
 {{template "HEAD" .Head}}        
 {{ $servername := .ServerName }}
 <div class="plurals">
-    <h1 class="headers">collectives</h1>
+    <h1 class="headers">coletivos</h1>
     <div  class="objectinfos">
         {{range .Collectives}}
         <div class="collectiveitem">
             <a href="{{$servername}}/collective/{{.Link}}" class="title large bold hover">{{.Name}}</a>
-            <p class="members">{{.Participants}} {{if eq .Participants 1}} member {{else}} members {{end}}</p>
+            <p class="members">{{.Participants}} {{if eq .Participants 1}} membro {{else}} membros {{end}}</p>
             <p class="description light">{{.Description}}</p>
         </div>
         {{end}}

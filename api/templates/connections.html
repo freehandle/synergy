@@ -1,38 +1,38 @@
 {{template "HEAD" .Head}}
 {{ $servername := .ServerName }}
-    <h1 class="headers"> connections</h1>
+    <h1 class="headers">conexões</h1>
     <div class="cards">
         <div class="type">
             <div class="stats">
-                <h2> you're a member of </h2>
-                <h3> {{.NCollectives}} {{if eq .NCollectives 1}} collective {{else}} collectives {{end}} </h3>
+                <h2>você é membro de </h2>
+                <h3>{{.NCollectives}} {{if eq .NCollectives 1}} coletivo {{else}} coletivos {{end}} </h3>
             </div>
             <div class="details">
                 {{range .Collectives}}
                 <div class="item">
                     <a href="{{$servername}}/collective/{{.Link}}" class="title">{{.Name}}</a>
                     <p class="objects">
-                        {{.NBoards}} {{if eq .NBoards 1}} board {{else}} boards {{end}}, 
-                        {{.NStamps}} {{if eq .NStamps 1}} stamp {{else}} stamps {{end}}, 
-                        {{.NEvents}} {{if eq .NEvents 1}} event {{else}} events {{end}}
+                        {{.NBoards}} {{if eq .NBoards 1}} mural {{else}} murais {{end}}, 
+                        {{.NStamps}} {{if eq .NStamps 1}} selo {{else}} selos {{end}}, 
+                        {{.NEvents}} {{if eq .NEvents 1}} evento {{else}} eventos {{end}}
                     </p>
                     {{if .LastSelf.Type}}
                     <div class="action">    
-                        <p class="who">your last action </p>
-                        <p class="time">{{.LastSelf.TimeOfInstr}} ago</p>
+                        <p class="who">sua última ação </p>
+                        <p class="time">{{.LastSelf.TimeOfInstr}} atrás</p>
                     </div>
                     <p class="description">{{.LastSelf.Type}}</p>
                     {{ else }}
-                        <p class="who">you don't have actions</p>
+                        <p class="who">você não tem ações recentes</p>
                     {{end}}
                     {{if .LastAny.Type}}                    
                     <div class="action">    
-                        <p class="who">last action </p>
-                        <p class="time">{{.LastAny.TimeOfInstr}} ago</p>
+                        <p class="who">última ação </p>
+                        <p class="time">{{.LastAny.TimeOfInstr}} atrás</p>
                     </div>
-                    <p class="description">{{.LastAny.Type}} - proposed by {{.LastAny.Handle}}</p>
+                    <p class="description">{{.LastAny.Type}} - proposta por {{.LastAny.Handle}}</p>
                     {{else}}
-                    <p class="who">there is no activity</p>
+                    <p class="who">não houve atividade</p>
                     {{end}}
                 </div>
                 {{end}}
@@ -41,34 +41,34 @@
 
         <div class="type">
             <div class="stats">
-                <h2> you're an editor of </h2>
-                <h3> {{.NBoards}} {{if eq .NBoards 1}} board {{else}} boards {{end}} </h3>
+                <h2>você é editor de </h2>
+                <h3>{{.NBoards}} {{if eq .NBoards 1}} mural {{else}} murais {{end}} </h3>
             </div>
             <div class="details">
                 {{range .Boards}}
                 <div class="item">
                     <a href="{{$servername}}/board/{{.Link}}" class="title">{{.Name}}</a>
                     <p class="objects">
-                        {{.NPins}} {{if eq .NPins 1}} pin {{else}} pins {{end}}, 
-                        {{.NEditors}} {{if eq .NEditors 1}} editor {{else}} editors {{end}}
+                        {{.NPins}} {{if eq .NPins 1}} fixado {{else}} fixados {{end}}, 
+                        {{.NEditors}} {{if eq .NEditors 1}} editor {{else}} editores {{end}}
                     </p>
                     {{if .LastSelf.Type}}
                     <div class="action">    
-                        <p class="who">your last action </p>
-                        <p class="time">{{.LastSelf.TimeOfInstr}} ago</p>
+                        <p class="who"> última ação </p>
+                        <p class="time">{{.LastSelf.TimeOfInstr}} atrás</p>
                     </div>
                     <p class="description">{{.LastSelf.Type}}</p>
                     {{ else }}
-                        <p class="who">you don't have actions</p>
+                        <p class="who">você não tem ações recentes</p>
                     {{end}}
                     {{if .LastAny.Type}}                    
                     <div class="action">    
-                        <p class="who">last action </p>
-                        <p class="time">{{.LastAny.TimeOfInstr}} ago</p>
+                        <p class="who">última ação </p>
+                        <p class="time">{{.LastAny.TimeOfInstr}} atrás</p>
                     </div>
-                    <p class="description">{{.LastAny.Type}} - proposed by {{.LastAny.Handle}}</p>
+                    <p class="description">{{.LastAny.Type}} - proposto por {{.LastAny.Handle}}</p>
                     {{else}}
-                        <p class="who">there is no activity</p>
+                        <p class="who">não houve atividade</p>
                     {{end}}
                 </div>
                 {{end}}
@@ -77,15 +77,15 @@
 
         <div class="type">
             <div class="stats">
-                <h2> you're a manager on </h2>
-                <h3> {{.NEvents}} {{if eq .NEvents 1}} event {{else}} events {{end}} </h3>
+                <h2> você é organizador em </h2>
+                <h3> {{.NEvents}} {{if eq .NEvents 1}} evento {{else}} eventos {{end}} </h3>
             </div>
             <div class="details">
                 {{range .Events}}
                 <div class="item">
                     <a href="{{$servername}}/event/{{.Hash}}" class="title">{{.DateCol}}</a>
                     <p class="checkins">{{.NCheckins}} {{if eq .NCheckins 1}} check-in {{else}} check-ins {{end}} </p>
-                    <p class="pending">{{.NPenCheckins}} {{if eq .NPenCheckins 1}} check-in {{else}} check-ins {{end}} pending greeting</p>
+                    <p class="pending">{{.NPenCheckins}} {{if eq .NPenCheckins 1}} check-in {{else}} check-ins {{end}} pendendo boas-vindas</p>
                 </div>
                 {{end}}
             </div>

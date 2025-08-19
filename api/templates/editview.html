@@ -1,45 +1,46 @@
 {{template "HEAD" .Head}}
+{{ $servername := .ServerName }}
     <div class="singular">
         <div class="center">
-            <p class="x2large bold"> edit <span class="xlarge light "> for 
-                <a class="xlarge bold hover" href="{{.ServerName}}/draft/{{.DraftHash}}"> {{.DraftTitle}} </a> 
+            <p class="x2large bold"> edição <span class="xlarge light "> para 
+                <a class="xlarge bold hover" href="{{$servername}}/draft/{{.DraftHash}}"> {{.DraftTitle}} </a> 
             </span> 
             </p>
             <br>
-            <p class="subheadersdraft">edit by</p>
+            <p class="subheadersdraft">edição por</p>
             <ul class="listing">
                 {{range .Authors}}
                     <li class="handletitle">
                         {{if .Collective}}
-                            <a href="{{.ServerName}}/collective/{{.Link}}">{{.Name}}</a>
+                            <a href="{{$servername}}/collective/{{.Link}}">{{.Name}}</a>
                         {{else}}
-                            <a href="{{.ServerName}}/member/{{.Link}}">{{.Name}}</a>
+                            <a href="{{$servername}}/member/{{.Link}}">{{.Name}}</a>
                         {{end}}
                     </li>
                 {{end}}
             </ul>
             <br>
-            <p class="bold"> reasons</p>
+            <p class="bold"> razões</p>
             <p class=""> {{.Reasons}} </p>
             <br>
-            <p><a class="hover" href="{{.ServerName}}/media/{{.Hash}}">download</a></p>
+            <p><a class="hover" href="{{$servername}}/media/{{.Hash}}">baixar</a></p>
             
         </div>
     </div>
 
     {{if .Votes}}
     <hr/>
-    <h2> vote calls</h2>
+    <h2> pedido de votação </h2>
     {{range .Votes}}
         <div> {{.Kind}} 
             {{if .OnBehalfOf}} 
-                on behalf of {{.OnBehalfOf}}
+                em nome de {{.OnBehalfOf}}
                 {{end}}
-                <form method="post" action="{{.ServerName}}/api">
+                <form method="post" action="{{$servername}}/api">
                     <input class="none" type="text" name="action" value="Vote" readonly/>
                     <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
-                    <input type="checkbox" name="approve"> approve </input>
-                    <input type="submit" value="Cast Vote"/>
+                    <input type="checkbox" name="approve"> aprovar </input>
+                    <input type="submit" value="Votar"/>
                 </form>
             </div>
     {{end}}

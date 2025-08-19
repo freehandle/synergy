@@ -3,13 +3,13 @@
     <div class="center">
         <form method="post" action="{{.ServerName}}/api">
             <input class="none" type="text" name="redirect" value="votes" readonly/>
-            <h1 class="headerdetails">update event vote</h1>
+            <h1 class="headerdetails">votação para atualizar evento</h1>
             <ul class="listing">
                 <li class="handletitle">
-                  <a href="{{.ServerName}}/event/{{.Hash}}">original event</a>
+                  <a href="{{.ServerName}}/event/{{.Hash}}">evento original</a>
                 </li>
             </ul><br/>
-            <p class="subheadersdraft">proposed by</p>
+            <p class="subheadersdraft">proposto por</p>
             <ul class="listing">
                 <li class="handletitle">
                   <a href="{{.ServerName}}/collective/{{.Collective}}"> {{.Collective}}</a>
@@ -18,57 +18,58 @@
               <br/><br/>
     
             <p class="formoldinfo"> {{.OldDescription}}</p>
-            <p class="infotitle"> becomes - {{.Description}}</p>
+            <p class="infotitle"> vira - {{.Description}}</p>
             <br/>
     
-            <p class="formoldinfo"> start {{.OldStartAt}}</p>
-            <p class="infotitle"> unaltered</p>
+            <p class="formoldinfo"> início {{.OldStartAt}}</p>
+            <p class="infotitle"> sem alterações
+            </p>
             <br/>
     
-            <p class="formoldinfo"> estimated end {{.OldEstimatedEnd}} </p>
-            <p class="infotitle"> unaltered </p>
+            <p class="formoldinfo"> final estimado {{.OldEstimatedEnd}} </p>
+            <p class="infotitle"> sem alterações </p>
             <br/>
     
-            <p class="formoldinfo"> venue {{.OldVenue}} </p>
-            <p class="infotitle"> becomes - {{.Venue}}</p>
+            <p class="formoldinfo"> local {{.OldVenue}} </p>
+            <p class="infotitle"> vira - {{.Venue}}</p>
             <br/>
             
-            <p class="formoldinfo"> status {{if .OldOpen}} open {{else}} closed {{end}} </p>
-            <p class="infotitle"> becomes - {{if .Open}} open {{else}} closed {{end}}</p>
+            <p class="formoldinfo"> status {{if .OldOpen}} aberto {{else}} fechado {{end}} </p>
+            <p class="infotitle"> vira - {{if .Open}} aberto {{else}} fechado {{end}}</p>
             <br/>
     
-            <p class="formoldinfo"> status {{if .OldPublic}} public {{else}} private {{end}} </p>
-            <p class="infotitle"> becomes - {{if .Public}} public {{else }} private {{end}}</p>
+            <p class="formoldinfo"> status {{if .OldPublic}} público {{else}} privado {{end}} </p>
+            <p class="infotitle"> vira - {{if .Public}} público {{else }} privado {{end}}</p>
             <br/>
     
             {{if .Reasons}}
-              <p class="bold">reasons</p>
+              <p class="bold">razões</p>
               <p class="description">{{.Reasons}}</p><br/>
             {{end}}
     
             {{if .Managing}}
-                <h2 class="subheaders">vote</h2>
+                <h2 class="subheaders">votar</h2>
                 <input class="none" type="text" name="action" value="Vote" readonly/>
                 <input class="none" type="text" name="hash" value="{{.VoteHash}}" readonly/>
                 
                 <div class="large">
                   <input type="radio" id="approve" name="approve" value="on" checked>
-                  <label class="voteradio" for="approve">favorable</label>
+                  <label class="voteradio" for="approve">a favor</label>
                   <input type="radio" id="against" name="approve" value="off">
-                  <label class="voteradio" for="against">against</label> 
+                  <label class="voteradio" for="against">contra</label> 
                 </div>
-                <textarea class="votereasons" type="textarea" name="reasons" rows="4" id="reasonsfield" placeholder="optional vote reasoning"></textarea>
+                <textarea class="votereasons" type="textarea" name="reasons" rows="4" id="reasonsfield" placeholder="campo opcional para razões do voto"></textarea>
              
-                <input class="submit" type="submit" value="send"/>
+                <input class="submit" type="submit" value="enviar"/>
             {{end}}
         </form>
     </div>
     <div class="right">
-        <p class="infotitle">consensus status</p>
-        <p class="info"> {{.Voting.Voted}} have already voted</p>
-        <p class="info"> {{len .Voting.Approve}} favorable </p>
-        <p class="info"> {{len .Voting.Reject }} against </p>
-        <p class="info"> {{len .Voting.NotCast }} not cast </p>    <br/>
+        <p class="infotitle">status do consenso</p>
+        <p class="info"> {{.Voting.Voted}} já votaram</p>
+        <p class="info"> {{len .Voting.Approve}} a favor </p>
+        <p class="info"> {{len .Voting.Reject }} contra </p>
+        <p class="info"> {{len .Voting.NotCast }} faltando </p>    <br/>
       </div>
 </div>
 {{template "TAIL"}}

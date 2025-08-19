@@ -4,16 +4,16 @@
     <div class="singular">
         <div class="center">
             <div class="headerevent">
-                <p class="title">event</p>
+                <p class="title">evento</p>
                 {{if not .Live}}
-                    <p class="status">cancelled</p><br/>
+                    <p class="status">cancelado</p><br/>
                 {{else if .Live}}
-                    <p class="status">active</p><br/>
+                    <p class="status">ativo</p><br/>
                 {{end}}
-                <p class="status"> {{if .Open}}open{{else}}closed{{end}}</p>
-                <p class="status"> {{if .Public}}public{{else}}private{{end}}</p><br/>      
+                <p class="status"> {{if .Open}}aberto{{else}}fechado{{end}}</p>
+                <p class="status"> {{if .Public}}público{{else}}privado{{end}}</p><br/>      
             </div>
-            <p class="subheadersdraft">proposed by</p>
+            <p class="subheadersdraft">proposto por </p>
             <ul class="listing">
                 <li class="handletitle">
                     <a href="{{$servername}}/collective/{{.Collective.Link}}">{{.Collective.Name}}</a>
@@ -22,15 +22,15 @@
             <br/>
 
             <p class="description"> {{.Description}} </p><br/>
-            <p class="description"> starting at {{.StartAt}} </p>
-            <p class="description"> estimated end at {{.EstimatedEnd}} </p>
-            <p class="description"> taking place at {{.Venue}}</p><br/>
+            <p class="description"> início em {{.StartAt}} </p>
+            <p class="description"> final estimado {{.EstimatedEnd}} </p>
+            <p class="description"> a realizar-se em {{.Venue}}</p><br/>
             
             
             {{if .Managing}}
                 <div class="infos">
                     <div class="item">
-                        <p class="title">pending greetings</p>
+                        <p class="title">boas-vindas pendentes</p>
                         {{if .Checkedin}}
                                 <form method="post" action="{{$servername}}/api">
                                     <input class="none" type="text" name="action" value="GreetCheckinEvent" readonly/>
@@ -42,7 +42,7 @@
                                     {{end}}
                                     <!--<textarea class="formentry detailed" type="text" name="reasons" rows="3" id="reasons"></textarea>-->
                                     <br/>
-                                    <label class="info" for="privateContent">check-in information</label>
+                                    <label class="info" for="privateContent">informação de check-in</label>
                                     <br/>
                                     <textarea class="checkinreasons" type="textarea" name="privateContent" id="privateContent" rows="4" placeholder="share info with the guest"></textarea>
                                     <div class="blockright">
@@ -54,7 +54,7 @@
                         {{end}}
                     </div>
                     <div class="item">
-                        <p class="title">greeted</p>
+                        <p class="title">participantes</p>
                         {{if .Greeted}}
                             {{range .Greeted}}
                                 <ul class="listing">
@@ -70,15 +70,15 @@
                     <div class="item">
                         {{if .Live}}
                             {{if .MyGreeting}}
-                                 <p class="title">my greeting</p>
+                                 <p class="title">minha informação de boas-vindas</p>
                                 <p class="info">{{.MyGreeting}}</p>
                                 <br/>
                             {{else}}
-                                <p class="title">check-in to event</p>
+                                <p class="title">fazer check-in no evento</p>
                                 <form method="post" action="{{$servername}}/api">
                                     <textarea class="checkinreasons" type="textarea" name="reasons" rows="4" placeholder="(optional) share reasons for checkin or introduce yourself"></textarea>
                                     <div class="blockright">
-                                        <input class="submit" type="submit" value="send"/><br/>
+                                        <input class="submit" type="submit" value="enviar"/><br/>
                                     </div>
                                     <input class="none" type="text" name="action" value="CheckinEvent" readonly/><br/>
                                     <input class="none" type="text" name="eventhash" value="{{.Hash}}" readonly/>
@@ -86,14 +86,14 @@
                                 <br/>
                             {{end}}
                         {{else if not .Live}}
-                            <p class="title">event is pending approval</p>
+                            <p class="title">evento pendendo aprovação</p>
                         {{else}}
-                            <p class="title">event has been canceled</p>
+                            <p class="title">evento cancelado</p>
                         {{end}}
                     </div>
                     <div class="item">
                         {{if .Greeted}}
-                            <p class="title">checked-in members</p>
+                            <p class="title">participantes</p>
                             {{range .Greeted}}
                                 <ul class="listing">
                                     <li> <a class="linked" href="{{$servername}}/member/{{.Link}}">{{.Handle}}</a></li>
@@ -101,7 +101,7 @@
                                 <!-- <li><a  class="handlelink" href="/member/{{ .Handle }}"> {{ .Handle }} </a></li> -->
                             {{end}}
                         {{else}}
-                            <p class="title">no check-ins yet</p>
+                            <p class="title">nenhum check-in ainda</p>
                         {{end}}
                     </div>
                 </div>
@@ -110,10 +110,10 @@
     </div>
 </div>
 <div id="right">
-    <p class="infotitle">manager majority</p>
+    <p class="infotitle">política de maioria</p>
     <p class="info">{{.ManagerMajority}}</p><br/>
 
-    <p class="infotitle">managers</p>
+    <p class="infotitle">organizadores</p>
     <ul class="listing">
         {{range .Managers}}   
         <li> <a class="linked" href="{{$servername}}/member/{{.Link}}">{{.Handle}}</a></li>
@@ -123,12 +123,12 @@
      
         {{ if .Live}}
 
-        <p class="infotitle pb">on behalf of <a class="link" href="{{$servername}}/collective/{{.Collective.Link}}">{{.Collective.Name}}</a></p>
-        <a class="openform" href="{{$servername}}/updateevent/{{.Hash}}">update</a> 
+        <p class="infotitle pb">em nome de <a class="link" href="{{$servername}}/collective/{{.Collective.Link}}">{{.Collective.Name}}</a></p>
+        <a class="openform" href="{{$servername}}/updateevent/{{.Hash}}">atualizar</a> 
 
 
         <div>
-            <button class="openform" onclick="dialogreact()" value="cancel">cancel</button>
+            <button class="openform" onclick="dialogreact()" value="cancel">cancelar</button>
         </div>
 
         {{end}}
@@ -136,22 +136,22 @@
     {{end}}
     {{if .Live}}
         <div>
-            <p class="infotitle">react to this event</p>
-            <button class="submit" onclick="dialogreact()" value="send">send</button>
+            <p class="infotitle">reagir ao evento</p>
+            <button class="submit" onclick="dialogreact()" value="send">enviar</button>
         </div>
                 
         <!-- react modal -->
         <dialog id="dialogreactel" class="modalshow">
-            <p class="modaltitle">instruction outline</p>
+            <p class="modaltitle">resumo da instrução</p>
             <form method="post" action="{{$servername}}/api">
                 <input class="nonemodal" type="text" name="action" value="React" readonly/>
                 <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="event/{{.Hash}}" readonly/>
                 <p class="modalinfo" id="reactionoutline"></p><br/>
-                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                 <div class="modalbuttons">
-                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancel</button>
-                    <input class="modalsubmit" type="submit" value="send"/>
+                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancelar</button>
+                    <input class="modalsubmit" type="submit" value="enviar"/>
                 </div>
             </form>
         </dialog>

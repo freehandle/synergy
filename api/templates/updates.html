@@ -1,10 +1,10 @@
 {{template "HEAD" .Head}}
 {{ $servername := .ServerName }}
-    <p class="headers x3large"> updates
+    <p class="headers x3large"> atualizações
         <span class="maintoggle xlarge light"> 
-            <span class="tgmenu bold pointer" id="tg_actions" onclick="selectToggle('actions');">actions</span>
+            <span class="tgmenu bold pointer" id="tg_actions" onclick="selectToggle('actions');">ações</span>
             |
-            <span class="tgmenu pointer" id="tg_reactions" onclick="selectToggle('reactions');">reactions</span>  
+            <span class="tgmenu pointer" id="tg_reactions" onclick="selectToggle('reactions');">reações</span>  
         </span>
     </p> 
     <div id="updates" class="centralcard">
@@ -37,7 +37,7 @@
                     <p class="title">{{.Name}} {{.ObjectKind}}</p>
                     {{range .Reactions}}
                         <div class="reactioninfo">
-                            <p class="light">{{.Description}} {{.LastUpdatedInterval}} ago </p>                      
+                            <p class="light">{{.Description}} {{.LastUpdatedInterval}} atrás </p>
                             <p class="">{{.Reasons}} </p>
                         </div>
                     {{end}}

@@ -1,10 +1,10 @@
 {{template "HEAD" .Head}}
 {{ $servername := .ServerName }}
     <div class="mediaheader">
-        <div class="headers"> my media </div>
+        <div class="headers"> minhas mídias </div>
         <div class="mediatabs">
-            <span id="mymediadraftsmenu" class="bold" onClick="selectMedia('Draft')">drafts</span> 
-            | <span class="" id="mymediaeditsmenu" onClick="selectMedia('Edit')">edits</span>
+            <span id="mymediadraftsmenu" class="bold" onClick="selectMedia('Draft')">esboços</span> 
+            | <span class="" id="mymediaeditsmenu" onClick="selectMedia('Edit')">edições</span>
         </div>    
     </div>
     <div id="mymediadrafts" class="">
@@ -14,32 +14,32 @@
                 <div class="mediadetails">
                     <div>
                         {{if .Pinned}}
-                            <p> <span class="bold"> pinned on </span> {{len .Pinned -}} board(s)</p>
+                            <p> <span class="bold"> afixado em </span> {{len .Pinned -}} mural(is)</p>
                             {{range .Pinned}}
                                 <a class="object hover" href="{{$servername}}/board/{{.Link}}">{{.Caption}}</a>
                             {{end}}        
                         {{ else }}
-                            <p> <span>not pinned</span></p>
+                            <p> <span>não afixado ainda</span></p>
                         {{end}}
                     </div>
                     <div>
                         {{if .Edit}}
-                            <p>{{len .Edit -}} edit(s) proposed</p>
+                            <p>{{len .Edit -}} edição(ões) propostas</p>
                             {{range .Edit}}
-                                <a class="object hover" href="{{$servername}}/editview/{{.Link}}">{{.Caption}} {{.Time}} ago</a>
+                                <a class="object hover" href="{{$servername}}/editview/{{.Link}}">{{.Caption}} {{.Time}} atrás</a>
                             {{end}}        
                         {{else}}
-                        <p> <span> not edited</span></p>
+                        <p> <span> não editado ainda</span></p>
                         {{end}}
                     </div>
                     <div>
                         {{if .Stamps}}
-                            <p>{{len .Stamps -}} stamp(s) received</p>
+                            <p>{{len .Stamps -}} selo(s) recebido(s)</p>
                             {{range .Stamps}}
                                 <a class="object hover" href="{{$servername}}/collective/{{.Link}}">{{.Caption}}</a>
                             {{end}}
                         {{else}}
-                        <p><span>not stamped</span></p>
+                        <p><span>nenhum selo recebido ainda</span></p>
                         {{end}}
                     </div>
                 </div>
@@ -52,7 +52,7 @@
     <div id="mymediaedits" class="none">
         {{range .Edits}}
                 <div class="mediacard">
-                    <p>proposed for <a href="{{$servername}}/draft/{{.DraftHash}}" class="bold hover"> {{.DraftTitle}} </a> {{.AuthorType}} </p>
+                    <p>propostos <a href="{{$servername}}/draft/{{.DraftHash}}" class="bold hover"> {{.DraftTitle}} </a> {{.AuthorType}} </p>
                     <a class="hover" href="{{$servername}}/editview/{{.Hash}}"><span>{{.PublishedAt}}</span></a>
                 </div>
             {{end}}

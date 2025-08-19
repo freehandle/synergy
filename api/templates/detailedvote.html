@@ -2,26 +2,26 @@
 {{ $servername := .ServerName }}
   <div id="detailedvote">
     <div class="header">
-      <p class="left x3large"> pending actions <span class="detailed x2large light"> vote details</span></p>
+      <p class="left x3large"> ações pendentes <span class="detailed x2large light"> detalhe de votos</span></p>
       <div class="right">
-        <p class="light"> action proposed </p>
-        <p class="light"> {{.ProposedAt}} ago </p>
+        <p class="light"> ação proposta </p>
+        <p class="light"> {{.ProposedAt}} atrás </p>
       </div>
     </div>
     <div class="header">
       <p class="left description xlarge"> {{.Description}} </p>
       <div class="right">
-        <p class="light"> {{.Needed}} votes </p>
-        <p class="bold"> for approval</p>
+        <p class="light"> {{.Needed}} votos </p>
+        <p class="bold"> para aprovação</p>
       </div>
     </div>
     <p>
       {{.Reasons}}
     </p>
     <p class="togglemenu xlarge light">
-      <span id="tg_favorable" class="tgmenu bold" onclick="selectToggle('favorable');">{{len .Approve}} favorable</span> |
-      <span id="tg_against" class="tgmenu" onclick="selectToggle('against');">{{len .Reject}} against</span> |
-      <span id="tg_remaining" class="tgmenu" onclick="selectToggle('remaining');">{{len .NotVoted}} not cast</span>
+      <span id="tg_favorable" class="tgmenu bold" onclick="selectToggle('favorable');">{{len .Approve}} a favor</span> |
+      <span id="tg_against" class="tgmenu" onclick="selectToggle('against');">{{len .Reject}} contra</span> |
+      <span id="tg_remaining" class="tgmenu" onclick="selectToggle('remaining');">{{len .NotVoted}} aguardando</span>
     </p>
     <div id="favorable" class="toggle">
       {{range .Approve}}

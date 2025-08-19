@@ -5,12 +5,12 @@
             <div class="headerdraft">
                 <p class="title" id="modaloutlinename">{{.Title}}</p>
                 {{if .Released}}
-                    <p class="released">released</p>
+                    <p class="released">lançado</p>
                 {{end}}
                 {{if .PreviousHash}}
-                    <p><a class="released" href="{{$servername}}/draft/{{.PreviousHash}}">previous version</a></p>
+                    <p><a class="released" href="{{$servername}}/draft/{{.PreviousHash}}">versão anterior</a></p>
                 {{else}}
-                    <p class="released"> first version </p>
+                    <p class="released"> primeira versão </p>
                 {{end}}
             </div>
             <ul class="listing">
@@ -18,7 +18,7 @@
                     <li class="keywordtitle">{{.}}</li>
                 {{end}}        
             </ul>
-            <p class="subheadersdraft">draft by</p>
+            <p class="subheadersdraft">esboço por </p>
                 <ul class="listing">
                 {{range .Authors}}
                     <li class="handletitle">
@@ -35,7 +35,7 @@
 
             <br/>
             <p class="description"> {{.Description}} </p><br/>
-            <a class="downloadlink hover" href="{{$servername}}/media/{{.Hash}}">Download</a>
+            <a class="downloadlink hover" href="{{$servername}}/media/{{.Hash}}">Baixar mídia</a>
             <div class="draftpreview">
                 {{.Content}}
             </div>
@@ -45,7 +45,7 @@
 </div>
 <div id="right">
     {{if .References}}
-        <p class="infotitle">references</p>
+        <p class="infotitle">referências</p>
         {{range .References}}
             <p class="info"> .Author, .Title (.Date) </p>
         {{end}}
@@ -53,10 +53,10 @@
     {{end}}
     
     <br/>
-    <p class="infotitle">majority, supermajority</p>
+    <p class="infotitle">maioria, super maioria</p>
     <p class="info"> {{.Policy.Majority}}, {{.Policy.SuperMajority}} </p>
     <br/>
-    <p class="infotitle">pins</p>
+    <p class="infotitle">murais onde está afixado</p>
     {{if .Pinned}}
         <ul class="listing">
             {{range .Pinned}}
@@ -64,23 +64,23 @@
             {{end}}
         </ul><br/><br/>
     {{else}}
-            <p class="info"> not pinned </p>
+            <p class="info"> não foi afixado ainda</p>
             <br/>
     {{end}}
     {{if .Edited}}
-        <p><a href="{{$servername}}/edits/{{.Hash}}">see edits</a></p>
+        <p><a href="{{$servername}}/edits/{{.Hash}}">ver edições</a></p>
         <br/>
     {{end}}
 
     <div>
-        <p class="infotitle">pin to board</p>
+        <p class="infotitle">afixar a um mural</p>
         <input class="entryfield" type="text" name="boardName" id="boardname" placeholder="board name"/>
-        <button class="submit" onclick="dialogpintoboard()" value="send">send</button>
+        <button class="submit" onclick="dialogpintoboard()" value="send">enviar</button>
     </div>
 
     <!-- pin to board modal -->
     <dialog id="dialogpinboardel" class="modalshow">
-        <p class="modaltitle">instruction outline</p>
+        <p class="modaltitle">resumo da instrução</p>
         <form method="post" action="{{$servername}}/api">
 
             <input class="nonemodal" type="text" name="action" value="Pin" readonly/>
@@ -89,9 +89,9 @@
             <input class="nonemodal" type="text" name="pin" value="on" readonly/>
             <input class="nonemodal" type="text" name="boardName" placeholder="board name" id="modalboardname"/>
             <p class="modalinfo" id="pinboardoutline"></p><br/>
-            <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+            <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
             <div class="modalbuttons">
-                <button class="modalsubmit" type="reset" onclick="closedialog('dialogpinboardel');">cancel</button>
+                <button class="modalsubmit" type="reset" onclick="closedialog('dialogpinboardel');">cancelar</button>
                 <input class="modalsubmit" type="submit" value="send"/>
             </div>
         </form>
@@ -101,7 +101,7 @@
     <br/><br/>
     {{if .Released}}
         {{if .Stamps}}
-            <p class="infotitle">stamps received</p>
+            <p class="infotitle">selos recebidos</p>
             <ul class="listing">
             {{range .Stamps}}   
                 <li> <a class="linked" href="{{$servername}}/collective/{{.Link}}">{{.Name}}</a></li>
@@ -110,23 +110,23 @@
         {{end}}       
 
         <div>
-            <p class="infotitle">propose stamp</p>
+            <p class="infotitle">propor selo</p>
             <input class="entryfield" type="text" name="onBehalfOf" placeholder="collective reputation" id="collectiverep"/>
             <button class="submit" onclick="dialogproposestamp()" value="send">send</button>
         </div>
 
         <!-- propose stamp modal -->
         <dialog id="dialogproposestampel" class="modalshow">
-            <p class="modaltitle">instruction outline</p>
+            <p class="modaltitle">resumo da instrução</p>
             <form method="post" action="{{$servername}}/api">
                 <input class="nonemodal" type="text" name="action" value="ImprintStamp" readonly/>
                 <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="draft/{{.Hash}}" readonly/>
                 <input class="nonemodal" type="text" name="onBehalfOf" placeholder="collective reputation" id="modalcollectiverep"/>
                 <p class="modalinfo" id="propstampoutline"></p><br/>
-                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                 <div class="modalbuttons">
-                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogproposestampel');">cancel</button>
+                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogproposestampel');">cancelar</button>
                     <input class="modalsubmit" type="submit" value="send"/>
                 </div>
             </form>
@@ -137,21 +137,21 @@
     {{else}}
         {{if .Authorship}}
             <div>
-                <p class="infotitle">propose release</p>
-                <button class="submit" onclick="dialogrelease()" value="send">send</button>
+                <p class="infotitle">propor lançamento</p>
+                <button class="submit" onclick="dialogrelease()" value="send">enviar</button>
             </div>
 
             <!-- propose release modal -->
             <dialog id="dialogreleaseel" class="modalshow">
-                <p class="modaltitle">instruction outline</p>
+                <p class="modaltitle">resumo da instrução</p>
                 <form method="post" action="{{$servername}}/api">
                     <input class="nonemodal" type="text" name="action" value="Release" readonly/>
                     <input class="nonemodal" type="text" name="contentHash" value="{{.Hash}}" readonly/>
                     <input class="nonemodal" type="text" name="redirect" value="draft/{{.Hash}}" readonly/>
                     <p class="modalinfo" id="releaseoutline"></p><br/>
-                    <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                    <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                     <div class="modalbuttons">
-                        <button class="modalsubmit" type="reset" onclick="closedialog('dialogreleaseel');">cancel</button>
+                        <button class="modalsubmit" type="reset" onclick="closedialog('dialogreleaseel');">cancelar</button>
                         <input class="modalsubmit" type="submit" value="send"/>
                     </div>
                 </form>
@@ -163,38 +163,38 @@
     {{end}}
     
     {{if .Authorship}}
-        <p class="infotitle">further actions</p>
+        <p class="infotitle">ações adicionais </p>
         <form method="post" action="{{$servername}}/newdraft">
             <input class="none" type="text" name="previousVersion" value="{{.Hash}}" readonly/>
-            <input class="openform" type="submit" value="new version"/>
+            <input class="openform" type="submit" value="nova versão"/>
         </form>
         <br/>
     {{else}}
-        <p class="infotitle">further actions</p>
+        <p class="infotitle">ações adicionais</p>
         <form method="post" action="{{$servername}}/edit">
             <input class="none" type="text" name="draftHash" value="{{.Hash}}" readonly/>
-            <input class="openform" type="submit" value="propose edit"/>
+            <input class="openform" type="submit" value="propor edição"/>
         </form>
         <br/>
     {{end}}
     {{if .Votes}}
-        <p class="infotitle"> votes </p>
+        <p class="infotitle"> votos </p>
         {{range .Votes}}
                 <div> 
-                    <p class="info">{{.Kind}} {{if .OnBehalfOf}} on behalf of {{.OnBehalfOf}} {{end}} </p>
+                    <p class="info">{{.Kind}} {{if .OnBehalfOf}} em nome de {{.OnBehalfOf}} {{end}} </p>
                     <form method="post" action="{{$servername}}/api">
                         <input class="none" type="text" name="action" value="Vote" readonly/>
                         <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
                         <p class="infotitle"><input type="checkbox" name="approve" id="approve"/> 
-                            <label class="info" for="approve">approve</label></p>
+                            <label class="info" for="approve">aprovar</label></p>
                         <input class="submit" type="submit" value="send"/><br/>
                     </form>
                 </div>
         {{end}}
     {{end}}
     <div>
-        <p class="infotitle">react to draft</p>
-        <button class="submit" onclick="dialogreact()" value="send">send</button>
+        <p class="infotitle">reagir ao esboço</p>
+        <button class="submit" onclick="dialogreact()" value="send">enviar</button>
     </div>
             
     <!-- react modal -->
@@ -207,7 +207,7 @@
             <p class="modalinfo" id="reactionoutline"></p><br/>
             <textarea class="modalentry" type="text" name="reasons" rows="8" id="reasonsfield" placeholder="*give your feedback"></textarea>
             <div class="modalbuttons">
-                <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancel</button>
+                <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancelar</button>
                 <input class="modalsubmit" type="submit" value="send"/>
             </div>
         </form>
@@ -215,9 +215,9 @@
     <!-- end of modal -->
 
     {{if len .Edits}}
-        <p class="infotitle">edits</p>
+        <p class="infotitle">edições</p>
         {{range .Edits}}
-            <p><a href="{{$servername}}/editview/{{.Hash}}"> On {{.Date}} by 
+            <p><a href="{{$servername}}/editview/{{.Hash}}"> Em {{.Date}} por 
                 {{range .Authors}}
                     {{if .Collective}}
                         <a href="{{$servername}}/collective/{{.Link}}">{{.Name}}</a>

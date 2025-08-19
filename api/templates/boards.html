@@ -1,7 +1,7 @@
 {{template "HEAD" .Head}}
 {{ $servername := .ServerName }}
 <div class="plurals">
-    <h1 class="headers">boards</h1>
+    <h1 class="headers">murais</h1>
     <div class="objectinfos">
         {{range .Boards}}
         <div class="item"> 
@@ -16,7 +16,7 @@
             <div class="boardthird">
                 <p class="boarddescr elipsis">{{.Description}}</p>
             </div>
-            <a class="boardfourth authorship" href="{{$servername}}/collective/{{.CollectiveLink}}"> by {{.Collective}} </a>
+            <a class="boardfourth authorship" href="{{$servername}}/collective/{{.CollectiveLink}}"> por {{.Collective}} </a>
         </div> 
         {{end}}
     </div>    

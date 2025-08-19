@@ -3,8 +3,8 @@
   <div class="center">
     <form method="post" action="{{.ServerName}}/api">
       <input class="none" type="text" name="redirect" value="votes" readonly/>
-      <h1 class="headerdetails"> create event vote</h1>
-      <p class="subheadersdraft">on behalf of</p>
+      <h1 class="headerdetails"> votação para criar evento</h1>
+      <p class="subheadersdraft">em nome de</p>
       <ul class="listing">
         <li class="handletitle">
           <a href="{{.ServerName}}/collective/{{.Collective.Link}}"> {{.Collective.Name}}</a>
@@ -13,48 +13,48 @@
       <br/><br/>
 
       {{if .EventReasons}}
-        <p class="bold">reasons</p>
+        <p class="bold">razões</p>
         <p class="description">{{.EventReasons}}</p><br/>
       {{end}}
       
-      <p class="bold">event description</p>
+      <p class="bold">descrição do evento</p>
       <p class="description">{{.Description}}</p><br/>
       
-      <p class="status"> {{if .Open}}open{{else}}closed{{end}}</p>
-      <p class="status"> {{if .Public}}public{{else}}private{{end}}</p><br/>      
+      <p class="status"> {{if .Open}}aberto{{else}}fechado{{end}}</p>
+      <p class="status"> {{if .Public}}público{{else}}privado{{end}}</p><br/>      
 
-      <p class="description"> starting at {{.StartAt}} </p>
-      <p class="description"> estimated end at {{.EstimatedEnd}} </p>
-      <p class="description"> taking place at {{.Venue}}</p><br/>
+      <p class="description"> início em {{.StartAt}} </p>
+      <p class="description"> final estimado em {{.EstimatedEnd}} </p>
+      <p class="description"> a realizar-se em {{.Venue}}</p><br/>
 
-      <p class="bold">managers</p>
+      <p class="bold">organizadores</p>
       <ul>
         {{range .Managers}}   
         <li> <a class="linked" href="{{.ServerName}}/member/{{.Link}}">{{.Handle}}</a></li>
         {{end}}    
       </ul>
       
-      <p class="description">managers majority: {{.ManagerMajority}}</p><br/>
+      <p class="description">política de maioria da organização: {{.ManagerMajority}}</p><br/>
       
       <input class="none" type="text" name="action" value="Vote" readonly/>
       <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
     
     <div class="large">
       <input type="radio" id="approve" name="approve" value="on" checked>
-      <label class="voteradio" for="approve">favorable</label>
+      <label class="voteradio" for="approve">a favor</label>
       <input type="radio" id="against" name="approve" value="off">
-      <label class="voteradio" for="against">against</label> 
+      <label class="voteradio" for="against">contra</label> 
     </div>
-    <textarea class="votereasons" type="textarea" name="reasons" rows="4" id="reasonsfield" placeholder="optional vote reasoning"></textarea>
-     <input class="submit" type="submit" value="vote"/>
+    <textarea class="votereasons" type="textarea" name="reasons" rows="4" id="reasonsfield" placeholder="campo opcional para razões do voto"></textarea>
+     <input class="submit" type="submit" value="votar"/>
     </form>
   </div>
   <div class="right">
-    <p class="infotitle">consensus status</p>
-    <p class="info"> {{.Votes.Voted}} have already voted</p>
-    <p class="info"> {{len .Votes.Approve}} favorable </p>
-    <p class="info"> {{len .Votes.Reject }} against </p>
-    <p class="info"> {{len .Votes.NotCast }} not cast </p>
+    <p class="infotitle">status do consenso</p>
+    <p class="info"> {{.Votes.Voted}} já votaram</p>
+    <p class="info"> {{len .Votes.Approve}} a favor </p>
+    <p class="info"> {{len .Votes.Reject }} contra </p>
+    <p class="info"> {{len .Votes.NotCast }} faltando </p>
     <br/>
   </div>
 </div>

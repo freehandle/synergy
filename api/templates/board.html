@@ -14,7 +14,7 @@
                 </ul>
                 </div>    
             </div>
-            <p class="subheadersdraft">board by</p>
+            <p class="subheadersdraft">mural por</p>
                 <div class="handletitle">
                     <a href="{{$servername}}/collective/{{.CollectiveLink}}" class="hover">{{.Collective}}</a>
                 </div>
@@ -67,7 +67,7 @@
                 <div class="boardgrid">
                     <div class="infos">
                         <div class="item">
-                            <p>no drafts have been pinned yet</p>
+                            <p>nenhum esboço foi fixado ainda</p>
                         </div>
                     </div>
                 </div>                
@@ -76,10 +76,10 @@
     </div>
 </div>
     <div id="right">
-        <p class="infotitle">pin majority</p>
+        <p class="infotitle">maioria para afixar</p>
         <p class="info">{{.PinMajority}}</p><br/>
 
-        <p class="infotitle">editors</p>
+        <p class="infotitle">editores</p>
         <ul class="listing">
          {{range .Editors}}   
             <li><a class="linked" href="{{$servername}}/member/{{.Link}}">{{.Handle}}</a></li>
@@ -87,26 +87,26 @@
         </ul><br/>
 
         {{if .CollectiveMember}}
-            <p class="infotitle pb">on behalf of <span>{{.Collective}}</span></p>
-            <a class="openform" href="{{$servername}}/updateboard/{{$BoardLink}}">update</a><br/>
+            <p class="infotitle pb">em nome de <span>{{.Collective}}</span></p>
+            <a class="openform" href="{{$servername}}/updateboard/{{$BoardLink}}">atualizar</a><br/>
         {{end}}
 
         <div>
-            <p class="infotitle">react to <span>{{.Name}}</span></p>
-            <button class="submit" onclick="dialogreact()" value="send">send</button>
+            <p class="infotitle">reagir a <span>{{.Name}}</span></p>
+            <button class="submit" onclick="dialogreact()" value="send">enviar</button>
         </div>
                 
         <!-- react modal -->
         <dialog id="dialogreactel" class="modalshow">
-            <p class="modaltitle">instruction outline</p>
+            <p class="modaltitle">resumo da instrução</p>
             <form method="post" action="{{$servername}}/api">
                 <input class="nonemodal" type="text" name="action" value="React" readonly/>
                 <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
                 <input class="nonemodal" type="text" name="redirect" value="board/{{$BoardLink}}" readonly/>
                 <p class="modalinfo" id="reactionoutline"></p><br/>
-                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                 <div class="modalbuttons">
-                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancel</button>
+                    <button class="modalsubmit" type="reset" onclick="closedialog('dialogreactel');">cancelar</button>
                     <input class="modalsubmit" type="submit" value="send"/>
                 </div>
             </form>
@@ -116,23 +116,23 @@
         <br/><br/>
         {{if .Editorship}}
             <div>
-                <p class="infotitle"> remove editor</p>
+                <p class="infotitle"> remover editor</p>
                 <input class="entryfield" type="text" name="editor" id="editorhandle"/>
-                <button class="submit" onclick="dialogremoveeditor()" value="send">send</button>
+                <button class="submit" onclick="dialogremoveeditor()" value="send">enviar</button>
             </div>
 
             <!-- remove editor modal -->
             <dialog id="dialogremoveeditorel" class="modalshow">
-                <p class="modaltitle">instruction outline</p>
+                <p class="modaltitle">resumo da instrução</p>
                 <form method="post" action="{{$servername}}/api">
                     <input class="nonemodal" type="text" name="action" value="BoardEditor" readonly/>
                     <input class="nonemodal" type="text" name="board" value="{{$BoardName}}" readonly/>
                     <input class="nonemodal" type="text" name="insert" value="off" readonly/><br/>
                     <input class="nonemodal" type="text" name="editor" id="modaleditorhandle"/>
                     <p class="modalinfo" id="removeeditoroutline"></p><br/>
-                    <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                    <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                     <div class="modalbuttons">
-                        <button class="modalsubmit" type="reset" onclick="closedialog('dialogremoveeditorel');">cancel</button>
+                        <button class="modalsubmit" type="reset" onclick="closedialog('dialogremoveeditorel');">cancelar</button>
                         <input class="modalsubmit" type="submit" value="send"/>
                     </div>
                 </form>
@@ -142,20 +142,20 @@
             <br/><br/>
         {{else}}
             <div>
-                <p class="infotitle"> apply for <span>{{.Name}}</span> board editor</p>
+                <p class="infotitle"> aplicar para <span>{{.Name}}</span> editor do mural</p>
                 <button class="submit" onclick="dialogapplyeditor()" value="send">send</button>
             </div>
 
             <!-- remove editor modal -->
             <dialog id="dialogapplyeditorel" class="modalshow">
-                <p class="modaltitle">instruction outline</p>
+                <p class="modaltitle">resumo da instrução</p>
                 <form method="post" action="{{$servername}}/api">
                     <input class="none" type="text" name="action" value="BoardEditor" readonly/>
                     <input class="none" type="text" name="board" value="{{$BoardName}}" readonly/>
                     <input class="nonemodal" type="text" name="redirect" value="board/{{$BoardLink}}" readonly/>
                     <input class="none" type="text" name="insert" value="on" readonly/><br/>
                     <p class="modalinfo" id="applyeditoroutline"></p><br/>
-                    <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*optional field reasons"></textarea>
+                    <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                     <div class="modalbuttons">
                         <button class="modalsubmit" type="reset" onclick="closedialog('dialogapplyeditorel');">cancel</button>
                         <input class="modalsubmit" type="submit" value="send"/>

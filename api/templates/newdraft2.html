@@ -3,21 +3,21 @@
     <div class="center">
       <form method="post" action="{{.ServerName}}/uploadfile" enctype="multipart/form-data">
         {{if .PreviousDraft}}
-          <h1 class="headers"> new version </h1>
+          <h1 class="headers"> nova versão </h1>
         {{else}}
-          <h1 class="headers"> new draft </h1>
+          <h1 class="headers"> novo esboço </h1>
         {{end}}
         
         <input class="none" type="text" name="action" value="Draft" readonly/>
     
         <input class="detailed" type="radio" name="kind" id="singledraft" checked />
-        <label class="authorship" for="singledraft">single author</label>
+        <label class="authorship" for="singledraft">autor único</label>
         
         <input class="detailed" type="radio" name="kind" id="coauthoreddraft" />
-        <label class="authorship" for="coauthoreddraft">co-authors</label>
+        <label class="authorship" for="coauthoreddraft">co-autoria</label>
         
         <input class="detailed" type="radio" name="kind" id="collectivelydraft" />
-        <label class="authorship" for="collectivedraft">on behalf of</label>
+        <label class="authorship" for="collectivedraft">em nome de </label>
         
         <div class="tab content1"><br/>
         </div>
@@ -26,7 +26,7 @@
           <input class="formentry detailed" type="text" name="coAuthors" placeholder="comma sepparated co-authors list" value="{{.OnBehalfOf}}" id="coauthorsdraft"/>
           <div class="policyentry">
             <div class="policy">
-              <label class="formtitle" for="policy">policy</label>
+              <label class="formtitle" for="policy">política</label>
               <input class="formentry detailed" type="text" name="policy" value="{{.Policy.Majority}},{{.Policy.SuperMajority}}" id="policydraft"/>
             </div>
           </div><br/>
@@ -36,31 +36,31 @@
           <input class="formentry detailed" type="text" name="onBehalfOf" placeholder="collective name" value="{{.OnBehalfOf}}" id="collectivedraft"/><br/>
         </div>
         
-        <label class="formtitle" for="titledraft">title</label>
+        <label class="formtitle" for="titledraft">título</label>
         <input required class="formentry detailed" type="text" name="title" value="{{.Title}}" id="titledraft"/><br/>
     
-        <label class="formtitle" for="keywords">keywords</label>
+        <label class="formtitle" for="keywords">palavras-chave</label>
         <input required class="formentry detailed" type="text" name="keywords" value="{{.Keywords}}" id="keywordsdraft"/><br/>
     
-        <label class="formtitle" for="description">description</label>
+        <label class="formtitle" for="description">descrição</label>
         <textarea required class="formentry detailed" type="text" name="description" value="{{.Description}}" rows="4" id="descriptiondraft"></textarea><br/>
       
         <input required class="formentry detailed" type="file" name="fileUpload" value="File Updload" id="fileudraft" onchange="selectFile()"/><br/>
         <input class="none" type="text" name="fileName" id="fileName" value="" readonly/>
 
         {{if .PreviousDraft}}
-        <label class="formtitle" for="previousDraft">previous draft</label>
+        <label class="formtitle" for="previousDraft">esboço anterior</label>
         <input class="formentry detailed" type="text" name="previousDraft" value="{{.PreviousDraft}}" id="previosvdraft" readonly/><br/>
         {{end}}
     
-        <label class="formtitle" for="showrefs">references <span>*optional</span></label>
+        <label class="formtitle" for="showrefs">referências <span>*opcional</span></label>
         <input class="formentry detailed" type="text" name="references" value="{{.References}}" id="referencesdraft"/><br/>
         
-        <label  class="formtitle" for="reasons">reasons <span>*optional</span></label>
+        <label  class="formtitle" for="reasons">razões <span>*opcional</span></label>
         <textarea class="formentry detailed" type="text" name="reasons" rows="3" id="reasonsfield"></textarea><br/>
         
         <div class="submitbox">
-            <input class="submit" type="submit" value="send"/>
+            <input class="submit" type="submit" value="enviar"/>
         </div>
       </form>
     </div>
@@ -68,102 +68,102 @@
 </div>
 <div id="right">
   <div class="fieldinfohide" id="singledraftinfo">
-    <p><span>authorship field - single</span></p><br/>
-    <p class="fieldinfosub">option of mandatory field</p>
-    <p class="fieldinfosub">selection</p><br/>
-    <p>draft authorship might be of a single network member</p><br/>
-    <p>in that case author of draft instruction is considered the single author of draft and no consensus policies apply for any of the further instructions related to draft</p><br/>
+    <p><span>campo autoria - autor único</span></p><br/>
+    <p class="fieldinfosub">opção de campo obrigatório</p>
+    <p class="fieldinfosub">seleção</p><br/>    
+    <p>a autoria do esboço pode ser assinada por um único membro da rede</p><br/>
+    <p>neste caso o autor da instrução de esboço é considerado o autor único do conteúdo e nenhuma política de consenso se aplica para quaisquer instruções posteriores relacionadas ao esboço</p><br/>
   </div>
   <div class="fieldinfohide" id="coauthoreddraftinfo">
-    <p><span>authorship field - coauthoring</span></p><br/>
-    <p class="fieldinfosub">option of mandatory field</p>
-    <p class="fieldinfosub">selection</p><br/>
-    <p>draft authorship might be of a group of network members</p><br/>
-    <p>in that case author of draft instruction must provide handles for coauthors of draft and consensus policies apply for any of the further instructions related to draft</p><br/>
-    <p>consensus policies will be performed according to the set of instruction author plus coauthors appointed</p><br/>
-    <p>for draft instruction to be approved all appointed co-authors will have to vote for approval</p><br/>
+    <p><span>campo autoria - co-autoria</span></p><br/>
+    <p class="fieldinfosub">opção de campo obrigatório</p>
+    <p class="fieldinfosub">seleção</p><br/>
+    <p>a autoria do esboço pode ser proposta por um grupo de membros da rede</p><br/>
+    <p>neste caso, a instrução de esboço deve prover os nomes de usuários dos co-autores do esboço e políticas de consenso se aplicam para quaisquer instruções posteriores associadas ao esboço</p><br/>
+    <p>políticas de consenso serão aplicadas de acordo com o conjunto de autores e co-autores apresentados na instrução</p><br/>
+    <p>para que a instrução de esboço possa ser aprovada, todos os co-autores devem votar pela aprovação</p><br/>
   </div>
   <div class="fieldinfohide" id="collectivelydraftinfo">
-    <p><span>authorship field - collective</span></p><br/>
-    <p class="fieldinfosub">option of mandatory field</p>
-    <p class="fieldinfosub">selection</p><br/>
-    <p>draft authorship might be of a collective</p><br/>
-    <p>in that case author of draft instruction must provide the name for the collective it is signing the draft on behalf of, and collective consensus policies apply for both the approval and any of the further instructions related to draft</p><br/>
-    <p>consensus policies will be performed according to the majority policy of the appointed collective</p><br/>
+    <p><span>campo autoria - coletivo</span></p><br/>
+    <p class="fieldinfosub">opção de campo obrigatório</p>
+    <p class="fieldinfosub">seleção</p><br/>
+    <p>a autoria do esboço pode ser de um coletivo</p><br/>
+    <p>nesse caso o autora da instrução de esboço deve prover o nome do coletivo em nome do qual o esboço está sendo assinado, e as políticas de consenso do coletivo se aplicam tanto para a aprovação quanto para demais instruções relacionadas ao esboço</p><br/>
+    <p>políticas de consenso serão aplicadas de acordo com a política de maioria definida para o coletivo que assina o esboço</p><br/>
   </div>
   <div class="fieldinfohide" id="coauthorsdraftinfo">
-    <p><span>coauthors field</span></p><br/>
-    <p class="fieldinfosub">mandatory field for coauthored drafts</p>
-    <p class="fieldinfosub">comma-separated members handles</p><br/>
-    <p>for coauthored drafts author must appoint the list of draft's coauthors handles</p><br/>
-    <p>draft creation will depend on full coauthoring consensus approval, but affter creation all instrucations concerning the draft will go by consensus policy majority</p><br/>
-    <p>handles must be comma-sepparated</p><br/>
+    <p><span>campo co-autores</span></p><br/>
+    <p class="fieldinfosub">campo obrigatório para esboços assinados em co-autoria</p>
+    <p class="fieldinfosub">nomes de usuários (@s) separados por vírgulas</p><br/>
+    <p>para esboços em co-autoria o autor da instrução deve apontar a lista de nomes de usuários dos co-autores que assinam o esboço</p><br/>
+    <p>a criação do esboço dependerá de aprovação em consenso absoluto dos co-autores, e após a aprovação, todas a instruções relacionadas ao esboço serão submetidas à política de maioria para consenso</p><br/>
+    <p>os nomes de usuários devem ser separados por vírgulas</p><br/>
   </div>
   <div class="fieldinfohide" id="policydraftinfo">
-    <p><span>policy majority</span></p><br/>
-    <p class="fieldinfosub">mandatory field for coauthored drafts</p>
-    <p class="fieldinfosub">ranging from 0 to 100 (default)</p><br/>
-    <p>for coauthored drafts author must appoint a consensus majority</p><br/>
-    <p>the number chosen will define majority minimum to be accepted as consensus for draft to be released and for new versions to be proposed</p><br/>
-    <p>draft creation still depends on full coauthoring consensus approval, but affter creation all instructions concerning the draft will go by consensus policy majority</p><br/>
+    <p><span>política de maioria</span></p><br/>
+    <p class="fieldinfosub">campo obrigatório para esboços assinados em co-autoria</p>
+    <p class="fieldinfosub">de 0 a 100 (padrão)</p><br/>
+    <p>para esboços em co-autoria o autor da instrução deve apontar uma política de maioria para consenso</p><br/>
+    <p>o número escolhido vai definir a maioria mínima a ser aceita como consenso para que o esboço possa ser lançado e para que novas versões possam ser propostas</p><br/>
+    <p>a criação do esboço ainda depende de consenso de aprovação absoluto entre co-autores, porém após a criação todas as instruções relacionadas ao esboço seguirão a política de maioria para consenso</p><br/>
   </div>
   <div class="fieldinfohide" id="collectivedraftinfo">
-    <p><span>collective field</span></p><br/>
-    <p class="fieldinfosub">mandatory field for drafts on behalf of a collective</p>
-    <p class="fieldinfosub">alphanumeric</p><br/>
-    <p>for drafts created on behalf of a collective, author must appoint collective's name</p><br/>
-    <p>draft creation will depend on full collective's consensus approval, accoding to collectives majority policy</p><br/>
-    <p>affter creation all instructions concerning the draft will go by collective's consensus policy majority</p><br/>
+    <p><span>campo coletivo</span></p><br/>
+    <p class="fieldinfosub">campo obrigatório para esboços assinados por um coletivo</p>
+    <p class="fieldinfosub">alfanumérico</p><br/>
+    <p>para esboços criados em nome de um coletivo, o autor da instrução deve incluir o nome do coletivo</p><br/>
+    <p>a criação do esboço dependerá da aprovação do coletivo, de acordo com a política de maioria vigente no coletivo</p><br/>
+    <p>após a criação todas as instruções relacionadas ao esboço serão submetidas à políticia de maioria vigente no coletivo</p><br/>
   </div>
   <div class="fieldinfohide" id="titledraftinfo">
-    <p><span>title field</span></p><br/>
-    <p class="fieldinfosub">mandatory field</p>
-    <p class="fieldinfosub">alphanumeric</p>
+    <p><span>campo título</span></p><br/>
+    <p class="fieldinfosub">obrigatório</p>
+    <p class="fieldinfosub">alfanumérico</p>
     <p class="fieldinfosub">min 1 char max x char</p><br/>
-    <p>draft's title should preferably help users identify draft's purpose and field</p><br/>
-    <p>titles don't need to be unique within the network</p><br/>
+    <p>o título do esboço deve preferencialmente ajudar os usuários a identificar seu propósito e área de referência</p><br/>
+    <p>os títulos não precisam ser únicos dentro da rede</p><br/>
   </div>
   <div class="fieldinfohide" id="keywordsdraftinfo">
-    <p><span>keywords field</span></p><br/>
-    <p class="fieldinfosub">mandatory</p>
-    <p class="fieldinfosub">comma-separated alphanumeric expressions</p>
-    <p class="fieldinfosub">min 1 char max x char for keyword</p><br/>
-    <p>comma-sepparated words that will help index and identify draft's main objectives</p><br/>
-    <p>keywords make it easy for drafts to be found by users and board editors</p><br/>
-    <p>since drafts can be pinned to boards, the right keywords choice may give draft's more chance of being pinned to accoding boards</p><br/>
+    <p><span>campo palavras-chave</span></p><br/>
+    <p class="fieldinfosub">obrigatório</p>
+    <p class="fieldinfosub">expressões alfanuméricas separadas por vírgula</p>
+    <p class="fieldinfosub">mín 1 caractere máx x caracteres por palavra-chave</p><br/>
+    <p>palavras ou expressões que irão ajudar a indexar e identificar os objetivos do esboço, separadas por vírgulas</p><br/>
+    <p>as palavras-chave ajudam os esboços a serem encontrados por usuários e por editores de murais</p><br/>
+    <p>dado que os esboços são afixados aos murais, palavras-chave bem escolhidas aumentam as chances de que o esboço seja afixado</p><br/>
   </div>
   <div class="fieldinfohide" id="descriptiondraftinfo">
-    <p><span>description field</span></p><br/>
-    <p class="fieldinfosub">mandatory</p>
-    <p class="fieldinfosub">comma-separated alphanumeric expressions</p>
-    <p class="fieldinfosub">min 1 char max x char for keyword</p><br/>
-    <p>describe drafts's purpose, conclusion, proposal, goal, etc</p>
+    <p><span>campo descrição</span></p><br/>
+    <p class="fieldinfosub">obrigatório</p>
+    <p class="fieldinfosub">expressões alfanuméricas separadas por vírgula</p>
+    <p class="fieldinfosub">mín 1 caractere máx x caracteres por palavra-chave</p><br/>
+    <p>descreve o propósito do esboço, sua conclusão, proposta, objetivo, etc</p>
   </div>
   <div class="fieldinfohide" id="fileudraftinfo">
-    <p><span>file upload</span></p><br/>
-    <p class="fieldinfosub">mandatory</p>
-    <p class="fieldinfosub">upload</p>
-    <p class="fieldinfosub">max x Mb</p><br/>
-    <p>draft's files have the main information the author whishes to share with the network</p><br/>
-    <p>files uploaded are shared publicly on the network unpon instruction acceptance, publishing can not be reverted</p><br/>
+    <p><span>campo subir</span></p><br/>
+    <p class="fieldinfosub">obrigatório</p>
+    <p class="fieldinfosub">subir</p>
+    <p class="fieldinfosub">máx x Mb</p><br/>
+    <p>o arquivo do esboço deve conter as informações principais que seus autores desejam compartilhar na rede</p><br/>
+    <p>os arquivos subidos se tornam públicos na rede após o aceite da instrução, a publicação não pode ser revertida</p><br/>
   </div>
   <div class="fieldinfohide" id="previousvdraftinfo">
-    <p><span>previous version field</span></p><br/>
-    <p class="fieldinfosub">optional</p>
+    <p><span>campo versão anterior</span></p><br/>
+    <p class="fieldinfosub">opcional</p>
     <p class="fieldinfosub">hash</p><br/>
-    <p>if draft being proposed is a new version of a previous draft the author must provide the hash for the previous version</p><br/>
+    <p>se o esboço que está sendo proposto é uma nova versão de um esboço anterior seu(s) autor(es) devem fornecer o hash da versão anterior a que ele se refere</p><br/>
   </div>
   <div class="fieldinfohide" id="referencesdraftinfo">
-    <p><span>references field</span></p><br/>
-    <p class="fieldinfosub">optional</p>
-    <p class="fieldinfosub">comma-separated hashes</p><br/>
-    <p>if draft being proposed has references within the network drafts, authors may provide the list of drafts used as reference</p><br/>
+    <p><span>campo referências</span></p><br/>
+    <p class="fieldinfosub">opcional</p>
+    <p class="fieldinfosub">hashes separados por vírgula</p><br/>
+    <p>se o esboço que está sendo proposto possui referências de outros esboços dentro da rede, o(s) autor(es) podem fornecer a lista de esboços usados por referência, fornecendo os hashs desses esboços separados por vírgulas</p><br/>
   </div>
   <div class="fieldinfohide" id="reasonsfieldinfo">
-    <p><span>reasons field</span></p><br/>
-    <p class="fieldinfosub">optional</p>
-    <p class="fieldinfosub">alphanumeric</p>
-    <p class="fieldinfosub">max x char</p><br/>
-    <p>instruction author may provide some information as to the reasons for the instruction being proposed</p><br/>
+    <p><span>campo razões</span></p><br/>
+    <p class="fieldinfosub">opcional</p>
+    <p class="fieldinfosub">alfanumérico</p>
+    <p class="fieldinfosub">máx x char</p><br/>
+    <p>o(s) autor(es) da instrução podem fornecer alguma informação sobre as razões	pelas quais a instrução foi proposta</p><br/>
   </div>
 {{template "TAIL"}}
