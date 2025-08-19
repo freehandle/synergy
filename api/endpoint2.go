@@ -74,7 +74,7 @@ func EventUpdateFromState(s *state.State, hash crypto.Hash, token crypto.Token) 
 	old := update.Event
 	head := HeaderInfo{
 		Active:  "MyEvents",
-		Path:    "venture / my events / ",
+		Path:    "realize / my events / ",
 		EndPath: "update event " + old.StartAt.Format("2006-01-02") + " by " + LimitStringSize(old.Collective.Name, maxStringSize),
 		Section: "explore",
 	}
@@ -111,9 +111,9 @@ func EventUpdateFromState(s *state.State, hash crypto.Hash, token crypto.Token) 
 		vote.Managing = true
 		vote.Head = HeaderInfo{
 			Active:  "MyEvents",
-			Path:    "venture / my events / ",
+			Path:    "realize / my events / ",
 			EndPath: old.StartAt.Format("2006-01-02") + " by " + LimitStringSize(old.Collective.Name, maxStringSize),
-			Section: "venture",
+			Section: "realize",
 		}
 	} else {
 		vote.Head = HeaderInfo{
@@ -159,9 +159,9 @@ func PendingEventFromState(s *state.State, i *index.Index, hash crypto.Hash) *Ev
 	}
 	head := HeaderInfo{
 		Active:  "Connections",
-		Path:    "venture / connections / collectives / " + LimitStringSize(event.Collective.Name, maxStringSize) + " / ",
+		Path:    "realize / connections / collectives / " + LimitStringSize(event.Collective.Name, maxStringSize) + " / ",
 		EndPath: "create event",
-		Section: "venture",
+		Section: "realize",
 	}
 
 	view := EventDetailView{
@@ -191,9 +191,9 @@ func CancelEventFromState(s *state.State, i *index.Index, hash crypto.Hash) *Eve
 	event := cancel.Event
 	head := HeaderInfo{
 		Active:  "Connections",
-		Path:    "venture / connections / collectives / " + LimitStringSize(event.Collective.Name, maxStringSize) + " / ",
+		Path:    "realize / connections / collectives / " + LimitStringSize(event.Collective.Name, maxStringSize) + " / ",
 		EndPath: "create event",
-		Section: "venture",
+		Section: "realize",
 	}
 
 	view := EventDetailView{
@@ -274,9 +274,9 @@ func EventDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, toke
 	if view.Managing {
 		view.Head = HeaderInfo{
 			Active:  "MyEvents",
-			Path:    "venture / my events / ",
+			Path:    "realize / my events / ",
 			EndPath: event.StartAt.Format("2006-01-02") + " by " + LimitStringSize(event.Collective.Name, maxStringSize),
-			Section: "venture",
+			Section: "realize",
 		}
 	} else {
 		view.Head = HeaderInfo{
@@ -326,9 +326,9 @@ func EventUpdateDetailFromState(s *state.State, i *index.Index, hash crypto.Hash
 	}
 	head := HeaderInfo{
 		Active:  "MyEvents",
-		Path:    "venture / my events / " + event.StartAt.Format("2006-01-02") + " by " + LimitStringSize(event.Collective.Name, maxStringSize) + " / ",
+		Path:    "realize / my events / " + event.StartAt.Format("2006-01-02") + " by " + LimitStringSize(event.Collective.Name, maxStringSize) + " / ",
 		EndPath: "update",
-		Section: "venture",
+		Section: "realize",
 	}
 	view := EventDetailView{
 		StartAt:         event.StartAt,
@@ -490,9 +490,9 @@ type ConnectionsListView struct {
 func ConnectionsFromState(state *state.State, indexer *index.Index, token crypto.Token, genesisTime time.Time) ConnectionsListView {
 	head := HeaderInfo{
 		Active:  "Connections",
-		Path:    "venture / ",
+		Path:    "realize / ",
 		EndPath: "connections",
-		Section: "venture",
+		Section: "realize",
 	}
 	view := ConnectionsListView{
 		Head:        head,

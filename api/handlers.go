@@ -448,9 +448,9 @@ func (a *AttorneyGeneral) CreateCollectiveHandler(w http.ResponseWriter, r *http
 	view := ServerName{
 		Head: HeaderInfo{
 			Active:     "CreateCollective",
-			Path:       "venture >",
+			Path:       "realize >",
 			EndPath:    "create collective",
-			Section:    "venture",
+			Section:    "realize",
 			UserHandle: a.Handle(r),
 			ServerName: a.serverName,
 		},
@@ -802,9 +802,9 @@ func (a *AttorneyGeneral) CreateBoardHandler(w http.ResponseWriter, r *http.Requ
 	collective := r.FormValue("collective")
 	head := HeaderInfo{
 		Active:     "Connections",
-		Path:       "venture > connections > collectives > " + collective + " > ",
+		Path:       "realize > connections > collectives > " + collective + " > ",
 		EndPath:    "create board",
-		Section:    "venture",
+		Section:    "realize",
 		UserHandle: a.Handle(r),
 		ServerName: a.serverName,
 	}
@@ -1039,9 +1039,9 @@ func (a *AttorneyGeneral) CreateEventHandler(w http.ResponseWriter, r *http.Requ
 	collective := r.FormValue("collective")
 	head := HeaderInfo{
 		Active:     "Connections",
-		Path:       "venture > connections > collectives > " + collective + " > ",
+		Path:       "realize > connections > collectives > " + collective + " > ",
 		EndPath:    "create event",
-		Section:    "venture",
+		Section:    "realize",
 		UserHandle: a.Handle(r),
 		ServerName: a.serverName,
 	}
