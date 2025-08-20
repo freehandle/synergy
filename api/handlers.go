@@ -448,8 +448,8 @@ func (a *AttorneyGeneral) CreateCollectiveHandler(w http.ResponseWriter, r *http
 	view := ServerName{
 		Head: HeaderInfo{
 			Active:     "CreateCollective",
-			Path:       "realize >",
-			EndPath:    "create collective",
+			Path:       "realize / ",
+			EndPath:    "criar coletivo",
 			Section:    "realize",
 			UserHandle: a.Handle(r),
 			ServerName: a.serverName,
@@ -802,8 +802,8 @@ func (a *AttorneyGeneral) CreateBoardHandler(w http.ResponseWriter, r *http.Requ
 	collective := r.FormValue("collective")
 	head := HeaderInfo{
 		Active:     "Connections",
-		Path:       "realize > connections > collectives > " + collective + " > ",
-		EndPath:    "create board",
+		Path:       "realize / conexões / coletivos / " + collective + " / ",
+		EndPath:    "criar mural",
 		Section:    "realize",
 		UserHandle: a.Handle(r),
 		ServerName: a.serverName,
@@ -1039,8 +1039,8 @@ func (a *AttorneyGeneral) CreateEventHandler(w http.ResponseWriter, r *http.Requ
 	collective := r.FormValue("collective")
 	head := HeaderInfo{
 		Active:     "Connections",
-		Path:       "realize > connections > collectives > " + collective + " > ",
-		EndPath:    "create event",
+		Path:       "realize / conexões / coletivos / " + collective + " / ",
+		EndPath:    "criar evento",
 		Section:    "realize",
 		UserHandle: a.Handle(r),
 		ServerName: a.serverName,

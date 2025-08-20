@@ -118,7 +118,7 @@ func UpdatesViewFromState(s *state.State, i *index.Index, token crypto.Token, ge
 	head := HeaderInfo{
 		Active:  "Updates",
 		Path:    "realize / ",
-		EndPath: "updates",
+		EndPath: "atualizações",
 		Section: "realize",
 	}
 	collectives := i.CollectivesOnMember(token)
@@ -216,7 +216,7 @@ func PendingActionsFromState(s *state.State, i *index.Index, token crypto.Token,
 	head := HeaderInfo{
 		Active:  "Pending",
 		Path:    "realize / ",
-		EndPath: "pending actions",
+		EndPath: "ações pendentes",
 		Section: "realize",
 	}
 	view := PendingActionsView{
@@ -287,8 +287,8 @@ type MyMediaView struct {
 func MyMediaFromState(s *state.State, i *index.Index, token crypto.Token) *MyMediaView {
 	head := HeaderInfo{
 		Active:  "MyMedia",
-		Path:    "realize / my media / ",
-		EndPath: "drafts",
+		Path:    "realize / minhas mídias / ",
+		EndPath: "esboços",
 		Section: "realize",
 	}
 	myMedia := &MyMediaView{
@@ -422,7 +422,7 @@ func NewActionsFromState(s *state.State, i *index.Index, genesisTime time.Time) 
 	head := HeaderInfo{
 		Active:  "News",
 		Path:    "explore / ",
-		EndPath: "news",
+		EndPath: "novidades",
 		Section: "explore",
 	}
 	view := NewActionsView{
@@ -511,8 +511,8 @@ type MyEventsView struct {
 func MyEventsFromState(s *state.State, i *index.Index, token crypto.Token) *MyEventsView {
 	head := HeaderInfo{
 		Active:  "MyEvents",
-		Path:    "realize / my events / ",
-		EndPath: "attending",
+		Path:    "realize / meus eventos / ",
+		EndPath: "participando",
 		Section: "realize",
 	}
 	view := MyEventsView{
@@ -615,8 +615,8 @@ func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, gen
 	}
 	detailed.Head = HeaderInfo{
 		Active:  "Pending",
-		Path:    "realize >",
-		EndPath: "pending actions",
+		Path:    "realize / ",
+		EndPath: "ações pendentes",
 		Section: "realize",
 	}
 	pool := s.Proposals.Pooling(hash)

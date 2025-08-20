@@ -135,8 +135,8 @@ func EditDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, token
 	}
 	head := HeaderInfo{
 		Active:  "MyDrafts",
-		Path:    "realize / my drafts / " + edit.Draft.Title + " / ",
-		EndPath: "edits",
+		Path:    "realize / minhas mídias / " + edit.Draft.Title + " / ",
+		EndPath: "edições",
 		Section: "realize",
 	}
 	view := EditDetailedView{
@@ -269,7 +269,7 @@ func DraftsFromState(state *state.State) DraftsListView {
 	head := HeaderInfo{
 		Active:  "Drafts",
 		Path:    "explore / ",
-		EndPath: "drafts",
+		EndPath: "esboços",
 		Section: "explore",
 	}
 	view := DraftsListView{
@@ -315,14 +315,14 @@ func DraftDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, toke
 	if view.Authorship {
 		view.Head = HeaderInfo{
 			Active:  "MyDrafts",
-			Path:    "realize / my drafts / ",
+			Path:    "realize / minhas mídias / ",
 			EndPath: LimitStringSize(draft.Title, maxStringSize),
 			Section: "realize",
 		}
 	} else {
 		view.Head = HeaderInfo{
 			Active:  "Drafts",
-			Path:    "explore / drafts / ",
+			Path:    "explore / esboços / ",
 			EndPath: LimitStringSize(draft.Title, maxStringSize),
 			Section: "explore",
 		}
@@ -419,8 +419,8 @@ func EditsFromState(s *state.State, drafthash crypto.Hash) EditsListView {
 	}
 	head := HeaderInfo{
 		Active:  "MyDrafts",
-		Path:    "realize / my drafts / " + LimitStringSize(draft.Title, maxStringSize) + " / ",
-		EndPath: "edits",
+		Path:    "realize / minhas mídias / " + LimitStringSize(draft.Title, maxStringSize) + " / ",
+		EndPath: "edições",
 		Section: "realize",
 	}
 	view := EditsListView{
@@ -473,7 +473,7 @@ func VotesFromState(s *state.State, i *index.Index, token crypto.Token) VotesLis
 	head := HeaderInfo{
 		Active:  "Votes",
 		Path:    "realize / ",
-		EndPath: "consensus votes",
+		EndPath: "para votar",
 		Section: "realize",
 	}
 	view := VotesListView{
@@ -615,8 +615,8 @@ func NewEdit(s *state.State, hash crypto.Hash) *EditVersion {
 	}
 	head := HeaderInfo{
 		Active:  "Edit",
-		Path:    "realize / drafts / " + LimitStringSize(draft.Title, maxStringSize) + " / ",
-		EndPath: "edit",
+		Path:    "realize / esboços / " + LimitStringSize(draft.Title, maxStringSize) + " / ",
+		EndPath: "edição",
 		Section: "realize",
 	}
 	return &EditVersion{
@@ -641,7 +641,7 @@ func NewDraftVersion(s *state.State, hash crypto.Hash) *DraftVersion {
 	head := HeaderInfo{
 		Active:  "NewDraft",
 		Path:    "realize / ",
-		EndPath: "new draft",
+		EndPath: "novo esboço",
 		Section: "realize",
 	}
 	draft, ok := s.Drafts[hash]
@@ -700,8 +700,8 @@ func CollectiveToUpdateFromState(s *state.State, name string) *CollectiveUpdateV
 	}
 	head := HeaderInfo{
 		Active:  "Connections",
-		Path:    "realize / connections / collectives " + LimitStringSize(name, maxStringSize) + " / ",
-		EndPath: "update collective",
+		Path:    "realize / conexões / coletivo " + LimitStringSize(name, maxStringSize) + " / ",
+		EndPath: "atualizar coletivo",
 		Section: "realize",
 	}
 	update := &CollectiveUpdateView{
@@ -723,8 +723,8 @@ func CollectiveUpdateFromState(s *state.State, hash crypto.Hash, token crypto.To
 	live := pending.Collective
 	head := HeaderInfo{
 		Active:  "Connections",
-		Path:    "realize / connections / collectives / ",
-		EndPath: "update collective " + LimitStringSize(live.Name, maxStringSize),
+		Path:    "realize / conexões / coletivos / ",
+		EndPath: "atualizar coletivo " + LimitStringSize(live.Name, maxStringSize),
 		Section: "realize",
 	}
 	update := &CollectiveUpdateView{
@@ -780,7 +780,7 @@ func BoardToUpdateFromState(s *state.State, name string) *BoardUpdateView {
 	}
 	head := HeaderInfo{
 		Active:  "Connections",
-		Path:    "realize / connections / boards / ",
+		Path:    "realize / conexões / murais / ",
 		EndPath: LimitStringSize(live.Name, maxStringSize),
 		Section: "realize",
 	}
@@ -806,8 +806,8 @@ func BoardUpdateFromState(s *state.State, hash crypto.Hash, token crypto.Token) 
 	live := pending.Board
 	head := HeaderInfo{
 		Active:  "Connections",
-		Path:    "realize / connections / boards / ",
-		EndPath: "update board " + LimitStringSize(live.Name, maxStringSize),
+		Path:    "realize / conexões / murais / ",
+		EndPath: "atualizar mural " + LimitStringSize(live.Name, maxStringSize),
 		Section: "realize",
 	}
 	update := &BoardUpdateView{
@@ -938,7 +938,7 @@ func BoardsFromState(s *state.State) BoardsListView {
 	head := HeaderInfo{
 		Active:  "Boards",
 		Path:    "explore / ",
-		EndPath: "boards",
+		EndPath: "murais",
 		Section: "explore",
 	}
 	view := BoardsListView{
@@ -968,8 +968,8 @@ func PendingBoardFromState(s *state.State, hash crypto.Hash) *BoardDetailView {
 	board := pending.Board
 	head := HeaderInfo{
 		Active:  "Connections",
-		Path:    "realize / connections / collectives / " + LimitStringSize(board.Collective.Name, maxStringSize) + " / ",
-		EndPath: "create board " + LimitStringSize(board.Name, maxStringSize),
+		Path:    "realize / conexões / coletivos / " + LimitStringSize(board.Collective.Name, maxStringSize) + " / ",
+		EndPath: "criar mural " + LimitStringSize(board.Name, maxStringSize),
 		Section: "realize",
 	}
 	view := BoardDetailView{
@@ -1014,14 +1014,14 @@ func BoardDetailFromState(s *state.State, name string, token crypto.Token) *Boar
 	if view.Editorship {
 		view.Head = HeaderInfo{
 			Active:  "Connections",
-			Path:    "realize / connections / boards / ",
+			Path:    "realize / conexões / murais / ",
 			EndPath: LimitStringSize(board.Name, maxStringSize),
 			Section: "realize",
 		}
 	} else {
 		view.Head = HeaderInfo{
 			Active:  "Boards",
-			Path:    "explore / boards / ",
+			Path:    "explore / murais / ",
 			EndPath: LimitStringSize(board.Name, maxStringSize),
 			Section: "explore",
 		}
@@ -1111,7 +1111,7 @@ func CollectivesFromState(s *state.State) CollectivesListView {
 	head := HeaderInfo{
 		Active:  "Collectives",
 		Path:    "explore / ",
-		EndPath: "collectives",
+		EndPath: "coletivos ",
 		Section: "explore",
 	}
 	view := CollectivesListView{
@@ -1152,14 +1152,14 @@ func CollectiveDetailFromState(s *state.State, i *index.Index, name string, toke
 	if view.Membership {
 		view.Head = HeaderInfo{
 			Active:  "Connections",
-			Path:    "realize / connections / collectives / ",
+			Path:    "realize / conexões / coletivos / ",
 			EndPath: LimitStringSize(collective.Name, maxStringSize),
 			Section: "realize",
 		}
 	} else {
 		view.Head = HeaderInfo{
 			Active:  "Collectives",
-			Path:    "explore / collectives / ",
+			Path:    "explore / coletivos / ",
 			EndPath: LimitStringSize(collective.Name, maxStringSize),
 			Section: "explore",
 		}
