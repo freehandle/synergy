@@ -62,9 +62,9 @@ function dialogreact() {
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
   if (reactionmodal.checked) {
-    reactpar.innerHTML = "like "+ pagename;
+    reactpar.innerHTML = "gostar de "+ pagename;
   } else {
-    reactpar.innerHTML = "dislike " + pagename;
+    reactpar.innerHTML = "desgostar de " + pagename;
   }
 }
 
@@ -79,7 +79,7 @@ function dialogleavecollective() {
   let leavepar = document.getElementById("leaveoutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  leavepar.innerHTML = "leave "+ pagename + " collective";
+  leavepar.innerHTML = "sair do coletivo "+ pagename;
 }
 
 // join collective
@@ -93,7 +93,7 @@ function dialogjoincollective() {
   let joinpar = document.getElementById("joinoutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  joinpar.innerHTML = "join "+ pagename + " collective";
+  joinpar.innerHTML = "juntar-se ao coletivo "+ pagename;
 }
 
 // remove editor from board
@@ -114,7 +114,7 @@ function dialogremoveeditor() {
   let removepar = document.getElementById("removeeditoroutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  removepar.innerHTML = "remove editor " + editormodal.value + " from " + pagename + " board";
+  removepar.innerHTML = "remover editor" + editormodal.value + " do mural " + pagename;
 }
 
 // apply for board editor
@@ -128,7 +128,7 @@ function dialogapplyeditor() {
   let applypar = document.getElementById("applyeditoroutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  applypar.innerHTML = "apply for editorship of " + pagename + " board";
+  applypar.innerHTML = "candidatar-se à editoria do mural " + pagename;
 }
 
 // pin to board
@@ -149,7 +149,7 @@ function dialogpintoboard() {
   let pinpar = document.getElementById("pinboardoutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  pinpar.innerHTML = "pin draft " + pagename + " on " + board.value + " board";
+  pinpar.innerHTML = "afixar esboço " + pagename + " no mural " + board.value;
 }
 
 // propose stamp
@@ -170,7 +170,7 @@ function dialogproposestamp() {
   let stamppar = document.getElementById("propstampoutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  stamppar.innerHTML = "propose " + collectiverep.value + " stamp on " + pagename + " draft";
+  stamppar.innerHTML = "propor selo do coletivo " + collectiverep.value + " no esboço " + pagename;
 }
 
 // propose release
@@ -184,7 +184,7 @@ function dialogrelease() {
   let releasepar = document.getElementById("releaseoutline");
   let pagename = document.getElementById("modaloutlinename").innerHTML;
 
-  releasepar.innerHTML = "apply for release of " + pagename + " draft";
+  releasepar.innerHTML = "propor lançamento do esboço " + pagename;
 }
 
 // votes 

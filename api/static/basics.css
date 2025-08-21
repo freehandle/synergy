@@ -140,7 +140,7 @@
     flex-direction: column;
     background-color: #FFF8CC;
     margin-top: 0.7rem;
-    padding: 1.3rem;
+    padding: 1rem;
 }
 
 #nav .venture {
@@ -157,7 +157,7 @@
 }
 
 #nav ul li a {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
     font-weight: 300;
     text-decoration: none;
     color: #012169;

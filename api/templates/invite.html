@@ -1,6 +1,7 @@
 {{template "HEAD" .Head}}
+{{ $servername := .ServerName }}
 <div id="generalsignin">
-    <p> Send the following link to the user you want to invite:</p>
-    <input type="text" value="{{.ServerName}}/signin/{{.Seed}}" readonly/>
+    <p> Compartilhe o link abaixo com a pessoa que você deseja convidar!</p>
+    <input type="text" value="{{$servername}}/signin/{{.Seed}}" readonly/>
 </div>
 {{template "TAIL"}}
