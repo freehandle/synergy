@@ -102,7 +102,7 @@
         <a class="openform" href="{{$servername}}/updatecollective/{{.Link}}">atualizar</a>        
         <br/>
         <div>
-            <p class="infotitle">sair <span>{{.Name}}</span></p>
+            <p class="infotitle">sair de <span>{{.Name}}</span></p>
             <button class="submit" onclick="dialogleavecollective()" value="send">enviar</button>
         </div>
 
@@ -127,8 +127,8 @@
         <br/>
     {{else}}
         <div>
-            <p class="infotitle">entrar <span>{{.Name}}</span></p>
-            <button class="submit" onclick="dialogjoincollective()" value="send">send</button>
+            <p class="infotitle">entrar em <span>{{.Name}}</span></p>
+            <button class="submit" onclick="dialogjoincollective()" value="send">enviar</button>
         </div>
         
         <!-- join collective modal -->
@@ -144,7 +144,7 @@
                 <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                 <div class="modalbuttons">
                     <button class="modalsubmit" type="reset" onclick="closedialog('dialogjoincollectiveel');">cancelar</button>
-                    <input class="modalsubmit" type="submit" value="send"/>
+                    <input class="modalsubmit" type="submit" value="enviar"/>
                 </div>
             </form>
         </dialog>

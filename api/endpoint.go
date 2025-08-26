@@ -123,6 +123,7 @@ type EditDetailedView struct {
 	Votes      []DraftVoteAction
 	Head       HeaderInfo
 	ServerName string
+	Authorship bool
 }
 
 func EditDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, token crypto.Token) *EditDetailedView {
@@ -147,17 +148,20 @@ func EditDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, token
 		Authors:    AuthorList(edit.Authors, s),
 		Votes:      make([]DraftVoteAction, 0),
 		Head:       head,
+		Authorship: edit.Authors.IsMember(token),
 	}
 	pending := i.GetVotes(token)
 	if len(pending) > 0 {
 		for pendingHash := range pending {
 			if s.Proposals.Kind(pendingHash) == state.EditProposal {
-				vote := DraftVoteAction{
-					Kind:       "Authorship",
-					OnBehalfOf: s.Proposals.OnBehalfOf(pendingHash),
-					Hash:       crypto.EncodeHash(pendingHash),
+				if currentpending, ok := s.Proposals.Edit[pendingHash]; ok && currentpending.Edit.Equal(hash) {
+					vote := DraftVoteAction{
+						Kind:       "Authorship",
+						OnBehalfOf: s.Proposals.OnBehalfOf(pendingHash),
+						Hash:       crypto.EncodeHash(pendingHash),
+					}
+					view.Votes = append(view.Votes, vote)
 				}
-				view.Votes = append(view.Votes, vote)
 			}
 		}
 	}
@@ -724,7 +728,7 @@ func CollectiveUpdateFromState(s *state.State, hash crypto.Hash, token crypto.To
 	head := HeaderInfo{
 		Active:  "Connections",
 		Path:    "realize / conexões / coletivos / ",
-		EndPath: "atualizar coletivo " + LimitStringSize(live.Name, maxStringSize),
+		EndPath: "atualizar coletivo" + LimitStringSize(live.Name, maxStringSize),
 		Section: "realize",
 	}
 	update := &CollectiveUpdateView{

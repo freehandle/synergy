@@ -19,30 +19,34 @@
                     </li>
                 {{end}}
             </ul>
-            <br>
-            <p class="bold"> razões</p>
-            <p class=""> {{.Reasons}} </p>
-            <br>
-            <p><a class="hover" href="{{$servername}}/media/{{.Hash}}">baixar</a></p>
-            
+            <br/>
+            {{if .Reasons}}
+                <p class="bold"> razões</p>
+                <p class=""> {{.Reasons}} </p>
+            <br/>
+            {{end}}
+            <a class="downloadlink hover" href="{{$servername}}/media/{{.Hash}}">baixar mídia</a>
+            <br/>
         </div>
     </div>
-
+</div>
+{{if .Authorship}}
     {{if .Votes}}
-    <hr/>
-    <h2> pedido de votação </h2>
-    {{range .Votes}}
-        <div> {{.Kind}} 
-            {{if .OnBehalfOf}} 
-                em nome de {{.OnBehalfOf}}
-                {{end}}
-                <form method="post" action="{{$servername}}/api">
-                    <input class="none" type="text" name="action" value="Vote" readonly/>
-                    <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
-                    <input type="checkbox" name="approve"> aprovar </input>
-                    <input type="submit" value="Votar"/>
-                </form>
-            </div>
+        <div id="right">
+            <p class="infotitle"> voto </p>
+            {{range .Votes}}
+                <div>
+                    <p class="info">{{.Kind}} {{if .OnBehalfOf}} em nome de {{.OnBehalfOf}} {{end}} </p> 
+                        <form method="post" action="{{$servername}}/api">
+                            <input class="none" type="text" name="action" value="Vote" readonly/>
+                            <input class="none" type="text" name="hash" value="{{.Hash}}" readonly/>
+                            <p class="infotitle"><input type="checkbox" name="approve" id="approve"/> 
+                                <label class="info" for="approve">aprovar</label></p>
+                            <input class="submit" type="submit" value="enviar"/><br/>
+                        </form>
+                    </div>
+            {{end}}
+        </div>
     {{end}}
 {{end}}
 {{template "TAIL"}}

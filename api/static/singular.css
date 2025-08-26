@@ -1177,8 +1177,9 @@ ul.listing .keywordtitle {
 }
 
 #pendingactions .pendingcard .main .left{
-    flex-basis: 70%;
+    flex-basis: 80%;
     display: inline-block;
+    padding-right: 0.5rem;
 }
 
 #pendingactions .pendingcard .main .right{

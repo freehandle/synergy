@@ -720,30 +720,39 @@ func (i *Index) ActionToStringWithLinks(action actions.Action, status state.Cons
 			}
 		}
 	case *actions.Edit:
-		if edit, ok := i.state.Edits[v.ContentHash]; ok {
-			draft := i.state.Drafts[v.EditedDraft]
-			if edit.Authors.CollectiveName() != "" {
-				if status == state.Favorable {
-					return fmt.Sprintf("edição de %v foi sugerida em nome de %v", fmtDraft(draft.Title, draft.DraftHash), fmtAuthors(edit.Authors, i.state)), v.Epoch, v.Reasons
+		if status == state.Favorable {
+			if edit, ok := i.state.Edits[v.ContentHash]; ok {
+				draft := i.state.Drafts[v.EditedDraft]
+				if edit.Authors.CollectiveName() != "" {
+					if status == state.Favorable {
+						return fmt.Sprintf("edição de %v foi proposta em nome de %v", fmtDraft(draft.Title, draft.DraftHash), fmtAuthors(edit.Authors, i.state)), v.Epoch, v.Reasons
+					}
 				}
-				if status == state.Undecided {
+				return fmt.Sprintf("edição de %v foi proposta", fmtDraft(draft.Title, draft.DraftHash)), v.Epoch, v.Reasons
+			}
+		}
+		if status == state.Undecided {
+			if edit, ok := i.state.Proposals.Edit[v.ContentHash]; ok {
+				draft := i.state.Drafts[v.EditedDraft]
+				if edit.Authors.CollectiveName() != "" {
 					handle := i.state.Members[crypto.HashToken(v.Author)]
 					return fmt.Sprintf("%v propôs edição de %v em nome de %v", fmtHandle(handle), fmtDraft(draft.Title, draft.DraftHash), fmtAuthors(edit.Authors, i.state)), v.Epoch, v.Reasons
 				}
-				if status == state.Against {
-					return fmt.Sprintf("edição de %v em nome de %v foi negada", fmtDraft(draft.Title, draft.DraftHash), fmtAuthors(edit.Authors, i.state)), v.Epoch, v.Reasons
+				if len(v.CoAuthors) > 0 {
+					handle := i.state.Members[crypto.HashToken(v.Author)]
+					draft := i.state.Drafts[v.EditedDraft]
+					return fmt.Sprintf("%v propôs edição de %v em co-autoria", fmtHandle(handle), fmtDraft(draft.Title, draft.DraftHash)), v.Epoch, v.Reasons
 				}
 			}
-			if status == state.Favorable {
-				return fmt.Sprintf("edição de %v foi proposta", fmtDraft(draft.Title, draft.DraftHash)), v.Epoch, v.Reasons
+
+		}
+		if status == state.Against {
+			handle := i.state.Members[crypto.HashToken(v.Author)]
+			draft := i.state.Drafts[v.EditedDraft]
+			if v.OnBehalfOf != "" {
+				return fmt.Sprintf("edição de %v em nome de %v foi negada", fmtDraft(draft.Title, draft.DraftHash), fmtCollective(v.OnBehalfOf)), v.Epoch, v.Reasons
 			}
-			if status == state.Undecided {
-				handle := i.state.Members[crypto.HashToken(v.Author)]
-				return fmt.Sprintf("%v propôs edição de %v", fmtHandle(handle), fmtDraft(draft.Title, draft.DraftHash)), v.Epoch, v.Reasons
-			}
-			if status == state.Against {
-				return fmt.Sprintf("edição proposta para %v foi negada", fmtDraft(draft.Title, draft.DraftHash)), v.Epoch, v.Reasons
-			}
+			return fmt.Sprintf("edição proposta para %v foi por %v negada", fmtDraft(draft.Title, draft.DraftHash), fmtHandle(handle)), v.Epoch, v.Reasons
 		}
 	case *actions.React:
 		handle := i.state.Members[crypto.HashToken(v.Author)]

@@ -12,7 +12,7 @@
       <p class="left description xlarge"> {{.Description}} </p>
       <div class="right">
         <p class="light"> {{.Needed}} votos </p>
-        <p class="bold"> para aprovação</p>
+        <p class="bold"> para aprovar</p>
       </div>
     </div>
     <p>
@@ -21,7 +21,7 @@
     <p class="togglemenu xlarge light">
       <span id="tg_favorable" class="tgmenu bold" onclick="selectToggle('favorable');">{{len .Approve}} a favor</span> |
       <span id="tg_against" class="tgmenu" onclick="selectToggle('against');">{{len .Reject}} contra</span> |
-      <span id="tg_remaining" class="tgmenu" onclick="selectToggle('remaining');">{{len .NotVoted}} aguardando</span>
+      <span id="tg_remaining" class="tgmenu" onclick="selectToggle('remaining');">{{len .NotVoted}} pendente</span>
     </p>
     <div id="favorable" class="toggle">
       {{range .Approve}}

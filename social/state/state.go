@@ -966,6 +966,7 @@ func (s *State) Edit(edit *actions.Edit) error {
 		Edit:     edit.ContentHash,
 		EditType: edit.ContentType,
 		Votes:    make([]actions.Vote, 0),
+		Approved: false,
 	}
 	newVote := actions.Vote{
 		Epoch:   edit.Epoch,

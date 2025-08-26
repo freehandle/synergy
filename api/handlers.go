@@ -33,7 +33,9 @@ func (a *AttorneyGeneral) InviteNewUserHandler(w http.ResponseWriter, r *http.Re
 		seed := crypto.EncodeHash(hash)
 		view := InviteView{
 			Head: HeaderInfo{
-				Error:      "Invitation sent successfully",
+				Active:     "Invite",
+				Error:      "Link-convite criado com sucesso :)",
+				UserHandle: a.Handle(r),
 				ServerName: a.serverName,
 			},
 			ServerName: a.serverName,
@@ -46,16 +48,14 @@ func (a *AttorneyGeneral) InviteNewUserHandler(w http.ResponseWriter, r *http.Re
 	}
 	view := ServerName{
 		Head: HeaderInfo{
-			Error:      "You must be logged in to invite new users",
+			Error:      "é preciso estar logado para convidar novos usuários",
 			ServerName: a.serverName,
 		},
 		ServerName: a.serverName,
 	}
-	if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+	if err := a.templates.ExecuteTemplate(w, "main.html", view); err != nil {
 		log.Println(err)
 	}
-	return
-
 }
 
 func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Request) {
@@ -69,7 +69,7 @@ func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Requ
 	if !ok || !a.signin.Check(token, password) {
 		view := ServerName{
 			Head: HeaderInfo{
-				Error:      "invalid credentials",
+				Error:      "credenciais inválidas",
 				ServerName: a.serverName,
 			},
 			ServerName: a.serverName,
@@ -202,7 +202,7 @@ func (a *AttorneyGeneral) ResetFromURLHandler(w http.ResponseWriter, r *http.Req
 	if !ok || handle == nil {
 		view := ServerName{
 			Head: HeaderInfo{
-				Error:      "invalid reset link",
+				Error:      "link para troca de senha inválido",
 				ServerName: a.serverName,
 			},
 			ServerName: a.serverName,
@@ -272,7 +272,7 @@ func (a *AttorneyGeneral) NewUserHandler(w http.ResponseWriter, r *http.Request)
 	view := ServerName{
 		ServerName: a.serverName,
 		Head: HeaderInfo{
-			Error: "you are already a user: please log in",
+			Error: "você já é usuário: por favor, entre!",
 		},
 	}
 	if token != nil {
@@ -374,7 +374,7 @@ func (a *AttorneyGeneral) OnboardingHandler(w http.ResponseWriter, r *http.Reque
 	} else {
 		view := ServerName{
 			Head: HeaderInfo{
-				Error:      "invalid invitation",
+				Error:      "convite inválido",
 				ServerName: a.serverName,
 			},
 			ServerName: a.serverName,
