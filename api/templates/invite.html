@@ -1,8 +1,33 @@
 {{template "HEAD" .Head}}
-{{ $servername := .ServerName }}
+{{$servername:=.ServerName}}
 <div id="generalsignin">
+    <div class="singuler">
+        <div class="center">
+            <h1 class="headerdetails">convidar</h1><br/>
+        </div>
+    </div>
     <br/>
-    <p> Compartilhe o link abaixo com a pessoa que você deseja convidar!</p> <br/>
-    <input type="text" value="{{$servername}}/signin/{{.Seed}}" readonly/>
+    <label for="linkconvitetxt"> Compartilhe o link abaixo com a pessoa que você deseja convidar!</p> <br/>
+    <input class="text" type="text" size="70" value="{{$servername}}/signin/{{.Seed}}" id="linkconvitetxt" readonly/>
+    <br/>
+    <button class="submit" onclick="copiartextoconvite()" value="send">copiar link</button>
 </div>
+
+<script>
+    // copiar texto
+    function copiartextoconvite() {
+    var copyText = document.getElementById("linkconvitetxt");
+
+    // selecionando o campo do link
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+    // copiando para area de transferencia
+    navigator.clipboard.writeText(copyText.value);
+    
+    // aviso que deu certo
+    alert("Link copiado!");
+    }
+</script>
+
 {{template "TAIL"}}

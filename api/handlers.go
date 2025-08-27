@@ -33,8 +33,8 @@ func (a *AttorneyGeneral) InviteNewUserHandler(w http.ResponseWriter, r *http.Re
 		seed := crypto.EncodeHash(hash)
 		view := InviteView{
 			Head: HeaderInfo{
-				Active:     "Invite",
-				Error:      "Link-convite criado com sucesso :)",
+				Active: "Invite",
+				// Error:      "Link-convite criado com sucesso :)",
 				UserHandle: a.Handle(r),
 				ServerName: a.serverName,
 			},
