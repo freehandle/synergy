@@ -1051,20 +1051,21 @@ func (s *State) Draft(draft *actions.Draft) error {
 		s.PendingMedia[draft.ContentHash] = &pending
 	} else {
 		if !crypto.Hasher(draft.Content).Equal(draft.ContentHash) {
-			return errors.New("hash does not match")
+			return errors.New("hash não está batendo")
 		}
 		s.Media[draft.ContentHash] = draft.Content
 	}
 	var previous *Draft
 	if draft.PreviousDraft != crypto.ZeroHash && draft.PreviousDraft != crypto.ZeroValueHash {
 		if previous, ok := s.Drafts[draft.PreviousDraft]; !ok {
-			return errors.New("invalid previous version")
+			return errors.New("versão anterior inválida")
 		} else {
 			isPreviousAuthor := previous.Authors.IsMember(draft.Author)
 			if !isPreviousAuthor {
-				return errors.New("unauthorized version")
+				return errors.New("versão não autorizada - sem autoria na versão original")
 			}
 		}
+		previous = s.Drafts[draft.PreviousDraft]
 	}
 	selfVote := actions.Vote{
 		Epoch:   draft.Epoch,
@@ -1093,7 +1094,7 @@ func (s *State) Draft(draft *actions.Draft) error {
 		} else {
 			behalf, ok := s.Collective(draft.OnBehalfOf)
 			if !ok {
-				return errors.New("named collective not recognizedx")
+				return errors.New("nome do coletivo não foi reconhecido")
 			}
 			newDraft.Authors = behalf
 			//if behalf.Consensus(newDraft.DraftHash, newDraft.Votes) {

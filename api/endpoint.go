@@ -112,6 +112,7 @@ type DraftDetailView struct {
 	Content      string
 	Edits        []DraftEditView
 	ServerName   string
+	IsPending    bool
 }
 
 type EditDetailedView struct {
@@ -295,11 +296,14 @@ func DraftsFromState(state *state.State) DraftsListView {
 }
 
 func DraftDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, token crypto.Token, genesis time.Time) *DraftDetailView {
+	ispending := false
 	draft, ok := s.Drafts[hash]
 	if !ok {
 		draft, ok = s.Proposals.Draft[hash]
 		if !ok {
 			return nil
+		} else {
+			ispending = true
 		}
 	}
 	date := genesis.Add(time.Duration(draft.Date) * time.Second)
@@ -315,6 +319,7 @@ func DraftDetailFromState(s *state.State, i *index.Index, hash crypto.Hash, toke
 		Votes:       make([]DraftVoteAction, 0),
 		Authorship:  draft.Authors.IsMember(token),
 		Hash:        string(hashText),
+		IsPending:   ispending,
 	}
 	if view.Authorship {
 		view.Head = HeaderInfo{

@@ -52,7 +52,7 @@
     <div id="mymediaedits" class="none">
         {{range .Edits}}
                 <div class="mediacard">
-                    <p>propostos <a href="{{$servername}}/draft/{{.DraftHash}}" class="bold hover"> {{.DraftTitle}} </a> {{.AuthorType}} </p>
+                    <p>proposto <a href="{{$servername}}/draft/{{.DraftHash}}" class="bold hover"> {{.DraftTitle}} </a> {{.AuthorType}} </p>
                     <a class="hover" href="{{$servername}}/editview/{{.Hash}}"><span>{{.PublishedAt}}</span></a>
                 </div>
             {{end}}

@@ -93,7 +93,7 @@ func fmtAuthors(authors state.Consensual, s *state.State) string {
 		return ""
 	}
 	if authors.CollectiveName() != "" {
-		return fmt.Sprintf("on behalf of %v", fmtCollective(authors.CollectiveName()))
+		return fmt.Sprintf("em nome de %v", fmtCollective(authors.CollectiveName()))
 	}
 	authorsCaption := ""
 	count := 0
@@ -102,7 +102,7 @@ func fmtAuthors(authors state.Consensual, s *state.State) string {
 			if count == 0 {
 				authorsCaption = fmtHandle(handle)
 			} else if count == 1 {
-				authorsCaption = fmt.Sprintf("%v and %v", authorsCaption, fmtHandle(handle))
+				authorsCaption = fmt.Sprintf("%v e %v", authorsCaption, fmtHandle(handle))
 			} else {
 				authorsCaption = fmt.Sprintf("%v et al.", authorsCaption)
 				break

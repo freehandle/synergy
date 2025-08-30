@@ -241,7 +241,7 @@ type Draft struct {
 	Description   string         `json:"description"`
 	ContentType   string         `json:"contentType"`
 	File          []byte         `json:"filePath"`
-	PreviousDraft crypto.Hash    `json:"previousDraft,,omitempty"`
+	PreviousDraft crypto.Hash    `json:"previousDraft,omitempty"`
 	References    []crypto.Hash  `json:"references,omitempty"`
 }
 

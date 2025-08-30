@@ -301,12 +301,12 @@ func MyMediaFromState(s *state.State, i *index.Index, token crypto.Token) *MyMed
 		authorship := ""
 		if draft.Authors.CollectiveName() == "" {
 			if len(draft.Authors.ListOfMembers()) > 1 {
-				authorship = "as coauthor"
+				authorship = "co-autoria"
 			} else {
-				authorship = "as author"
+				authorship = "autoria"
 			}
 		} else {
-			authorship = "on behalf of " + draft.Authors.CollectiveName() + " collective"
+			authorship = "em nome do coletivo " + draft.Authors.CollectiveName()
 		}
 		myDraftView := MyDraftView{
 			Title:      draft.Title,
@@ -337,14 +337,14 @@ func MyMediaFromState(s *state.State, i *index.Index, token crypto.Token) *MyMed
 				Time: s.TimeOfEpoch(consensusEpoch).Format(time.RFC822),
 			}
 			if authors.CollectiveName() != "" {
-				editOnDraft.Caption = fmt.Sprintf("on behalf of %s", authors.CollectiveName())
+				editOnDraft.Caption = fmt.Sprintf("em nome de %s", authors.CollectiveName())
 			} else {
 				for author, _ := range authors.ListOfMembers() {
 					if handle, ok := s.Members[crypto.HashToken(author)]; ok {
 						if N := len(authors.ListOfMembers()); N > 1 {
-							editOnDraft.Caption = fmt.Sprintf("by %s and %d others", handle, N-1)
+							editOnDraft.Caption = fmt.Sprintf("por %s e %d outros", handle, N-1)
 						} else {
-							editOnDraft.Caption = fmt.Sprintf("by %s", handle)
+							editOnDraft.Caption = fmt.Sprintf("por %s", handle)
 						}
 					}
 				}
@@ -372,12 +372,12 @@ func MyMediaFromState(s *state.State, i *index.Index, token crypto.Token) *MyMed
 		authorship := ""
 		if edit.Authors.CollectiveName() == "" {
 			if len(edit.Authors.ListOfMembers()) > 1 {
-				authorship = "as coauthor"
+				authorship = "co-autoria"
 			} else {
-				authorship = "as author"
+				authorship = "autoria"
 			}
 		} else {
-			authorship = "on behalf of " + edit.Authors.CollectiveName() + " collective"
+			authorship = "em nome do coletivo " + edit.Authors.CollectiveName()
 		}
 		myEditView := MyEditView{
 			DraftTitle: edit.Draft.Title,
@@ -703,7 +703,7 @@ func MemberViewFromState(s *state.State, i *index.Index, handle string) *MemberV
 		if event, ok := s.Events[eventHash]; ok {
 			if time.Until(event.StartAt) > 0 {
 				view.Events = append(view.Events, CaptionLink{
-					Caption: fmt.Sprintf("%v event from %v", event.StartAt.Format(time.RFC822), event.Collective.Name),
+					Caption: fmt.Sprintf("%v evento de %v", event.StartAt.Format(time.RFC822), event.Collective.Name),
 					Link:    crypto.EncodeHash(eventHash),
 				})
 			}

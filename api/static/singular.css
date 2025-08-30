@@ -413,6 +413,10 @@ label.authorship {
     font-size: 1.25rem;
 }
 
+#center div.singular div.center div.headerdraft a.released:hover {
+    font-weight: 900;
+}
+
 ul.listing .keywordtitle {
     text-decoration: none;
     color: #012169;
@@ -898,14 +902,14 @@ ul.listing .keywordtitle {
     flex-shrink: 0;
     display: flex;
     justify-content: flex-end;
-    flex-basis: 20em;
+    flex-basis: 10em;
 }
 
 #updates .card .actioninfo .duration {
     flex-shrink: 0;
     display: flex;
     justify-content: flex-end;
-    flex-basis: 20em;
+    flex-basis: 10em;
 }
 
 #myevents .eventheader {

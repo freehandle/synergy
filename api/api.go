@@ -279,7 +279,7 @@ func DraftForm(r *http.Request, handles map[string]crypto.Token, file []byte, ex
 		Keywords:      FormToStringArray(r, "keywords"),
 		ContentType:   FileType(r.FormValue("fileName")),
 		File:          file,
-		PreviousDraft: FormToHash(r, "PreviousDraft"),
+		PreviousDraft: FormToHash(r, "previousDraft"),
 		References:    FormToHashArray(r, "references"),
 	}
 	if r.FormValue("onBehalfOf") != "" {

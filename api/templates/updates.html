@@ -1,12 +1,19 @@
 {{template "HEAD" .Head}}
 {{ $servername := .ServerName }}
-    <p class="headers x3large"> atualizações
+<div class="mediaheader">
+    <div class="headers">atualizações</div>
+    <div class="mediatabs">
+            <span class="tgmenu bold pointer" id="tg_actions" onclick="selectToggle('actions');">ações</span>    |
+            <span class="tgmenu pointer" id="tg_reactions" onclick="selectToggle('reactions');">reações</span>  
+    </div>
+</div>
+    <!-- <p class="headers"> atualizações
         <span class="maintoggle xlarge light"> 
             <span class="tgmenu bold pointer" id="tg_actions" onclick="selectToggle('actions');">ações</span>
             |
             <span class="tgmenu pointer" id="tg_reactions" onclick="selectToggle('reactions');">reações</span>  
         </span>
-    </p> 
+    </p>  -->
     <div id="updates" class="centralcard">
         <div id="actions" class="toggle">
             {{range .Objects}}
