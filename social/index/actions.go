@@ -113,7 +113,7 @@ func fmtAuthors(authors state.Consensual, s *state.State) string {
 	if len(authorsCaption) == 0 {
 		return ""
 	}
-	return fmt.Sprintf("by %v", authorsCaption)
+	return fmt.Sprintf("por %v", authorsCaption)
 }
 
 func (i *Index) ActionToFormatedString(action actions.Action) (string, string, uint64) {

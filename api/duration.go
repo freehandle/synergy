@@ -40,26 +40,26 @@ func PrettyDate(date time.Time) string {
 func PrettyDuration(d time.Duration) string {
 	if d.Seconds() < 60 {
 		if d.Seconds() < 2 {
-			return "1 second"
+			return "1 segundo"
 		}
-		return fmt.Sprintf("%.0f seconds", d.Seconds())
+		return fmt.Sprintf("%.0f segundos", d.Seconds())
 	}
 	if d.Minutes() < 60 {
 		if d.Minutes() < 2 {
-			return "1 minute"
+			return "1 minuto"
 		}
-		return fmt.Sprintf("%.0f minutes", d.Minutes())
+		return fmt.Sprintf("%.0f minutos", d.Minutes())
 	}
 	if d.Hours() < 24 {
 		if d.Hours() < 2 {
-			return "1 hour"
+			return "1 hora"
 		}
-		return fmt.Sprintf("%.0f hours", d.Hours())
+		return fmt.Sprintf("%.0f horas", d.Hours())
 	}
 	if d.Hours()/24.0 < 2 {
-		return "1 day"
+		return "1 dia"
 	}
-	return fmt.Sprintf("%.0f days", d.Hours()/24.0)
+	return fmt.Sprintf("%.0f dias", d.Hours()/24.0)
 }
 
 func FileType(fileName string) string {

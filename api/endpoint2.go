@@ -578,7 +578,7 @@ func ConnectionsFromState(state *state.State, indexer *index.Index, token crypto
 	membersevent := indexer.EventsOnMember(token)
 	for _, eventhash := range membersevent {
 		event := state.Events[eventhash]
-		eventname := event.StartAt.Format("2006-01-02") + " by " + event.Collective.Name
+		eventname := event.StartAt.Format("2006-01-02") + " por " + event.Collective.Name
 		ncheckins := len(event.Checkin)
 		ngreets := 0
 		for _, greet := range event.Checkin {

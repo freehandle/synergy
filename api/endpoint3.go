@@ -88,13 +88,13 @@ func actionsToActionUpdateView(actions []index.ActionDetails, genesisTime time.T
 			}
 
 			if action.VoteStatus == state.Favorable {
-				actionUpdateView.VoteStatus = "approved"
+				actionUpdateView.VoteStatus = "aprovado"
 			}
 			if action.VoteStatus == state.Undecided {
-				actionUpdateView.VoteStatus = "pending vote"
+				actionUpdateView.VoteStatus = "pendente"
 			}
 			if action.VoteStatus == state.Against {
-				actionUpdateView.VoteStatus = "denied"
+				actionUpdateView.VoteStatus = "não aprovado"
 			}
 			if len(action.Votes) > 0 && (action.VoteStatus == state.Undecided) {
 				hasCast := false
@@ -159,7 +159,7 @@ func UpdatesViewFromState(s *state.State, i *index.Index, token crypto.Token, ge
 			updates, reaction := actionsToActionUpdateView(actions, genesisTime, token)
 			if len(updates) > 0 || len(reaction) > 0 {
 				objView := ObjectUpdateView{
-					Name:       fmt.Sprintf("%s event from %s", event.StartAt.Format(time.RFC822), event.Collective.Name),
+					Name:       fmt.Sprintf("%s evento de %s", event.StartAt.Format(time.RFC822), event.Collective.Name),
 					ObjectKind: "event",
 					Updates:    updates,
 					Reactions:  reaction,
