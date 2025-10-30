@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/middleware/simple"
 	"github.com/freehandle/breeze/middleware/social"
 	"github.com/freehandle/breeze/util"
 	"github.com/freehandle/handles/attorney"
@@ -114,15 +115,6 @@ func main() {
 
 	}
 
-	safeListener := make(chan []byte)
-	synergyListener := make(chan []byte)
-	sender := make(chan []byte)
-
-	ctxBack := context.Background()
-	ctx, cancel := context.WithCancel(ctxBack)
-
-	go launchLocalChain(ctx, []chan []byte{synergyListener, safeListener}, sender)
-
 	vault, err := config.OpenVaultFromPassword([]byte(synergyPassword), "synergyvault.dat")
 	if err != nil {
 		log.Fatalf("error opening vault: %v\n", err)
@@ -130,6 +122,27 @@ func main() {
 	}
 	vault.Secrets[vault.PK.PublicKey()] = vault.PK
 
+	//safeListener := make(chan []byte)
+	//synergyListener := make(chan []byte)
+
+	ctxBack := context.Background()
+	ctx, cancel := context.WithCancel(ctxBack)
+
+	synergyListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "", "blocos", time.Second))
+	safeListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "", "blocos", time.Second))
+
+	breezeToken, _ := crypto.RandomAsymetricKey()
+
+	sender, err := simple.Gateway(ctx, 7000, breezeToken, vault.PK)
+	if err != nil {
+		log.Fatalf("error creating gateway: %v", err)
+	}
+
+	//sender := make(chan []byte)
+
+	//go launchLocalChain(ctx, []chan []byte{synergyListener, safeListener}, sender)
+
+	/* Initialize Safe Server */
 	cfg := safe.SafeConfig{
 		Credentials: vault.PK,
 		HtmlPath:    "../safe/",
@@ -137,6 +150,7 @@ func main() {
 		Port:        7000,
 		//ServerName:  "/safe",
 	}
+
 	errSignal, safe := safe.NewLocalServer(ctx, cfg, synergyPassword, ByArraySender(sender), safeListener)
 
 	go func() {
@@ -145,13 +159,21 @@ func main() {
 		cancel()
 	}()
 
+	/* Initilize Synergy Server */
+
 	go launchSynergyServer(sender, synergyListener, synergyPassword, emailPassword, vault, safe)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
+
+	go NewSafeRestAPI(8000, safe)
 
 	s := <-c
 	fmt.Println("Got signal:", s)
 	cancel()
 	time.Sleep(5 * time.Second)
 }
+
+/*
+  curl -X POST http://localhost:8000/ -H "Content-Type: application/json" -d '{"handle": "ruben"}'
+*/
