@@ -1,10 +1,14 @@
 package api
 
 import (
+	"bytes"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
+	"io"
 	"log"
+	"net/http"
 	"net/smtp"
 	"time"
 
@@ -139,7 +143,7 @@ func NewSigninManager(passwords PasswordManager, mail Mailer, attorney *Attorney
 }
 
 type SigninManager struct {
-	safe          *safe.Safe // for optional direct onboarding
+	safe          int // for optional direct onboarding
 	pending       []*Signerin
 	passwords     PasswordManager
 	AttorneyToken crypto.Token
@@ -188,17 +192,65 @@ func (s *SigninManager) Has(token crypto.Token) bool {
 }
 
 func (s *SigninManager) OnboardSigner(handle, email, passwd string) bool {
-	if s.safe == nil {
+	if s.safe == 0 {
 		log.Println("PANIC BUG: OnboardSigner called with nil safe")
 		return false
 	}
-	ok, token := s.safe.SigninWithToken(handle, passwd, email)
-	if !ok {
+
+	data := safe.UserRequest{Handle: handle, Email: email, Password: passwd}
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		log.Println("error marshalling JSON:", err)
 		return false
 	}
-	if err := s.safe.GrantPower(handle, s.AttorneyToken.Hex(), crypto.EncodeHash(crypto.HashToken(token))); err != nil {
-		log.Println("error granting power of attorney", err)
+	resp, err := http.Post(fmt.Sprintf("http://localhost:%d", s.safe), "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Println("error sending onboarding request:", err)
 		return false
+	}
+	var token crypto.Token
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Println("error reading onboarding response body:", err)
+		return false
+	}
+	var response safe.APIResponse
+	if err := json.Unmarshal(body, &response); err != nil {
+		log.Println("error unmarshalling onboarding response:", err)
+		return false
+	}
+	if resp.Status != "200 OK" {
+		log.Println("error onboarding user:", response.Message)
+		return false
+	}
+	token = crypto.TokenFromString(response.Token)
+	fmt.Println("Onboarded user with token:", token.String(), response.Token)
+	grant := safe.GrantRequest{
+		Handle:        handle,
+		AttorneyToken: s.AttorneyToken.String(),
+		Hash:          crypto.EncodeHash(crypto.HashToken(token)),
+	}
+	jsonData, err = json.Marshal(grant)
+	if err != nil {
+		log.Println("error marshalling JSON:", err)
+		return false
+	}
+	resp, err = http.Post(fmt.Sprintf("http://localhost:%d", s.safe), "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Println("error sending onboarding request:", err)
+		return false
+	}
+	if resp.Status != "200 OK" {
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			log.Println("error reading onboarding response body:", err)
+			return false
+		}
+		var response safe.APIResponse
+		if err := json.Unmarshal(body, &response); err != nil {
+			log.Println("error unmarshalling onboarding response:", err)
+			return false
+		}
 	}
 	s.Set(token, passwd, email)
 	signin := actions.Signin{

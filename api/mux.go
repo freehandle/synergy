@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
-	"github.com/freehandle/safe"
 
 	"github.com/freehandle/synergy/config"
 	"github.com/freehandle/synergy/social/actions"
@@ -43,7 +42,7 @@ type ServerConfig struct {
 	Path        string
 	ServerName  string
 	Hostname    string
-	Safe        *safe.Safe // optional link to safe for direct onbboarding
+	Safe        int // optional link to safe for direct onbboarding
 }
 
 //type AuthorAction struct {

@@ -10,9 +10,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/freehandle/breeze/consensus/messages"
 	breeze "github.com/freehandle/breeze/protocol/actions"
-	"github.com/freehandle/safe"
 
 	"github.com/freehandle/breeze/crypto"
 	"github.com/freehandle/breeze/util"
@@ -54,7 +52,7 @@ type AttorneyGeneral struct {
 	ephemeralpub  crypto.Token
 	serverName    string
 	hostname      string
-	safe          *safe.Safe               // optional link to safe for direct onbboarding
+	safe          int                      // optional link to safe for direct onbboarding
 	inviteUser    map[crypto.Hash]struct{} // map of invite user hash to token
 }
 
@@ -124,7 +122,9 @@ func (a *AttorneyGeneral) Send(all []actions.Action, author crypto.Token) {
 	for _, action := range all {
 		dressed := a.DressAction(action, author)
 		fmt.Println("Dressed action:", dressed)
-		a.gateway <- append([]byte{messages.MsgAction}, dressed...)
+		// gambiarra o certo esta emabixo
+		a.gateway <- dressed
+		// a.gateway <- append([]byte{messages.MsgAction}, dressed...)
 		//a.gateway.Action(dressed)
 	}
 }

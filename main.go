@@ -14,7 +14,6 @@ import (
 	"github.com/freehandle/breeze/middleware/social"
 	"github.com/freehandle/breeze/util"
 	"github.com/freehandle/handles/attorney"
-	"github.com/freehandle/safe"
 	"github.com/freehandle/synergy/api"
 	"github.com/freehandle/synergy/config"
 	"github.com/freehandle/synergy/network"
@@ -60,7 +59,7 @@ func launchLocalChain(ctx context.Context, listeners []chan []byte, receiver cha
 	return <-chain.Start(ctx)
 }
 
-func launchSynergyServer(gateway chan []byte, receive chan []byte, synergyPass, emailPass string, vault *config.SecretsVault, safe *safe.Safe) {
+func launchSynergyServer(gateway chan []byte, receive chan []byte, synergyPass, emailPass string, vault *config.SecretsVault) {
 	indexer := index.NewIndex()
 	genesis := state.GenesisState(indexer)
 	indexer.SetState(genesis)
@@ -81,7 +80,7 @@ func launchSynergyServer(gateway chan []byte, receive chan []byte, synergyPass, 
 		Hostname:    "localhost:3000",
 		Mail:        &api.SMTPGmail{From: "freemyhandle@gmail.com", Password: emailPass},
 		Port:        3000,
-		Safe:        safe,
+		Safe:        8090,
 		//ServerName:    "/synergy",
 	}
 	attorney, finalize := api.NewGeneralAttorneyServer(config)
@@ -112,7 +111,6 @@ func main() {
 		} else if strings.HasPrefix(env, "SYNERGY_SECRET=") {
 			synergyPassword, _ = strings.CutPrefix(env, "SYNERGY_SECRET=")
 		}
-
 	}
 
 	vault, err := config.OpenVaultFromPassword([]byte(synergyPassword), "synergyvault.dat")
@@ -128,11 +126,12 @@ func main() {
 	ctxBack := context.Background()
 	ctx, cancel := context.WithCancel(ctxBack)
 
-	synergyListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "", "blocos", time.Second))
-	safeListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "", "blocos", time.Second))
+	synergyListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "/home/rmdamiao/go/src/github.com/freehandle/handles/cmd/proxy-handles", "blocos", time.Second))
+	//safeListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "", "blocos", time.Second))
 
-	breezeToken, _ := crypto.RandomAsymetricKey()
-
+	//breezeToken, _ := crypto.RandomAsymetricKey()
+	breezeToken := crypto.TokenFromString("0bd6893855c03fb2103e52dd59de7425b534e26422f3ab26a46b2277f00436d4")
+	fmt.Println("Using breeze token:", breezeToken.String())
 	sender, err := simple.Gateway(ctx, 7000, breezeToken, vault.PK)
 	if err != nil {
 		log.Fatalf("error creating gateway: %v", err)
@@ -143,30 +142,30 @@ func main() {
 	//go launchLocalChain(ctx, []chan []byte{synergyListener, safeListener}, sender)
 
 	/* Initialize Safe Server */
-	cfg := safe.SafeConfig{
-		Credentials: vault.PK,
-		HtmlPath:    "../safe/",
-		Path:        ".",
-		Port:        7000,
-		//ServerName:  "/safe",
-	}
+	// cfg := safe.SafeConfig{
+	// 	Credentials: vault.PK,
+	// 	HtmlPath:    "../safe/",
+	// 	Path:        ".",
+	// 	Port:        7000,
+	// 	//ServerName:  "/safe",
+	// }
 
-	errSignal, safe := safe.NewLocalServer(ctx, cfg, synergyPassword, ByArraySender(sender), safeListener)
+	//errSignal, safe := safe.NewLocalServer(ctx, cfg, synergyPassword, ByArraySender(sender), safeListener)
 
-	go func() {
-		err := <-errSignal
-		log.Printf("error creating safe server: %v", err)
-		cancel()
-	}()
+	// go func() {
+	// 	err := <-errSignal
+	// 	log.Printf("error creating safe server: %v", err)
+	// 	cancel()
+	// }()
 
 	/* Initilize Synergy Server */
 
-	go launchSynergyServer(sender, synergyListener, synergyPassword, emailPassword, vault, safe)
+	go launchSynergyServer(sender, synergyListener, synergyPassword, emailPassword, vault)
 
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 
-	go NewSafeRestAPI(8000, safe)
+	//go NewSafeRestAPI(8000, safe)
 
 	s := <-c
 	fmt.Println("Got signal:", s)
