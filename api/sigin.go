@@ -191,13 +191,63 @@ func (s *SigninManager) Has(token crypto.Token) bool {
 	return s.passwords.Has(token)
 }
 
+func (s *SigninManager) CheckGrant(handle string) bool {
+	req := safe.AttorneyRequest{
+		Handle:        handle,
+		AttorneyToken: s.AttorneyToken.Hex(),
+	}
+	jsonData, err := json.Marshal(req)
+	if err != nil {
+		log.Println("error marshalling JSON:", err)
+		return false
+	}
+	resp, err := http.Post(fmt.Sprintf("http://localhost:%d/attorney", s.safe), "application/json", bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Println("error sending onboarding request:", err)
+		return false
+	}
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Println("error reading onboarding response body:", err)
+		return false
+	}
+	var response safe.APIResponse
+	if err := json.Unmarshal(body, &response); err != nil {
+		log.Println("error unmarshalling onboarding response:", err)
+		return false
+	}
+	fmt.Println("Response status:", resp.Status)
+	if resp.Status != "200 OK" {
+		log.Println("error onboarding user:", response.Message)
+		return false
+	}
+	if response.Status == "Granted" {
+		token := crypto.TokenFromString(response.Token)
+		signin := actions.Signin{
+			Epoch:   s.Attorney.state.Epoch,
+			Author:  token,
+			Reasons: "Synergy app sign in with approved power of attorney",
+		}
+		s.Attorney.Send([]actions.Action{&signin}, token)
+		s.Granted[handle] = token
+		return true
+	}
+	return false
+}
+
 func (s *SigninManager) OnboardSigner(handle, email, passwd string) bool {
 	if s.safe == 0 {
 		log.Println("PANIC BUG: OnboardSigner called with nil safe")
 		return false
 	}
 
-	data := safe.UserRequest{Handle: handle, Email: email, Password: passwd}
+	data := safe.UserRequest{
+		Handle:        handle,
+		Email:         email,
+		Password:      passwd,
+		App:           "synergy",
+		AttorneyToken: s.AttorneyToken.Hex(),
+	}
 	jsonData, err := json.Marshal(data)
 	if err != nil {
 		log.Println("error marshalling JSON:", err)
@@ -224,43 +274,26 @@ func (s *SigninManager) OnboardSigner(handle, email, passwd string) bool {
 		return false
 	}
 	token = crypto.TokenFromString(response.Token)
-	fmt.Println("Onboarded user with token:", token.String(), response.Token)
-	grant := safe.GrantRequest{
-		Handle:        handle,
-		AttorneyToken: s.AttorneyToken.String(),
-		Hash:          crypto.EncodeHash(crypto.HashToken(token)),
-	}
-	jsonData, err = json.Marshal(grant)
-	if err != nil {
-		log.Println("error marshalling JSON:", err)
-		return false
-	}
-	resp, err = http.Post(fmt.Sprintf("http://localhost:%d", s.safe), "application/json", bytes.NewBuffer(jsonData))
-	if err != nil {
-		log.Println("error sending onboarding request:", err)
-		return false
-	}
+	fmt.Println("Onboarded user with token:", token.String())
+
 	if resp.Status != "200 OK" {
-		body, err := io.ReadAll(resp.Body)
-		if err != nil {
-			log.Println("error reading onboarding response body:", err)
-			return false
-		}
-		var response safe.APIResponse
-		if err := json.Unmarshal(body, &response); err != nil {
-			log.Println("error unmarshalling onboarding response:", err)
-			return false
-		}
+		log.Println("error granting power of attorney:", response.Message)
+		return false
+	} else {
+		log.Println("success granting power of attorney:", response.Status)
 	}
 	s.Set(token, passwd, email)
-	signin := actions.Signin{
-		Epoch:   s.Attorney.state.Epoch,
-		Author:  token,
-		Reasons: "Synergy app sign in with approved power of attorney",
-	}
-	s.Attorney.Send([]actions.Action{&signin}, token)
 	s.Granted[handle] = token
-	go s.mail.Send(email, "Synergy Protocol Welcome", fmt.Sprintf(wellcomeBody, handle, handle, handle, handle, handle))
+	fmt.Println("Set password for onboarded user:", handle, passwd, email)
+	if response.Status != "existente" {
+		signin := actions.Signin{
+			Epoch:   s.Attorney.state.Epoch,
+			Author:  token,
+			Reasons: "Synergy app sign in with approved power of attorney",
+		}
+		s.Attorney.Send([]actions.Action{&signin}, token)
+	}
+	//go s.mail.Send(email, "Synergy Protocol Welcome", fmt.Sprintf(wellcomeBody, handle, handle, handle, handle, handle))
 	return true
 }
 

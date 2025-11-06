@@ -67,17 +67,37 @@ func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Requ
 	password := r.FormValue("password")
 	token, ok := a.state.MembersIndex[handle]
 	if !ok || !a.signin.Check(token, password) {
-		view := ServerName{
-			Head: HeaderInfo{
-				Error:      "credenciais inválidas",
+		valid := false
+		fmt.Println("Chechando tudo")
+		if token, ok := a.signin.Granted[handle]; ok {
+			if a.signin.Check(token, password) {
+				valid = a.signin.CheckGrant(handle)
+			}
+		}
+		if !valid {
+			view := ServerName{
+				Head: HeaderInfo{
+					Error:      "pendente de aprovação pelo usuário",
+					ServerName: a.serverName,
+				},
 				ServerName: a.serverName,
-			},
-			ServerName: a.serverName,
+			}
+			if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+				log.Println(err)
+			}
+			return
+		} else {
+			view := ServerName{
+				Head: HeaderInfo{
+					ServerName: a.serverName,
+				},
+				ServerName: a.serverName,
+			}
+			if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+				log.Println(err)
+			}
+			return
 		}
-		if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
-			log.Println(err)
-		}
-		return
 	}
 	cookie := a.CreateSession(handle)
 	if cookie == "" {

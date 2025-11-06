@@ -1,6 +1,7 @@
 package network
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/freehandle/breeze/util"
@@ -35,6 +36,7 @@ func ByteArrayToSignal(receive chan []byte) chan *Signal {
 				return
 			}
 			if len(action) > 0 {
+				fmt.Println("Received action:", action)
 				signals <- &Signal{Signal: action[0], Data: action[1:]}
 			}
 		}

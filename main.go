@@ -130,7 +130,7 @@ func main() {
 	//safeListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "", "blocos", time.Second))
 
 	//breezeToken, _ := crypto.RandomAsymetricKey()
-	breezeToken := crypto.TokenFromString("0bd6893855c03fb2103e52dd59de7425b534e26422f3ab26a46b2277f00436d4")
+	breezeToken := crypto.TokenFromString("91ad274d06c4be307a332a0e59449ad25ae2c65e4ad5a8f0af87067ac2fc3a54")
 	fmt.Println("Using breeze token:", breezeToken.String())
 	sender, err := simple.Gateway(ctx, 7000, breezeToken, vault.PK)
 	if err != nil {
