@@ -106,6 +106,8 @@ type SMTPGmail struct {
 func (s *SMTPGmail) Send(to, subject, body string) bool {
 	auth := smtp.PlainAuth("", s.From, s.Password, "smtp.gmail.com")
 	emailMsg := fmt.Sprintf("To: %s\r\n"+"Subject: %s\r\n"+"\r\n"+"%s\r\n", to, subject, body)
+	fmt.Println(emailMsg)
+	return true
 	err := smtp.SendMail("smtp.gmail.com:587", auth, s.From, []string{to}, []byte(emailMsg))
 	if err != nil {
 		log.Printf("email sending error: %v", err)
@@ -292,8 +294,10 @@ func (s *SigninManager) OnboardSigner(handle, email, passwd string) bool {
 			Reasons: "Synergy app sign in with approved power of attorney",
 		}
 		s.Attorney.Send([]actions.Action{&signin}, token)
+		go s.mail.Send(email, "Synergy Protocol Welcome", fmt.Sprintf(wellcomeBody, handle, handle, handle, handle, handle))
+	} else {
+		fmt.Println(response.Verify)
 	}
-	//go s.mail.Send(email, "Synergy Protocol Welcome", fmt.Sprintf(wellcomeBody, handle, handle, handle, handle, handle))
 	return true
 }
 

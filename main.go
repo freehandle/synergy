@@ -126,7 +126,8 @@ func main() {
 	ctxBack := context.Background()
 	ctx, cancel := context.WithCancel(ctxBack)
 
-	synergyListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "/home/rmdamiao/go/src/github.com/freehandle/handles/cmd/proxy-handles", "blocos", time.Second))
+	// HARD CODED ENDERECO DA CHAIN
+	synergyListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "/home/lienko/setembro/handles/cmd/proxy-handles", "blocos", time.Second))
 	//safeListener := simple.DissociateActions(ctx, simple.NewBlockReader(ctx, "", "blocos", time.Second))
 
 	//breezeToken, _ := crypto.RandomAsymetricKey()
