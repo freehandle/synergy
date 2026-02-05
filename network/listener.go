@@ -1,7 +1,6 @@
 package network
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/freehandle/breeze/util"
@@ -36,7 +35,6 @@ func ByteArrayToSignal(receive chan []byte) chan *Signal {
 				return
 			}
 			if len(action) > 0 {
-				fmt.Println("Received action:", action)
 				signals <- &Signal{Signal: action[0], Data: action[1:]}
 			}
 		}
@@ -85,7 +83,9 @@ func NewSynergyNode(axe *HandlesDB, attorneyGeneral *api.AttorneyGeneral, signal
 			synergyAction := axe.Incorporate(signal.Data)
 			if synergyAction != nil {
 				action := BreezeToSynergy(signal.Data)
-				attorneyGeneral.Incorporate(action)
+				if action != nil {
+					attorneyGeneral.Incorporate(action)
+				}
 			}
 		} else {
 			log.Printf("invalid signal: %v", signal.Signal)

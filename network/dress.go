@@ -2,6 +2,8 @@ package network
 
 import (
 	"github.com/freehandle/breeze/crypto"
+	breeze "github.com/freehandle/breeze/protocol/actions"
+	"github.com/freehandle/handles/attorney"
 )
 
 const (
@@ -26,6 +28,10 @@ const (
 // Translate breeze byte array into synergy byte array
 func BreezeToSynergy(action []byte) []byte {
 	if len(action) < 15+axeTailsize {
+		return nil
+	}
+	// verifica se eh uma acao synergy/motiro
+	if action[0] != 0 || action[1] != breeze.IVoid || action[10] != 1 || action[11] != 1 || action[12] != 0 || action[13] != 0 || action[14] != attorney.VoidType {
 		return nil
 	}
 	// strip first 2 bytes, the 4 bytes of protocol, the byte for the axe void and
