@@ -3,6 +3,7 @@ package index
 import (
 	"fmt"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
@@ -549,6 +550,12 @@ func (i *Index) ActionToString(action actions.Action, status state.ConsensusStat
 }
 
 func (i *Index) ActionToStringWithLinks(action actions.Action, status state.ConsensusState) (string, uint64, string) {
+	desc, epoch, reasons := i.actionToStringRaw(action, status)
+	desc = strings.ReplaceAll(desc, `href="./`, `href="`+i.ServerName+`/`)
+	return desc, epoch, reasons
+}
+
+func (i *Index) actionToStringRaw(action actions.Action, status state.ConsensusState) (string, uint64, string) {
 	switch v := action.(type) {
 	case *actions.ImprintStamp:
 		if draft, ok := i.state.Drafts[v.Hash]; ok {

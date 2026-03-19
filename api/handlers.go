@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 
@@ -86,18 +87,25 @@ func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Requ
 				log.Println(err)
 			}
 			return
-		} else {
-			view := ServerName{
-				Head: HeaderInfo{
-					ServerName: a.serverName,
-				},
-				ServerName: a.serverName,
-			}
-			if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
-				log.Println(err)
-			}
+		}
+		// grant confirmed: try to create session; if state not yet updated, show waiting message
+		cookie := a.CreateSession(handle)
+		if cookie != "" {
+			http.SetCookie(w, newCookie(cookie))
+			http.Redirect(w, r, a.serverName, http.StatusSeeOther)
 			return
 		}
+		view := ServerName{
+			Head: HeaderInfo{
+				Error:      "procuração confirmada, aguardando processamento da rede — tente novamente",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+		}
+		if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+			log.Println(err)
+		}
+		return
 	}
 	cookie := a.CreateSession(handle)
 	if cookie == "" {
@@ -611,6 +619,7 @@ func (a *AttorneyGeneral) BoardHandler(w http.ResponseWriter, r *http.Request) {
 	author := a.Author(r)
 	boardName := r.URL.Path
 	boardName = strings.Replace(boardName, "/board/", "", 1)
+	boardName, _ = url.QueryUnescape(boardName)
 	view := BoardDetailFromState(a.state, boardName, author)
 	if view != nil {
 		view.Head.ServerName = a.serverName
@@ -649,6 +658,7 @@ func (a *AttorneyGeneral) CollectivesHandler(w http.ResponseWriter, r *http.Requ
 func (a *AttorneyGeneral) CollectiveHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Path
 	name = strings.Replace(name, "/collective/", "", 1)
+	name, _ = url.QueryUnescape(name)
 	author := a.Author(r)
 	view := CollectiveDetailFromState(a.state, a.indexer, name, author)
 	if view != nil {
@@ -789,6 +799,7 @@ func (a *AttorneyGeneral) MembersHandler(w http.ResponseWriter, r *http.Request)
 func (a *AttorneyGeneral) MemberHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.URL.Path
 	name = strings.Replace(name, "/member/", "", 1)
+	name, _ = url.QueryUnescape(name)
 	view := MemberViewFromState(a.state, a.indexer, name)
 	if view != nil {
 		view.Head.ServerName = a.serverName
@@ -919,6 +930,7 @@ func (a *AttorneyGeneral) VoteCancelEventHandler(w http.ResponseWriter, r *http.
 
 func (a *AttorneyGeneral) UpdateCollectiveHandler(w http.ResponseWriter, r *http.Request) {
 	collective := strings.Replace(r.URL.Path, "/updatecollective/", "", 1)
+	collective, _ = url.QueryUnescape(collective)
 	view := CollectiveToUpdateFromState(a.state, collective)
 	if view != nil {
 		view.Head.UserHandle = a.Handle(r)
@@ -972,6 +984,7 @@ func (a *AttorneyGeneral) VoteUpdateCollectiveHandler(w http.ResponseWriter, r *
 
 func (a *AttorneyGeneral) UpdateBoardHandler(w http.ResponseWriter, r *http.Request) {
 	board := strings.Replace(r.URL.Path, "/updateboard/", "", 1)
+	board, _ = url.QueryUnescape(board)
 	view := BoardToUpdateFromState(a.state, board)
 	if view != nil {
 		view.Head.UserHandle = a.Handle(r)
@@ -1194,7 +1207,7 @@ func (a *AttorneyGeneral) MyMediaHandler(w http.ResponseWriter, r *http.Request)
 
 func (a *AttorneyGeneral) MyEventsHandler(w http.ResponseWriter, r *http.Request) {
 	author := a.Author(r)
-	view := MyEventsFromState(a.state, a.indexer, author)
+	view := MyEventsFromState(a.state, a.indexer, author, a.ephemeralprv)
 	if view != nil {
 		view.Head.UserHandle = a.Handle(r)
 		view.Head.ServerName = a.serverName

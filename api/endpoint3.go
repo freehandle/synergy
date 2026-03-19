@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/freehandle/breeze/crypto"
+	"github.com/freehandle/breeze/crypto/dh"
 	"github.com/freehandle/synergy/social/index"
 	"github.com/freehandle/synergy/social/state"
 )
@@ -488,6 +489,7 @@ type MyEventView struct {
 	Open                 bool
 	Public               bool
 	Greeting             bool
+	Message              string
 	Attendee             []CaptionLink
 	AttendeeCount        int
 	GreetingCount        int
@@ -508,7 +510,7 @@ type MyEventsView struct {
 	ServerName    string
 }
 
-func MyEventsFromState(s *state.State, i *index.Index, token crypto.Token) *MyEventsView {
+func MyEventsFromState(s *state.State, i *index.Index, token crypto.Token, ephemeral crypto.PrivateKey) *MyEventsView {
 	head := HeaderInfo{
 		Active:  "MyEvents",
 		Path:    "realize / meus eventos / ",
@@ -558,6 +560,13 @@ func MyEventsFromState(s *state.State, i *index.Index, token crypto.Token) *MyEv
 		if greeting, ok := event.Checkin[token]; ok {
 			if greeting.Action != nil {
 				eventView.Greeting = true
+				dhCipher := dh.ConsensusCipher(ephemeral, greeting.Action.EphemeralToken)
+				if secretKey, err := dhCipher.Open(greeting.Action.SecretKey); err == nil {
+					cipher := crypto.CipherFromKey(secretKey)
+					if content, err := cipher.Open(greeting.Action.PrivateContent); err == nil {
+						eventView.Message = string(content)
+					}
+				}
 			}
 		}
 		for attoken, checkin := range event.Checkin {
@@ -628,9 +637,7 @@ func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, gen
 		return &detailed
 	}
 	detailed.Needed = pool.Majority * len(pool.Voters) / 100
-	pathstart := strings.Split(urlpath, "detailedvote/")
 	description, epoch, reasons := i.ActionToStringWithLinks(action, state.Undecided)
-	description = strings.Replace(description, "./", pathstart[0], -1)
 	detailed.Description = description
 	detailed.Reasons = reasons
 	old := time.Since(genesisTime.Add(time.Duration(epoch) * time.Second))

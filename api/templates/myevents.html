@@ -38,6 +38,9 @@
                                 {{else}}
                                     {{if .Greeting}}
                                         <h1>recebeu boas-vindas</h1>
+                                        {{if .Message}}
+                                            <p>{{.Message}}</p>
+                                        {{end}}
                                     {{else}}
                                         <p> não recebeu boas-vindas</p>
                                     {{end}}

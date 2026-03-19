@@ -59,6 +59,8 @@ func (r *RecentActions) Last() actions.Action {
 }
 
 type Index struct {
+	ServerName string // prefixo de URL do servidor (ex: "/synergy")
+
 	allPendingactions map[crypto.Hash]actions.Action
 
 	allUsers map[crypto.Token]*Person
@@ -285,6 +287,10 @@ func NewIndex() *Index {
 
 		RecentActions: make([]*IndexedAction, 0),
 	}
+}
+
+func (i *Index) SetServerName(name string) {
+	i.ServerName = name
 }
 
 func (i *Index) SetState(s *state.State) {

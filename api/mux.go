@@ -88,6 +88,7 @@ func NewGeneralAttorneyServer(cfg ServerConfig) (*AttorneyGeneral, chan error) {
 		cfg.Path = "./"
 	}
 	templatesPath := fmt.Sprintf("%v/api/templates", cfg.Path)
+	cfg.Indexer.SetServerName(cfg.ServerName)
 	attorney.signin = NewSigninManager(cfg.Passwords, cfg.Mail, &attorney)
 	attorney.templates = template.New("root")
 	files := make([]string, len(templateFiles))
