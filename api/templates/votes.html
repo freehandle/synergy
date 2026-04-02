@@ -7,61 +7,71 @@
             <div class="item">
                 {{if .Handler}}
                     <a class="titlelink" href="{{$servername}}/{{.Handler}}/{{ .Hash }}">
-                        {{.Action}} 
+                        {{.Action}}
                     </a>
-                        {{if .Scope}} 
+                        {{if .Scope}}
                             <ul class="listing">
-                                <div class="backgroundhover">        
+                                <div class="backgroundhover">
                                 por
                                 <a class="votelink bold backgroundhover" href="{{$servername}}/collective/{{.ScopeLink}}"> {{.Scope}} </a><br/>
                                 </div>
                             </ul>
                         {{end}}
-                        <p class="">{{.Reasons}}</p>
+                        {{if .Reasons}}
+                            <p class="infotitle">motivo da proposta</p>
+                            <p class="">{{.Reasons}}</p>
+                        {{end}}
 
                 {{ else }}
                 <div class="firstrow">
                     <p class="xlarge bold" id="modaloutlinename"> {{.Action}}</p>
-                    {{if .ObjectCaption}} 
+                    {{if .ObjectCaption}}
                         <div class="backgroundhover"> {{.ObjectType}} <a class="votelink bold backgroundhover" href="{{$servername}}/{{.ObjectLink}}" id="modaloutlinevoteobj">{{.ObjectCaption}}</a></div>
                     {{end}}
-                    {{if .Scope}} 
+                    {{if .Scope}}
                         <div class="backgroundhover"> em nome de  <a class="votelink bold backgroundhover" href="{{$servername}}/collective/{{.ScopeLink}}"  id="modaloutlinevotescope"> {{.Scope}} </a> </div>
                     {{end}}
-                    {{if .ComplementType}} 
+                    {{if .ComplementType}}
                         <div class="backgroundhover"> {{.ComplementType}}  <a class="votelink bold backgroundhover" href="{{$servername}}/{{.ComplementLink}}"  id ="modaloutlinevotecompl"> {{.ComplementCaption}} </a> </div>
                     {{end}}
-                        
-                    <p class=""> {{.Reasons}} </p>                   
+                    {{if .Reasons}}
+                        <p class="infotitle">motivo da proposta</p>
+                        <p class=""> {{.Reasons}} </p>
+                    {{end}}
                 </div>
-                <div class="secondrow"> <button class="submit" onclick="dialogvote()" value="send">vote</button> </div>
-                <dialog id="dialogvoteel" class="modalshow">
+                <div class="secondrow">
+                    <button class="submit" onclick="document.getElementById('dialogvoteel_{{.Hash}}').showModal()" value="send">vote</button>
+                </div>
+                <dialog id="dialogvoteel_{{.Hash}}" class="modalshow">
                     <p class="modaltitle">resumo da instrução</p>
+                    {{if .Reasons}}
+                        <p class="infotitle">motivo da proposta</p>
+                        <p class="info">{{.Reasons}}</p>
+                    {{end}}
                     <form method="post" action="{{$servername}}/api">
                         <input class="nonemodal" type="text" name="action" value="Vote" readonly/>
                         <input class="nonemodal" type="text" name="hash" value="{{.Hash}}" readonly/>
                         <p class="modalinfo" id="voteoutline"></p><br/>
-                        <input type="radio" id="approve" name="approve" value="on" checked>
-                        <label for="approve">a favor</label>
-                        <input type="radio" id="against" name="approve" value="off">
-                        <label for="against">contra</label>
+                        <input type="radio" id="approve_{{.Hash}}" name="approve" value="on" checked>
+                        <label for="approve_{{.Hash}}">a favor</label>
+                        <input type="radio" id="against_{{.Hash}}" name="approve" value="off">
+                        <label for="against_{{.Hash}}">contra</label>
 
                         <textarea class="modalentry" type="text" name="reasons" rows="3" id="reasonsfield" placeholder="*campo opcional para razões"></textarea>
                         <div class="modalbuttons">
-                            <button class="modalsubmit" type="reset" onclick="closedialog('dialogvoteel');">cancelar</button>
+                            <button class="modalsubmit" type="reset" onclick="document.getElementById('dialogvoteel_{{.Hash}}').close()">cancelar</button>
                             <input class="modalsubmit" type="submit" value="enviar"/>
                         </div>
                     </form>
                 </dialog>
                 <!-- end of modal -->
-        
+
                 {{end}}
             </div>
         {{end}}
-        <!-- react modal -->
-       
 
     </div>
 </div>
 {{template "TAIL"}}
-        
+
+

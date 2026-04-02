@@ -22,7 +22,7 @@ var templateFiles []string = []string{
 	"createboard", "votecreateboard", "updateboard", "voteupdateboard", "updateevent",
 	"updatecollective", "voteupdatecollective", "createevent", "voteupdateevent", "editview",
 	"createcollective", "connections", "updates", "news", "pending", "mymedia", "myevents",
-	"detailedvote", "votecreateevent", "votecancelevent", "login", "signin", "totalsignin",
+	"detailedvote", "concludedvote", "votecreateevent", "votecancelevent", "login", "signin", "totalsignin",
 	"forgot", "reset", "resetpassword", "invite",
 }
 
@@ -168,8 +168,9 @@ func NewServer(attorney *AttorneyGeneral, port int, staticPath string, finalize 
 	mux.HandleFunc("/mymedia", attorney.MyMediaHandler)
 	mux.HandleFunc("/myevents", attorney.MyEventsHandler)
 	mux.HandleFunc("/detailedvote/", attorney.DetailedVoteHandler)
+	mux.HandleFunc("/concludedvote/", attorney.ConcludedVoteHandler)
 	mux.HandleFunc("/login", attorney.LoginHandler)
-	//mux.HandleFunc("/signin", attorney.SigninHandler)
+	// mux.HandleFunc("/signin", attorney.SigninHandler)
 	mux.HandleFunc("/signin/", attorney.OnboardingHandler)
 	mux.HandleFunc("/signout", attorney.SignoutHandler)
 	mux.HandleFunc("/forgot", attorney.ForgotHandler)

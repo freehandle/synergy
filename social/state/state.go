@@ -1077,6 +1077,7 @@ func (s *State) Draft(draft *actions.Draft) error {
 
 	newDraft := &Draft{
 		Title:           draft.Title,
+		Date:            draft.Epoch,
 		Description:     draft.Description,
 		DraftType:       draft.ContentType,
 		DraftHash:       draft.ContentHash,

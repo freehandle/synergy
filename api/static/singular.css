@@ -1327,10 +1327,14 @@ a.backgroundhover:hover {
     cursor: pointer;
 }
 
-#pendingactions .centralcard {
+#pendingactions .centralcard:not(.none) {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+}
+
+#pendingactions .centralcard > p {
+    width: 100%;
 }
 
 .checkinreasons {

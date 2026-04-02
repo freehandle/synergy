@@ -40,6 +40,7 @@ func (a *AttorneyGeneral) InviteNewUserHandler(w http.ResponseWriter, r *http.Re
 				ServerName: a.serverName,
 			},
 			ServerName: a.serverName,
+			HostName:   a.hostname,
 			Seed:       seed,
 		}
 		if err := a.templates.ExecuteTemplate(w, "invite.html", view); err != nil {
@@ -67,37 +68,45 @@ func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Requ
 	handle := r.FormValue("handle")
 	password := r.FormValue("password")
 	token, ok := a.state.MembersIndex[handle]
-	if !ok || !a.signin.Check(token, password) {
-		valid := false
-		fmt.Println("Chechando tudo")
-		if token, ok := a.signin.Granted[handle]; ok {
-			if a.signin.Check(token, password) {
-				valid = a.signin.CheckGrant(handle)
-			}
-		}
-		if !valid {
-			view := ServerName{
-				Head: HeaderInfo{
-					Error:      "pendente de aprovação pelo usuário",
-					ServerName: a.serverName,
-				},
-				ServerName: a.serverName,
-			}
-			if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
-				log.Println(err)
-			}
-			return
-		}
-		// grant confirmed: try to create session; if state not yet updated, show waiting message
-		cookie := a.CreateSession(handle)
-		if cookie != "" {
-			http.SetCookie(w, newCookie(cookie))
-			http.Redirect(w, r, a.serverName, http.StatusSeeOther)
-			return
-		}
+	if !ok {
 		view := ServerName{
 			Head: HeaderInfo{
-				Error:      "procuração confirmada, aguardando processamento da rede — tente novamente",
+				Error:      "perfil não encontrado: tente novamente ou corrija",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+		}
+		if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	if !a.signin.Check(token, password) {
+		view := ServerName{
+			Head: HeaderInfo{
+				Error:      "senha incompatível com perfil",
+				ServerName: a.serverName,
+			},
+			ServerName: a.serverName,
+		}
+		if err := a.templates.ExecuteTemplate(w, "login.html", view); err != nil {
+			log.Println(err)
+		}
+		return
+	}
+	valid := false
+	if tokenGrant, ok := a.signin.Granted[handle]; !ok {
+		valid = a.signin.CheckGrant(handle) // se nao esta no mapa de granted, checa na api do safe
+	} else {
+		if tokenGrant != token {
+			log.Println("tokenGrant não bate com token do members")
+		}
+		valid = true
+	}
+	if !valid {
+		view := ServerName{
+			Head: HeaderInfo{
+				Error:      "pendente de aprovação pelo usuário: verifique email cadastrado (inclusive caixa de spam - com cuidado)",
 				ServerName: a.serverName,
 			},
 			ServerName: a.serverName,
@@ -111,7 +120,7 @@ func (a *AttorneyGeneral) CredentialsHandler(w http.ResponseWriter, r *http.Requ
 	if cookie == "" {
 		view := ServerName{
 			Head: HeaderInfo{
-				Error:      "internal error: could not generate cookie",
+				Error:      "erro no processamento: tente novamente",
 				ServerName: a.serverName,
 			},
 			ServerName: a.serverName,
@@ -387,7 +396,7 @@ func (a *AttorneyGeneral) OnboardingHandler(w http.ResponseWriter, r *http.Reque
 	hashEncoded := r.URL.Path
 	hashEncoded = strings.Replace(hashEncoded, "/signin/", "", 1)
 	hash := crypto.DecodeHash(hashEncoded)
-	if _, ok := a.inviteUser[hash]; ok || len(a.inviteUser) == 0 {
+	if _, ok := a.inviteUser[hash]; ok || len(a.state.MembersIndex) == 0 {
 		view := InviteView{
 			Head: HeaderInfo{
 				Path:       "",
@@ -1273,6 +1282,33 @@ func (a *AttorneyGeneral) DetailedVoteHandler(w http.ResponseWriter, r *http.Req
 	mainview := ServerName{
 		Head: HeaderInfo{
 			Error:      "votes details not found",
+			UserHandle: a.Handle(r),
+			ServerName: a.serverName,
+		},
+		ServerName: a.serverName,
+	}
+	if err := a.templates.ExecuteTemplate(w, "main.html", mainview); err != nil {
+		log.Println(err)
+	}
+}
+
+func (a *AttorneyGeneral) ConcludedVoteHandler(w http.ResponseWriter, r *http.Request) {
+	urlpath := r.URL.Path
+	hash := getHash(urlpath, "/concludedvote/")
+	view := DetailedVoteFromState(a.state, a.indexer, hash, a.genesisTime, urlpath)
+	if view != nil && view.Concluded {
+		view.Head.UserHandle = a.Handle(r)
+		view.Head.ServerName = a.serverName
+		view.ServerName = a.serverName
+		if err := a.templates.ExecuteTemplate(w, "concludedvote.html", view); err != nil {
+			log.Println(err)
+		} else {
+			return
+		}
+	}
+	mainview := ServerName{
+		Head: HeaderInfo{
+			Error:      "concluded vote not found",
 			UserHandle: a.Handle(r),
 			ServerName: a.serverName,
 		},

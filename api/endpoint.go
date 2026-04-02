@@ -74,6 +74,7 @@ type NameLink struct {
 type InviteView struct {
 	Head       HeaderInfo
 	ServerName string
+	HostName   string
 	Seed       string
 }
 

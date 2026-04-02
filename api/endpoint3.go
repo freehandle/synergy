@@ -199,6 +199,7 @@ func UpdatesViewFromState(s *state.State, i *index.Index, token crypto.Token, ge
 
 type PendingActionsView struct {
 	Pending    []PendingActionDetailView
+	Concluded  []ConcludedActionDetailView
 	Head       HeaderInfo
 	ServerName string
 }
@@ -213,28 +214,36 @@ type PendingActionDetailView struct {
 	ServerName   string
 }
 
+type ConcludedActionDetailView struct {
+	Description string
+	ProposedAt  string
+	Approved    bool
+	VoteHash    string
+	ServerName  string
+}
+
 func PendingActionsFromState(s *state.State, i *index.Index, token crypto.Token, genesisTime time.Time) *PendingActionsView {
 	head := HeaderInfo{
 		Active:  "Pending",
 		Path:    "realize / ",
-		EndPath: "ações pendentes",
+		EndPath: "ações propostas",
 		Section: "realize",
 	}
 	view := PendingActionsView{
-		Pending: make([]PendingActionDetailView, 0),
-		Head:    head,
+		Pending:   make([]PendingActionDetailView, 0),
+		Concluded: make([]ConcludedActionDetailView, 0),
+		Head:      head,
 	}
 	pendingActions := i.GetPendingActionsDetailed(token)
-	if len(pendingActions) == 0 {
-		return &view
-	}
 	for _, pending := range pendingActions {
 		proposed := genesisTime.Add(time.Duration(pending.Epoch) * time.Second)
 		item := PendingActionDetailView{
 			Description: pending.Description,
 			ProposedAt:  PrettyDuration(time.Since(proposed)),
 			VotesNeeded: len(pending.Pool.Voters) * pending.Pool.Majority / 100,
-			VoteHash:    crypto.EncodeHash(pending.Pool.Votes[0].Hash),
+		}
+		if len(pending.Pool.Votes) > 0 {
+			item.VoteHash = crypto.EncodeHash(pending.Pool.Votes[0].Hash)
 		}
 		for _, vote := range pending.Pool.Votes {
 			if _, ok := pending.Pool.Voters[vote.Author]; ok {
@@ -246,6 +255,28 @@ func PendingActionsFromState(s *state.State, i *index.Index, token crypto.Token,
 			}
 		}
 		view.Pending = append(view.Pending, item)
+	}
+	concludedActions := i.GetConcludedActionsDetailed(token)
+	for _, concluded := range concludedActions {
+		var description string
+		var epoch uint64
+		if concluded.Approved {
+			description, epoch, _ = i.ActionToStringWithLinks(concluded.Action, state.Favorable)
+		} else {
+			description, epoch, _ = i.ActionToStringWithLinks(concluded.Action, state.Against)
+		}
+		if description == "" && epoch == 0 {
+			continue
+		}
+		proposed := genesisTime.Add(time.Duration(epoch) * time.Second)
+		hashText, _ := concluded.Hash.MarshalText()
+		item := ConcludedActionDetailView{
+			Description: description,
+			ProposedAt:  PrettyDuration(time.Since(proposed)),
+			Approved:    concluded.Approved,
+			VoteHash:    string(hashText),
+		}
+		view.Concluded = append(view.Concluded, item)
 	}
 	return &view
 }
@@ -614,6 +645,8 @@ type DetailedPool struct {
 	Head        HeaderInfo
 	ProposedAt  string
 	ServerName  string
+	Concluded   bool
+	Approved    bool
 }
 
 func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, genesisTime time.Time, urlpath string) *DetailedPool {
@@ -628,20 +661,42 @@ func DetailedVoteFromState(s *state.State, i *index.Index, hash crypto.Hash, gen
 		EndPath: "ações pendentes",
 		Section: "realize",
 	}
-	pool := s.Proposals.Pooling(hash)
-	if pool == nil {
-		return &detailed
-	}
 	action := i.PendingAction(hash)
 	if action == nil {
 		return &detailed
 	}
-	detailed.Needed = pool.Majority * len(pool.Voters) / 100
 	description, epoch, reasons := i.ActionToStringWithLinks(action, state.Undecided)
 	detailed.Description = description
 	detailed.Reasons = reasons
 	old := time.Since(genesisTime.Add(time.Duration(epoch) * time.Second))
 	detailed.ProposedAt = PrettyDuration(old)
+
+	pool := s.Proposals.Pooling(hash)
+	if pool == nil {
+		// votação concluída — usar votos arquivados
+		completedVotes, ok := i.GetCompletedVotes(hash)
+		if !ok {
+			return &detailed
+		}
+		detailed.Concluded = true
+		detailed.Approved = i.ActionStatusByHash(hash) == state.Favorable
+		for _, vote := range completedVotes {
+			author := s.Members[crypto.HashToken(vote.Author)]
+			voteDetailed := DetailedVote{
+				Author:  CaptionLink{Caption: author, Link: url.QueryEscape(author)},
+				Approve: vote.Approve,
+				Reasons: vote.Reasons,
+			}
+			if vote.Approve {
+				detailed.Approve = append(detailed.Approve, voteDetailed)
+			} else {
+				detailed.Reject = append(detailed.Reject, voteDetailed)
+			}
+		}
+		return &detailed
+	}
+
+	detailed.Needed = pool.Majority * len(pool.Voters) / 100
 	for _, vote := range pool.Votes {
 		if _, ok := pool.Voters[vote.Author]; ok {
 			author := s.Members[crypto.HashToken(vote.Author)]

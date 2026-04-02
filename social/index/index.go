@@ -311,6 +311,39 @@ func (i *Index) ActionStatus(action actions.Action) ([]actions.Vote, state.Conse
 	return i.stateProposals.Votes(hash), i.indexActionStatus[hash]
 }
 
+func (i *Index) ActionStatusByHash(hash crypto.Hash) state.ConsensusState {
+	return i.indexActionStatus[hash]
+}
+
+func (i *Index) GetCompletedVotes(hash crypto.Hash) ([]actions.Vote, bool) {
+	votes, ok := i.indexCompletedVotes[hash]
+	return votes, ok
+}
+
+type ConcludedActionDetail struct {
+	Action   actions.Action
+	Hash     crypto.Hash
+	Approved bool
+}
+
+func (i *Index) GetConcludedActionsDetailed(token crypto.Token) []ConcludedActionDetail {
+	result := make([]ConcludedActionDetail, 0)
+	allActions, ok := i.memberToAction[token]
+	if !ok {
+		return result
+	}
+	for _, ia := range allActions {
+		if status, ok := i.indexActionStatus[ia.Hash]; ok && status != state.Undecided {
+			result = append(result, ConcludedActionDetail{
+				Action:   ia.Action,
+				Hash:     ia.Hash,
+				Approved: status == state.Favorable,
+			})
+		}
+	}
+	return result
+}
+
 // Objects related to a given collective
 
 func (i *Index) BoardsOnCollective(collective *state.Collective) []*state.Board {

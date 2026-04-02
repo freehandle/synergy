@@ -2,11 +2,15 @@
 {{ $servername := .ServerName }}
     <div id="pendingactions">
         <div class="headerline">
-            <p class="title x3large"> ações pendentes </p>
-            <p> <span class="stats xlarge "> {{len .Pending}} </span> <span class="">pendências</span></p>
+            <p class="title x3large"> ações propostas </p>
+            <div class="mediatabs">
+                <span class="tgmenu bold pointer" id="tg_pendentes" onclick="selectToggle('pendentes');">pendentes</span> |
+                <span class="tgmenu pointer" id="tg_finalizadas" onclick="selectToggle('finalizadas');">finalizadas</span>
+            </div>
         </div>
-        <div class="centralcard">
-        {{range .Pending}}
+        <div id="pendentes" class="toggle centralcard">
+            <p> <span class="stats xlarge "> {{len .Pending}} </span> <span class="">pendências</span></p>
+            {{range .Pending}}
             <div class="pendingcard cardbg">
                 <div class="main">
                     <div class="left">
@@ -22,7 +26,30 @@
                     <p class="tiny light"> proposto {{.ProposedAt}} atrás </p>
                 </div>
             </div>
-        {{end}}
+            {{end}}
         </div>
-    </div>  
+        <div id="finalizadas" class="toggle none centralcard">
+            <p> <span class="stats xlarge "> {{len .Concluded}} </span> <span class="">finalizadas</span></p>
+            {{range .Concluded}}
+            <div class="pendingcard cardbg">
+                <div class="main">
+                    <div class="left">
+                        <p> {{.Description}} </p>
+                    </div>
+                    <div class="right">
+                        {{if .Approved}}
+                        <p class="bold">aprovado</p>
+                        {{else}}
+                        <p class="light">rejeitado</p>
+                        {{end}}
+                        <a class="small" href="{{$servername}}/concludedvote/{{.VoteHash}}">ver votação</a>
+                    </div>
+                </div>
+                <div class="foot">
+                    <p class="tiny light"> proposto {{.ProposedAt}} atrás </p>
+                </div>
+            </div>
+            {{end}}
+        </div>
+    </div>
 {{template "TAIL"}}
