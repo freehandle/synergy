@@ -62,6 +62,7 @@ func launchLocalChain(ctx context.Context, listeners []chan []byte, receiver cha
 func launchSynergyServer(gateway chan []byte, receive chan []byte, synergyPass, emailPass string, vault *config.SecretsVault) {
 	indexer := index.NewIndex()
 	genesis := state.GenesisState(indexer)
+	genesis.GenesisTime = time.Date(2026, time.March, 26, 21, 8, 31, 0, time.UTC)
 	indexer.SetState(genesis)
 
 	attorneySecret := vault.PK
@@ -81,7 +82,7 @@ func launchSynergyServer(gateway chan []byte, receive chan []byte, synergyPass, 
 		Mail:        &api.SMTPGmail{From: "arrobaslivres@gmail.com", Password: emailPass},
 		Port:        3000,
 		Safe:        8090,
-		//ServerName:    "/synergy",
+		// ServerName:  "/synergy",
 	}
 	attorney, finalize := api.NewGeneralAttorneyServer(config)
 	if attorney == nil {
